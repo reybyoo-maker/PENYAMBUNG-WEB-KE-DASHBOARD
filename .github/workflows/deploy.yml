@@ -28,13 +28,23 @@ jobs:
       - name: Test before deploy
         run: npm test
 
-      - name: Explain missing deployment configuration
-        if: ${{ vars.DASHBOARD_TRACKING_URL == '' || secrets.CLOUDFLARE_API_TOKEN == '' || secrets.CLOUDFLARE_ACCOUNT_ID == '' || secrets.DASHBOARD_INGEST_TOKEN == '' }}
+      - name: Check deployment configuration
+        id: config
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DASHBOARD_INGEST_TOKEN: ${{ secrets.DASHBOARD_INGEST_TOKEN }}
+          DASHBOARD_TRACKING_URL: ${{ vars.DASHBOARD_TRACKING_URL }}
         run: |
-          echo "::notice::Bridge tests passed. Deployment skipped until CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, DASHBOARD_INGEST_TOKEN secrets and DASHBOARD_TRACKING_URL variable are configured."
+          if [ -n "${CF_API_TOKEN:-}" ] && [ -n "${CF_ACCOUNT_ID:-}" ] && [ -n "${DASHBOARD_INGEST_TOKEN:-}" ] && [ -n "${DASHBOARD_TRACKING_URL:-}" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Tests run; deployment skipped until Cloudflare secrets, dashboard ingest secret, and DASHBOARD_TRACKING_URL variable are configured."
+          fi
 
       - name: Configure token and deploy
-        if: ${{ vars.DASHBOARD_TRACKING_URL != '' && secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' && secrets.DASHBOARD_INGEST_TOKEN != '' }}
+        if: ${{ steps.config.outputs.configured == 'true' }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
