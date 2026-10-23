@@ -94,7 +94,7 @@ export const DASHBOARD_PANEL_MANIFEST = [
 
 export const MANIFEST = {
   service: "AIGROWTH Website-to-Dashboard Bridge",
-  version: "1.2.0",
+  version: "1.3.0",
   websiteOrigins: ["https://aigrowth.my.id"],
   routes: [
     { method: "GET", path: "/health", purpose: "Readiness check" },
@@ -102,7 +102,7 @@ export const MANIFEST = {
     { method: "GET", path: "/tracker.js", purpose: "Browser tracking script" },
     { method: "POST", path: "/collect", purpose: "Validate and store website events directly in shared D1" },
     { method: "GET", path: "/api/website-analytics", purpose: "Aggregated website metrics for the dashboard panel" },
-    { method: "GET", path: "/api/divisions", purpose: "Read 11 configured divisions, required integrations and task counts" },
+    { method: "GET", path: "/api/divisions", purpose: "Read all 100 configured divisions, required integrations and task counts" },
     { method: "POST", path: "/api/divisions/:slug/tasks", purpose: "Create an owner-authenticated task waiting for approval" },
     { method: "GET", path: "/dashboard-panel.js", purpose: "Live website analytics and division panel loader for the Owner Dashboard" },
     { method: "GET", path: "/divisions-panel.js", purpose: "Render all AIGROWTH divisions and integration readiness" }
