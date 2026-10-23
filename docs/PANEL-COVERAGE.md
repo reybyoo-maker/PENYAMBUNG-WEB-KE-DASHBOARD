@@ -47,10 +47,11 @@ Koneksi Website Analytics baru boleh disebut selesai setelah semua ini benar:
 
 1. Worker bridge `/health` menampilkan `ready: true`.
 2. Script `/tracker.js` dipasang pada website publik.
-3. Request page view ke `/collect` mendapat respons `202` dengan `forwarded: true`.
-4. Endpoint dashboard menerima skema payload yang benar dan mengembalikan status sukses.
-5. Event uji benar-benar terlihat di panel Analitik Website/dashboard database.
-6. Klik, UTM, perangkat, geo, dan active ping diperiksa untuk field yang tersedia.
-7. Website publik tetap hidup dan tidak berubah tema/struktur hanya karena tracker dipasang.
+3. Request page view ke `/collect` mendapat respons `202` dengan `stored: true`.
+4. Worker bridge menggunakan binding `DB` yang menunjuk ke D1 `aigrowth-core-db` yang sama dengan dashboard.
+5. Endpoint agregat `/api/website-analytics?days=7` memberi HTTP 200 dan `source: cloudflare-d1`.
+6. Event uji benar-benar terlihat di panel Analitik Website/dashboard database setelah `dashboard-panel.js` dipasang.
+7. Klik, UTM, perangkat, geo, dan active ping diperiksa untuk field yang tersedia.
+8. Website publik tetap hidup dan tidak berubah tema/struktur hanya karena tracker dipasang.
 
-Saat dokumen ini dibuat, URL dan skema endpoint analitik website dashboard yang sebenarnya belum terverifikasi. Variabel `DASHBOARD_TRACKING_URL` harus diarahkan ke endpoint nyata setelah kontraknya diperiksa. Bridge menolak untuk berpura-pura sukses bila endpoint belum siap.
+Jalur utama menyimpan event langsung ke tabel `website_analytics_events` pada D1 bersama. Tidak dibutuhkan URL ingest terpisah atau token ingest. Deployment bridge dan dua pemasangan script pada Worker existing tetap harus dilakukan sebelum koneksi live dinyatakan selesai.
