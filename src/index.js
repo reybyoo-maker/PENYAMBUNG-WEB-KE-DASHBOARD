@@ -562,7 +562,8 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/dashboard-panel.js") {
-      const loadDivisionPanel = String.raw`\n;(function () {
+      const loadDivisionPanel = `
+;(function () {
         var dashboardScript = document.querySelector('script[src*="/dashboard-panel.js"]');
         if (!dashboardScript) return;
         var panelScript = document.createElement("script");
