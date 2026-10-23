@@ -1,65 +1,67 @@
-# Cloudflare activation runbook (TinyFish)
+# Cloudflare activation runbook — AIGROWTH
 
-Tujuan: sambungkan website dan panel analitik dashboard menggunakan Worker bridge + D1 bersama, tanpa mengubah tampilan atau mengganti Worker produksi.
+Tujuan: sambungkan website, panel analitik, dan registry 11 divisi menggunakan Worker bridge dan D1 bersama, tanpa mengganti Worker website atau dashboard yang sekarang.
 
-## Urutan wajib
+## Urutan aktivasi
 
-1. Di Cloudflare akun yang sama dengan Worker **agencyai** dan **aigrowth-owner-dashboard**, pastikan database D1 bernama **aigrowth-core-db** tersedia.
-2. Pastikan repo GitHub memiliki Actions secrets **CLOUDFLARE_API_TOKEN** dan **CLOUDFLARE_ACCOUNT_ID**. Token membutuhkan izin Workers Scripts: Edit dan D1: Edit pada akun yang benar. Jangan simpan token di source code.
-3. Jalankan workflow GitHub **Deploy AIGROWTH bridge** secara manual. Workflow akan menguji kode, menemukan UUID database berdasarkan nama, menjalankan migration yang idempotent, men-deploy **aga-dashboard-bridge**, lalu memeriksa /health dan /api/website-analytics?days=7. Jika ada langkah gagal, hentikan—jangan mengklaim tersambung.
-4. Verifikasi https://aga-dashboard-bridge.reybyoo.workers.dev/health. Harus memiliki ready: true dan configuration.storageMode: "shared_d1".
-5. Pada Worker website **agencyai**, tambahkan tracker hanya pada respons HTML untuk halaman publik. Jangan menimpa atau membangun ulang Worker dari repo ini.
-6. Pada Worker dashboard **aigrowth-owner-dashboard**, tambahkan loader panel hanya pada respons HTML dashboard. Pertahankan login, auth, API, dan handler lainnya.
-7. Buka website dalam browser baru, lalu kunjungi dashboard. Panel **Live Website Analytics** seharusnya menampilkan data uji dalam 30 detik. Pastikan GET /api/website-analytics?days=7 memberi HTTP 200 dan source: "cloudflare-d1".
+1. Gunakan akun Cloudflare yang sama dengan Worker agencyai dan aigrowth-owner-dashboard. Pastikan database D1 bernama aigrowth-core-db memang tersedia.
+2. Di GitHub repo, buat Actions secrets CLOUDFLARE_API_TOKEN dan CLOUDFLARE_ACCOUNT_ID. Token perlu izin deploy Workers dan membaca/menjalankan migration D1 pada akun yang benar.
+3. Jalankan GitHub Actions → Deploy AIGROWTH bridge → Run workflow. Workflow menguji kode, mencari ID D1 berdasarkan nama, menjalankan kedua migration, deploy bridge, lalu memeriksa health, analytics dan registry divisi.
+4. Workflow harus membuktikan /health menunjukkan ready=true dan storageMode=shared_d1. Endpoint /api/divisions harus mengembalikan 11 divisi dan sedikitnya 30 catatan integrasi.
+5. Pada Worker website agencyai, tambahkan tracker hanya ke respons HTML halaman publik.
+6. Pada Worker dashboard aigrowth-owner-dashboard, tambahkan dashboard-panel.js hanya ke respons HTML dashboard setelah login. Script ini otomatis memuat panel divisi juga.
+7. Buka website, lakukan beberapa navigasi, lalu dashboard. Verifikasi page views, top pages, dan 11 kartu divisi tampil tanpa mengubah tema, login, atau API dashboard.
 
-## Script yang dipasang
+## Script untuk dipasang
 
-Website Worker agencyai — muat satu kali di elemen head pada respons HTML:
+Website Worker agencyai, elemen head:
 
     <script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"></script>
 
-Dashboard Worker aigrowth-owner-dashboard — muat di elemen head pada respons HTML setelah login:
+Dashboard Worker aigrowth-owner-dashboard, elemen head:
 
     <script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"></script>
 
-Jika Worker hostname yang dikembalikan Cloudflare berbeda dari aga-dashboard-bridge.reybyoo.workers.dev, gunakan hostname aktual hasil deployment di kedua tag itu.
+Gunakan hostname workers.dev aktual bila nama yang dihasilkan Cloudflare berbeda. Dashboard-panel.js akan memuat /divisions-panel.js sendiri; tidak perlu menambahkan tag ketiga.
 
-## Pola HTMLRewriter
+## Prinsip pemasangan
 
-Pada masing-masing Worker existing, gunakan HTMLRewriter untuk append script ke elemen head hanya ketika respons sukses berjenis text/html. Pola dasarnya:
+Gunakan HTMLRewriter pada handler Worker existing hanya untuk respons yang sukses dan content-type text/html. Pola umum:
 
-    function injectAgaScript(response, scriptUrl) {
-      const contentType = response.headers.get("content-type") || "";
-      if (!response.ok || !contentType.toLowerCase().includes("text/html")) {
-        return response;
+~~~js
+function injectAgaScript(response, scriptUrl) {
+  const contentType = response.headers.get("content-type") || "";
+  if (!response.ok || !contentType.toLowerCase().includes("text/html")) {
+    return response;
+  }
+
+  return new HTMLRewriter()
+    .on("head", {
+      element(head) {
+        head.append(
+          '<script defer src="' + scriptUrl + '"></script>',
+          { html: true }
+        );
       }
+    })
+    .transform(response);
+}
+~~~
 
-      return new HTMLRewriter()
-        .on("head", {
-          element(head) {
-            head.append(
-              '<script defer src="' + scriptUrl + '"></script>',
-              { html: true }
-            );
-          }
-        })
-        .transform(response);
-    }
+Panggil helper ini pada jalur respons HTML existing: tracker.js di website; dashboard-panel.js di dashboard. Ini contoh helper, bukan pengganti seluruh fetch handler. Source Worker aktual harus diperiksa sebelum memasang perubahan supaya auth/login, API JSON, routing, dan tema tetap utuh. Jangan menerbitkan ulang Worker produksi dengan handler pengganti dari repo bridge.
 
-Lalu panggil helper di titik ketika Worker existing akan mengembalikan respons halaman HTML:
-- Website: injectAgaScript(response, "https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js")
-- Dashboard: injectAgaScript(response, "https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js")
+## Endpoint verifikasi
 
-Pola di atas adalah helper, bukan pengganti seluruh fetch handler. Integrasikan pada jalur respons HTML yang benar setelah memeriksa source Worker live. Jangan membungkus respons JSON/API dengan HTMLRewriter.
+- GET /health: ready=true, configuration.storageMode=shared_d1, databaseSchemaReady=true, divisionsSchemaReady=true.
+- GET /api/website-analytics?days=7: HTTP 200 dan source=cloudflare-d1.
+- GET /api/divisions: HTTP 200, 11 division records, 32 integration records.
+- POST /collect: HTTP 202 dengan stored=true setelah binding DB siap.
+- Dashboard menampilkan Live Website Analytics dan AIGROWTH Division Control.
 
-## Cara verifikasi
+## Divisi dan status operasional
 
-- /health: ready: true, storageMode: shared_d1.
-- /api/website-analytics?days=7: HTTP 200, source: cloudflare-d1.
-- Request website /collect: HTTP 202, dengan stored: true.
-- Dashboard: panel menampilkan page views, unique visitors, top pages, dan top clicks.
-- Uji sekali dengan kunjungan homepage lalu navigasi ke halaman lain; data tidak perlu menunggu batch spreadsheet atau sistem pihak ketiga.
+Registry terdiri dari 11 divisi dan 32 koneksi integrasi yang tercatat. Status awal koneksi adalah not_connected; divisi ditampilkan sebagai SETUP NEEDED hingga konektor benar-benar disambungkan dan diverifikasi. Itu status yang jujur, bukan klaim bahwa semua AI agent sudah berjalan.
 
-## Batas cakupan
+Untuk mengaktifkan endpoint task queue, buat secret GitHub Actions bernama AGA_OWNER_API_TOKEN lalu jalankan ulang workflow. POST /api/divisions/:slug/tasks membuat task yang menunggu approval Owner. Endpoint ini sengaja tidak menjalankan AI/task secara otomatis. Eksekutor per divisi, sumber data, serta connector harus dibangun dan diuji terpisah sebelum pekerjaan otomatis dijalankan.
 
-Runbook ini menyambungkan analitik website. Panel Scraping, CRM, Workforce, proyek/keuangan, insiden, approval, kuota, dan rapat tetap harus mengirim data operasionalnya masing-masing; event page view bukan sumber data untuk panel-panel tersebut.
+Aksi eksternal seperti pengiriman proposal/outreach, perubahan scope, deployment produksi, transaksi keuangan, refund, dan perubahan DNS tetap memerlukan approval atau runbook yang diizinkan.
