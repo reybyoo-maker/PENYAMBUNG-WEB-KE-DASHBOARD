@@ -24,6 +24,8 @@ Tidak ada nilai form, password, isi chat, query string penuh, alamat IP, atau da
 
 ## Deployment
 
+Runbook aktivasi khusus untuk TinyFish tersedia di [docs/CLOUDFLARE-ACTIVATION.md](docs/CLOUDFLARE-ACTIVATION.md). Ikuti urutannya agar Worker website dan dashboard yang sudah ada tidak terganti.
+
 Jalankan GitHub Actions → **Deploy AIGROWTH bridge** → **Run workflow**. Workflow mencari database D1 yang sudah ada dengan nama persis aigrowth-core-db, menjalankan migration, membuat binding DB, deploy bridge, dan menguji endpoint health/analytics.
 
 GitHub repo harus memiliki:
