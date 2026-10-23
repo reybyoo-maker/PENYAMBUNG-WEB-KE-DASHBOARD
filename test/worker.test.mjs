@@ -181,8 +181,10 @@ test("dashboard analytics panel script is served without exposing secrets", asyn
 
 test("division catalog defines the full 150-division AIGROWTH structure", () => {
   assert.equal(DIVISION_CATALOG.length, 150);
-  assert.equal(new Set(DIVISION_CATALOG.map((d) => d.slug)).size, 100);
+  assert.equal(new Set(DIVISION_CATALOG.map((d) => d.slug)).size, 150);
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "sales_outsourcing_multi_platform"));
+  assert.ok(DIVISION_CATALOG.some((d) => d.slug === "outbound_prospecting_intelligence"));
+  assert.ok(DIVISION_CATALOG.some((d) => d.slug === "sales_pricing_packaging_intelligence"));
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "marketing_intelligence"));
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "operations_service_delivery"));
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "qa_reliability"));
