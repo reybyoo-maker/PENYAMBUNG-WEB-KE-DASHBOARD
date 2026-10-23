@@ -23,10 +23,10 @@ def scalar(query: str) -> int:
 
 divisions = scalar("SELECT COUNT(*) FROM aga_division_registry")
 integrations = scalar("SELECT COUNT(*) FROM aga_division_integrations")
-if divisions != 11:
-    raise SystemExit(f"Expected 11 divisions, found {divisions}")
-if integrations != 32:
-    raise SystemExit(f"Expected 32 integration definitions, found {integrations}")
+if divisions != 100:
+    raise SystemExit(f"Expected 100 divisions, found {divisions}")
+if integrations != 210:
+    raise SystemExit(f"Expected 210 integration definitions, found {integrations}")
 for table in ("website_analytics_events", "aga_division_registry", "aga_division_integrations", "aga_division_tasks"):
     exists = scalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=" + repr(table))
     if exists != 1:
