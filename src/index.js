@@ -1,5 +1,6 @@
 import { TRACKER_JS } from "./tracker.js";
 import { MANIFEST } from "./modules.js";
+import { DASHBOARD_PANEL_JS } from "./dashboard-panel.js";
 
 const MAX_BODY_BYTES = 32 * 1024;
 const MAX_EVENTS_PER_REQUEST = 25;
@@ -17,7 +18,7 @@ const ALLOWED_DASHBOARD_HOSTS = new Set([
 ]);
 
 function allowedOrigins(env) {
-  const configured = String(env.ALLOWED_ORIGINS || "https://aigrowth.my.id")
+  const configured = String(env.ALLOWED_ORIGINS || "https://aigrowth.my.id,https://dashboard.aigrowth.my.id")
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
@@ -202,6 +203,108 @@ async function forwardEvents(events, env) {
   return { ok: true, status: 202, code: "forwarded" };
 }
 
+
+const ANALYTICS_COLUMNS = [
+  "event_id", "event_type", "event_name", "occurred_at", "received_at",
+  "page_url", "page_title", "referrer_domain", "utm_source", "utm_medium",
+  "utm_campaign", "utm_content", "utm_term", "visitor_id", "session_id",
+  "device_type", "device_model", "os", "browser", "language", "timezone",
+  "screen_width", "screen_height", "element_tag", "element_text", "element_id",
+  "track_name", "link_domain", "product_hint", "country", "region", "city",
+  "continent", "user_agent_family"
+];
+
+async function storeEvents(events, env) {
+  if (!env.DB) return { ok: false, status: 503, code: "d1_not_configured" };
+  const placeholders = ANALYTICS_COLUMNS.map(() => "?").join(", ");
+  const sql = "INSERT INTO website_analytics_events (" + ANALYTICS_COLUMNS.join(", ") +
+    ") VALUES (" + placeholders + ") ON CONFLICT(event_id) DO NOTHING";
+  try {
+    const statements = events.map((event) =>
+      env.DB.prepare(sql).bind(...ANALYTICS_COLUMNS.map((column) => event[column]))
+    );
+    await env.DB.batch(statements);
+    return { ok: true, status: 202, code: "stored", stored_count: events.length };
+  } catch {
+    return { ok: false, status: 503, code: "d1_write_failed" };
+  }
+}
+
+async function websiteAnalytics(request, env, origin) {
+  if (!env.DB) return jsonResponse({ ok: false, error: "d1_not_configured" }, 503, origin, env);
+  const url = new URL(request.url);
+  const requestedDays = Number(url.searchParams.get("days") || 30);
+  const days = [7, 14, 30, 90].includes(requestedDays) ? requestedDays : 30;
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const activeSince = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+
+  try {
+    const [summary, daily, topPages, topClicks, sources, devices, geography] = await Promise.all([
+      env.DB.prepare(
+        "SELECT COUNT(*) AS total_events, " +
+        "SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS page_views, " +
+        "COUNT(DISTINCT CASE WHEN event_type = 'page_view' THEN visitor_id END) AS unique_visitors, " +
+        "COUNT(DISTINCT CASE WHEN event_type = 'active_ping' AND received_at >= ? THEN visitor_id END) AS active_visitors " +
+        "FROM website_analytics_events WHERE occurred_at >= ?"
+      ).bind(activeSince, since).first(),
+      env.DB.prepare(
+        "SELECT substr(occurred_at, 1, 10) AS day, COUNT(*) AS page_views, " +
+        "COUNT(DISTINCT visitor_id) AS visitors FROM website_analytics_events " +
+        "WHERE event_type = 'page_view' AND occurred_at >= ? " +
+        "GROUP BY substr(occurred_at, 1, 10) ORDER BY day ASC LIMIT 90"
+      ).bind(since).all(),
+      env.DB.prepare(
+        "SELECT page_url, MAX(page_title) AS page_title, COUNT(*) AS visits, " +
+        "COUNT(DISTINCT visitor_id) AS visitors FROM website_analytics_events " +
+        "WHERE event_type = 'page_view' AND occurred_at >= ? " +
+        "GROUP BY page_url ORDER BY visits DESC LIMIT 10"
+      ).bind(since).all(),
+      env.DB.prepare(
+        "SELECT COALESCE(NULLIF(track_name, ''), NULLIF(event_name, ''), element_text, event_type) AS label, " +
+        "event_type, COUNT(*) AS clicks FROM website_analytics_events " +
+        "WHERE event_type IN ('click', 'ebook_click', 'custom_event') AND occurred_at >= ? " +
+        "GROUP BY label, event_type ORDER BY clicks DESC LIMIT 10"
+      ).bind(since).all(),
+      env.DB.prepare(
+        "SELECT COALESCE(NULLIF(utm_source, ''), NULLIF(referrer_domain, ''), 'Direct') AS source, " +
+        "COUNT(*) AS visits FROM website_analytics_events WHERE event_type = 'page_view' " +
+        "AND occurred_at >= ? GROUP BY source ORDER BY visits DESC LIMIT 10"
+      ).bind(since).all(),
+      env.DB.prepare(
+        "SELECT COALESCE(NULLIF(device_type, ''), 'unknown') AS device, COUNT(*) AS visits " +
+        "FROM website_analytics_events WHERE event_type = 'page_view' AND occurred_at >= ? " +
+        "GROUP BY device ORDER BY visits DESC"
+      ).bind(since).all(),
+      env.DB.prepare(
+        "SELECT COALESCE(NULLIF(country, ''), 'unknown') AS country, " +
+        "COALESCE(NULLIF(city, ''), 'unknown') AS city, COUNT(*) AS visits " +
+        "FROM website_analytics_events WHERE event_type = 'page_view' AND occurred_at >= ? " +
+        "GROUP BY country, city ORDER BY visits DESC LIMIT 10"
+      ).bind(since).all()
+    ]);
+    return jsonResponse({
+      ok: true,
+      source: "cloudflare-d1",
+      range_days: days,
+      generated_at: new Date().toISOString(),
+      summary: {
+        total_events: Number(summary?.total_events || 0),
+        page_views: Number(summary?.page_views || 0),
+        unique_visitors: Number(summary?.unique_visitors || 0),
+        active_visitors: Number(summary?.active_visitors || 0)
+      },
+      daily: daily.results || [],
+      top_pages: topPages.results || [],
+      top_clicks: topClicks.results || [],
+      traffic_sources: sources.results || [],
+      devices: devices.results || [],
+      geography: geography.results || []
+    }, 200, origin, env);
+  } catch {
+    return jsonResponse({ ok: false, error: "analytics_schema_not_ready" }, 503, origin, env);
+  }
+}
+
 async function handleCollect(request, env, origin) {
   if (!origin || !allowedOrigins(env).has(origin)) {
     return jsonResponse({ ok: false, error: "origin_not_allowed" }, 403, origin, env);
@@ -235,7 +338,7 @@ async function handleCollect(request, env, origin) {
     return jsonResponse({ ok: false, error: "invalid_event_type_or_shape" }, 400, origin, env);
   }
 
-  const result = await forwardEvents(events, env);
+  const result = env.DB ? await storeEvents(events, env) : await forwardEvents(events, env);
   if (!result.ok) {
     return jsonResponse({
       ok: false,
@@ -244,7 +347,7 @@ async function handleCollect(request, env, origin) {
       accepted_count: 0
     }, result.status, origin, env);
   }
-  return jsonResponse({ ok: true, forwarded: true, accepted_count: events.length }, 202, origin, env);
+  return jsonResponse({ ok: true, forwarded: !env.DB, stored: Boolean(env.DB), accepted_count: events.length }, 202, origin, env);
 }
 
 export default {
@@ -261,13 +364,23 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/health") {
       const endpoint = parseDashboardUrl(env.DASHBOARD_TRACKING_URL);
-      const ready = Boolean(endpoint && env.DASHBOARD_INGEST_TOKEN);
+      let databaseSchemaReady = false;
+      if (env.DB) {
+        try {
+          await env.DB.prepare("SELECT 1 FROM website_analytics_events LIMIT 1").first();
+          databaseSchemaReady = true;
+        } catch {}
+      }
+      const forwardingReady = Boolean(endpoint && env.DASHBOARD_INGEST_TOKEN);
       return jsonResponse({
         ok: true,
         service: "aga-dashboard-bridge",
-        version: "1.0.0",
-        ready,
+        version: "1.1.0",
+        ready: databaseSchemaReady || forwardingReady,
         configuration: {
+          storageMode: databaseSchemaReady ? "shared_d1" : (forwardingReady ? "dashboard_forwarder" : "not_configured"),
+          databaseConfigured: Boolean(env.DB),
+          databaseSchemaReady,
           dashboardEndpointConfigured: Boolean(endpoint),
           ingestTokenConfigured: Boolean(env.DASHBOARD_INGEST_TOKEN),
           payloadMode: String(env.DASHBOARD_PAYLOAD_MODE || "records"),
@@ -278,6 +391,22 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/manifest") {
       return jsonResponse(MANIFEST, 200, origin, env);
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/website-analytics") {
+      return websiteAnalytics(request, env, origin);
+    }
+
+    if (request.method === "GET" && url.pathname === "/dashboard-panel.js") {
+      return new Response(DASHBOARD_PANEL_JS, {
+        status: 200,
+        headers: {
+          ...Object.fromEntries(corsHeaders(origin, env)),
+          "Content-Type": "application/javascript; charset=utf-8",
+          "Cache-Control": "public, max-age=300",
+          "X-Content-Type-Options": "nosniff"
+        }
+      });
     }
 
     if (request.method === "GET" && url.pathname === "/tracker.js") {
