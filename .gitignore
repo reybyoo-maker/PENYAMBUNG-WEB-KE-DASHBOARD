@@ -6,3 +6,6 @@ node_modules/
 !.env.example
 .DS_Store
 coverage/
+
+# Generated at deployment time to bind the existing AIGROWTH D1 database
+wrangler.deploy.toml
