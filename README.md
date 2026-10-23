@@ -1,6 +1,6 @@
-# AIGROWTH — Website, Dashboard & 100 Divisions
+# AIGROWTH — Website, Dashboard & 150 Divisions
 
-Repo ini menyediakan Cloudflare Worker bridge untuk analitik website, registry 100 divisi AIGROWTH, daftar kebutuhan integrasi, dan antrean task yang menunggu approval Owner. Event runtime disimpan langsung ke Cloudflare D1 aigrowth-core-db yang sama dengan Owner Dashboard.
+Repo ini menyediakan Cloudflare Worker bridge untuk analitik website, registry 150 divisi AIGROWTH, daftar kebutuhan integrasi, dan antrean task yang menunggu approval Owner. Event runtime disimpan langsung ke Cloudflare D1 aigrowth-core-db yang sama dengan Owner Dashboard.
 
 GitHub digunakan untuk menyimpan kode dan men-trigger deployment. Saat berjalan, website, Worker bridge, dan dashboard berkomunikasi melalui Cloudflare.
 
@@ -17,11 +17,11 @@ GitHub digunakan untuk menyimpan kode dan men-trigger deployment. Saat berjalan,
 
 ## Registry semua divisi
 
-Registry berisi **100 divisi spesifik** dan **210 kebutuhan koneksi integrasi**. Sebelas divisi inti dipertahankan—Sales & CRM, Sales Outsourcing Multi-Platform, Marketing Intelligence, Client Success, Operations & Service Delivery, Technology & Automation, Quality Assurance & Reliability, Data & Integration Intelligence, Finance Analytics, Owner Control, serta Website & System Monitoring—dan diperluas dengan 89 divisi spesialis.
+Registry berisi **150 divisi spesifik** dan **310 kebutuhan koneksi integrasi**. Sebelas divisi inti dipertahankan—Sales & CRM, Sales Outsourcing Multi-Platform, Marketing Intelligence, Client Success, Operations & Service Delivery, Technology & Automation, Quality Assurance & Reliability, Data & Integration Intelligence, Finance Analytics, Owner Control, serta Website & System Monitoring—dan diperluas dengan 89 divisi spesialis.
 
-Semua divisi mempunyai mission, tanggung jawab, input/output, KPI, approval policy, automation level, dan kebutuhan integrasi. Migration 0002 membuat skema plus 11 divisi inti, sementara migration 0003 menambahkan 89 divisi sehingga totalnya 100. Koneksi berstatus `not_connected` sampai provider dan aliran datanya benar-benar diuji.
+Semua divisi mempunyai mission, tanggung jawab, input/output, KPI, approval policy, automation level, dan kebutuhan integrasi. Migration 0002 membuat skema plus 11 divisi inti, migration 0003 menambahkan 89 divisi spesialis dan migration 0004 menambahkan 50 divisi fokus sales sehingga totalnya 150. Koneksi berstatus `not_connected` sampai provider dan aliran datanya benar-benar diuji.
 
-**[Buka katalog lengkap 100 divisi](docs/100-DIVISIONS-CATALOG.md)** untuk setiap misi, tanggung jawab, KPI, output, dan kebutuhan konektor.
+**[Buka ringkasan 50 divisi sales tambahan](docs/50-SALES-DIVISIONS.md)** untuk setiap misi, tanggung jawab, KPI, output, dan kebutuhan konektor.
 
 ## Endpoint bridge
 
@@ -48,7 +48,7 @@ GitHub Actions secrets yang diperlukan:
 Optional:
 - AGA_OWNER_API_TOKEN — server-side token untuk endpoint create task. Jika tidak ada, endpoint task queue akan tertutup (fail closed).
 
-Workflow menjalankan tes, mencari database D1 aigrowth-core-db, membuat konfigurasi binding DB secara sementara, menerapkan migration 0001, 0002, dan 0003, deploy Worker, serta memverifikasi health, analytics, 100 divisi, dan 210 definisi integrasi. Jangan menganggap overall workflow sukses jika deployment step terlewati; workflow baru berstatus sukses setelah pengecekan langsung lolos.
+Workflow menjalankan tes, mencari database D1 aigrowth-core-db, membuat konfigurasi binding DB secara sementara, menerapkan migration 0001, 0002, 0003, dan 0004, deploy Worker, serta memverifikasi health, analytics, 150 divisi, dan 310 definisi integrasi. Jangan menganggap overall workflow sukses jika deployment step terlewati; workflow baru berstatus sukses setelah pengecekan langsung lolos.
 
 ## Batas status operasional
 

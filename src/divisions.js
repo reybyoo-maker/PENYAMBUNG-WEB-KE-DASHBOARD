@@ -4311,5 +4311,2204 @@ export const DIVISION_CATALOG = [
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
     ]
+  },
+  {
+    "slug": "outbound_prospecting_intelligence",
+    "name": "Outbound Prospecting Intelligence",
+    "sort_order": 101,
+    "category": "Sales Intelligence",
+    "mission": "Memprioritaskan akun target untuk outreach berdasarkan kecocokan layanan dan bukti kebutuhan.",
+    "responsibilities": [
+      "Memprioritaskan akun target untuk outreach berdasarkan kecocokan layanan dan bukti kebutuhan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Outbound Prospecting Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Ranked target accounts with fit score, evidence, public contact route, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified targets",
+      "contact validity",
+      "positive reply rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "outbound_prospecting_intelligence_source",
+        "label": "Outbound Prospecting Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "outbound_prospecting_intelligence_workflow",
+        "label": "Outbound Prospecting Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "inbound_lead_conversion",
+    "name": "Inbound Lead Conversion",
+    "sort_order": 102,
+    "category": "Sales Intelligence",
+    "mission": "Mengubah inquiry dari website dan kanal resmi menjadi prospek yang layak ditindaklanjuti.",
+    "responsibilities": [
+      "Mengubah inquiry dari website dan kanal resmi menjadi prospek yang layak ditindaklanjuti.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Inbound Lead Conversion",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Qualified inquiry queue with intent, urgency, owner, SLA, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Inquiry qualification rate",
+      "response time",
+      "routing accuracy"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "inbound_lead_conversion_source",
+        "label": "Inbound Lead Conversion — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "inbound_lead_conversion_workflow",
+        "label": "Inbound Lead Conversion — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "account_based_sales",
+    "name": "Account-Based Sales",
+    "sort_order": 103,
+    "category": "Sales Intelligence",
+    "mission": "Menyusun rencana sales khusus akun bernilai tinggi dan para pengambil keputusan.",
+    "responsibilities": [
+      "Menyusun rencana sales khusus akun bernilai tinggi dan para pengambil keputusan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Account-Based Sales",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Account plans with stakeholder map, needs, opportunity map, and next steps",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Account coverage",
+      "opportunity creation",
+      "engagement"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "account_based_sales_source",
+        "label": "Account-Based Sales — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "account_based_sales_workflow",
+        "label": "Account-Based Sales — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_signal_intelligence",
+    "name": "Sales Signal Intelligence",
+    "sort_order": 104,
+    "category": "Sales Intelligence",
+    "mission": "Mendeteksi perubahan bisnis yang menjadi sinyal waktu terbaik menghubungi prospek.",
+    "responsibilities": [
+      "Mendeteksi perubahan bisnis yang menjadi sinyal waktu terbaik menghubungi prospek.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Signal Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Time-stamped buying-signal feed with source, confidence, and suggested action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Verified signals",
+      "signal-to-opportunity rate",
+      "false positives"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_signal_intelligence_source",
+        "label": "Sales Signal Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_signal_intelligence_workflow",
+        "label": "Sales Signal Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "lead_enrichment_verification",
+    "name": "Lead Enrichment & Verification",
+    "sort_order": 105,
+    "category": "Sales Intelligence",
+    "mission": "Memvalidasi dan memperkaya data CRM agar prospek tidak dinilai dari data usang.",
+    "responsibilities": [
+      "Memvalidasi dan memperkaya data CRM agar prospek tidak dinilai dari data usang.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Lead Enrichment & Verification",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Deduplicated lead records with verified fields, freshness, and provenance",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Record completeness",
+      "validity",
+      "duplicate rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "lead_enrichment_verification_source",
+        "label": "Lead Enrichment & Verification — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "lead_enrichment_verification_workflow",
+        "label": "Lead Enrichment & Verification — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "contact_discovery_compliance",
+    "name": "Contact Discovery & Compliance",
+    "sort_order": 106,
+    "category": "Sales Intelligence",
+    "mission": "Menemukan jalur kontak bisnis yang sah dan menghormati consent serta opt-out.",
+    "responsibilities": [
+      "Menemukan jalur kontak bisnis yang sah dan menghormati consent serta opt-out.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Contact Discovery & Compliance",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Contact-route records with public source evidence and suppression-list status",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Usable contact routes",
+      "invalid-contact rate",
+      "opt-out compliance"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "contact_discovery_compliance_source",
+        "label": "Contact Discovery & Compliance — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "contact_discovery_compliance_workflow",
+        "label": "Contact Discovery & Compliance — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "multi_channel_outreach_orchestration",
+    "name": "Multi-Channel Outreach Orchestration",
+    "sort_order": 107,
+    "category": "Sales Intelligence",
+    "mission": "Mengoordinasikan tindak lanjut lintas kanal agar tidak ganda atau berlebihan.",
+    "responsibilities": [
+      "Mengoordinasikan tindak lanjut lintas kanal agar tidak ganda atau berlebihan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Multi-Channel Outreach Orchestration",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Approved touch schedule with channel, timing, suppression state, and outcomes",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Positive replies",
+      "duplicate-touch rate",
+      "opt-out rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "multi_channel_outreach_orchestration_source",
+        "label": "Multi-Channel Outreach Orchestration — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "multi_channel_outreach_orchestration_workflow",
+        "label": "Multi-Channel Outreach Orchestration — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "email_deliverability_intelligence",
+    "name": "Email Deliverability Intelligence",
+    "sort_order": 108,
+    "category": "Sales Intelligence",
+    "mission": "Memantau kesehatan pengiriman email sebelum reputasi pengirim menurun.",
+    "responsibilities": [
+      "Memantau kesehatan pengiriman email sebelum reputasi pengirim menurun.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Email Deliverability Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Deliverability report with bounce causes, sender health, risks, and fixes",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Delivery rate",
+      "bounce rate",
+      "complaint rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "email_deliverability_intelligence_source",
+        "label": "Email Deliverability Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "email_deliverability_intelligence_workflow",
+        "label": "Email Deliverability Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "linkedin_social_selling",
+    "name": "LinkedIn Social Selling",
+    "sort_order": 109,
+    "category": "Sales Intelligence",
+    "mission": "Mencari interaksi profesional relevan dari informasi bisnis yang tersedia secara sah.",
+    "responsibilities": [
+      "Mencari interaksi profesional relevan dari informasi bisnis yang tersedia secara sah.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for LinkedIn Social Selling",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Social-selling queue with company context, relationship path, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified conversations",
+      "relevant interactions",
+      "policy-safe activity"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "linkedin_social_selling_source",
+        "label": "LinkedIn Social Selling — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "linkedin_social_selling_workflow",
+        "label": "LinkedIn Social Selling — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "buyer_committee_mapping",
+    "name": "Buyer Committee Mapping",
+    "sort_order": 110,
+    "category": "Sales Intelligence",
+    "mission": "Memetakan pembeli, pengguna, pemberi pengaruh, dan pengambil keputusan dalam peluang.",
+    "responsibilities": [
+      "Memetakan pembeli, pengguna, pemberi pengaruh, dan pengambil keputusan dalam peluang.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Buyer Committee Mapping",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Stakeholder map with roles, evidence, gaps, and meeting objectives",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Stakeholder coverage",
+      "multi-threaded deals",
+      "missing-role count"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "buyer_committee_mapping_source",
+        "label": "Buyer Committee Mapping — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "buyer_committee_mapping_workflow",
+        "label": "Buyer Committee Mapping — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "meeting_booking_qualification",
+    "name": "Meeting Booking & Qualification",
+    "sort_order": 111,
+    "category": "Sales Execution",
+    "mission": "Mengubah respons prospek menjadi meeting yang memenuhi kriteria kualifikasi.",
+    "responsibilities": [
+      "Mengubah respons prospek menjadi meeting yang memenuhi kriteria kualifikasi.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Meeting Booking & Qualification",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Qualified meeting record with attendee, agenda, need, time, and CRM link",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Meetings booked",
+      "show rate",
+      "qualified-meeting rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "meeting_booking_qualification_source",
+        "label": "Meeting Booking & Qualification — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "meeting_booking_qualification_workflow",
+        "label": "Meeting Booking & Qualification — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_meeting_preparation",
+    "name": "Sales Meeting Preparation",
+    "sort_order": 112,
+    "category": "Sales Execution",
+    "mission": "Menyiapkan ringkasan prospek dan bahan relevan sebelum meeting sales.",
+    "responsibilities": [
+      "Menyiapkan ringkasan prospek dan bahan relevan sebelum meeting sales.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Meeting Preparation",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Meeting brief, discovery checklist, approved case references, and open questions",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Prep coverage",
+      "meeting readiness",
+      "next-step completion"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_meeting_preparation_source",
+        "label": "Sales Meeting Preparation — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_meeting_preparation_workflow",
+        "label": "Sales Meeting Preparation — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "discovery_call_qualification",
+    "name": "Discovery Call Qualification",
+    "sort_order": 113,
+    "category": "Sales Execution",
+    "mission": "Menilai kebutuhan, urgensi, dampak, anggaran, dan proses keputusan dari catatan discovery.",
+    "responsibilities": [
+      "Menilai kebutuhan, urgensi, dampak, anggaran, dan proses keputusan dari catatan discovery.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Discovery Call Qualification",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Qualification scorecard with needs, urgency, budget status, risks, and recommendation",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualification completeness",
+      "progression rate",
+      "disqualification accuracy"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "discovery_call_qualification_source",
+        "label": "Discovery Call Qualification — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "discovery_call_qualification_workflow",
+        "label": "Discovery Call Qualification — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "demo_operations_readiness",
+    "name": "Demo Operations & Readiness",
+    "sort_order": 114,
+    "category": "Sales Execution",
+    "mission": "Memastikan demo siap dan sesuai kebutuhan prospek sebelum meeting.",
+    "responsibilities": [
+      "Memastikan demo siap dan sesuai kebutuhan prospek sebelum meeting.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Demo Operations & Readiness",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Demo readiness checklist, scenario plan, test results, blockers, and owners",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Demo readiness",
+      "demo incidents",
+      "demo-to-next-step rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "demo_operations_readiness_source",
+        "label": "Demo Operations & Readiness — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "demo_operations_readiness_workflow",
+        "label": "Demo Operations & Readiness — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "objection_intelligence",
+    "name": "Objection Intelligence",
+    "sort_order": 115,
+    "category": "Sales Execution",
+    "mission": "Mengelompokkan keberatan prospek dan mencari jawaban berbasis bukti yang disetujui.",
+    "responsibilities": [
+      "Mengelompokkan keberatan prospek dan mencari jawaban berbasis bukti yang disetujui.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Objection Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Objection register with category, frequency, response reference, and escalation need",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Objection resolution",
+      "repeated objections",
+      "deal progression"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "objection_intelligence_source",
+        "label": "Objection Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "objection_intelligence_workflow",
+        "label": "Objection Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_conversation_intelligence",
+    "name": "Sales Conversation Intelligence",
+    "sort_order": 116,
+    "category": "Sales Execution",
+    "mission": "Meringkas catatan percakapan yang diizinkan menjadi komitmen, risiko, dan tindak lanjut.",
+    "responsibilities": [
+      "Meringkas catatan percakapan yang diizinkan menjadi komitmen, risiko, dan tindak lanjut.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Conversation Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Conversation summary, buyer commitments, action items, risk flags, and CRM suggestions",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Action capture",
+      "next-step completion",
+      "record accuracy"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_conversation_intelligence_source",
+        "label": "Sales Conversation Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_conversation_intelligence_workflow",
+        "label": "Sales Conversation Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "proposal_strategy_fit",
+    "name": "Proposal Strategy & Fit",
+    "sort_order": 117,
+    "category": "Sales Execution",
+    "mission": "Memilih pendekatan proposal berdasarkan kebutuhan, cakupan, bukti kemampuan, dan nilai proyek.",
+    "responsibilities": [
+      "Memilih pendekatan proposal berdasarkan kebutuhan, cakupan, bukti kemampuan, dan nilai proyek.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Proposal Strategy & Fit",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Proposal strategy brief with scope, approved proof, assumptions, exclusions, and review points",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Proposal fit",
+      "review time",
+      "scope-change rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "proposal_strategy_fit_source",
+        "label": "Proposal Strategy & Fit — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "proposal_strategy_fit_workflow",
+        "label": "Proposal Strategy & Fit — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "proposal_quality_review",
+    "name": "Proposal Quality Review",
+    "sort_order": 118,
+    "category": "Sales Execution",
+    "mission": "Memeriksa konsistensi, kelengkapan, risiko, dan kesesuaian proposal dengan kebutuhan klien.",
+    "responsibilities": [
+      "Memeriksa konsistensi, kelengkapan, risiko, dan kesesuaian proposal dengan kebutuhan klien.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Proposal Quality Review",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Proposal review report with coverage, errors, commercial risks, and approval status",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "First-pass approval",
+      "preventable errors",
+      "turnaround time"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "proposal_quality_review_source",
+        "label": "Proposal Quality Review — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "proposal_quality_review_workflow",
+        "label": "Proposal Quality Review — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_pricing_packaging_intelligence",
+    "name": "Pricing & Packaging Intelligence",
+    "sort_order": 119,
+    "category": "Sales Execution",
+    "mission": "Mengevaluasi paket dan harga berdasarkan kebutuhan, nilai, margin, dan batas komersial.",
+    "responsibilities": [
+      "Mengevaluasi paket dan harga berdasarkan kebutuhan, nilai, margin, dan batas komersial.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Pricing & Packaging Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Pricing scenario comparison with assumptions, margin estimate, package fit, and recommendation",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Estimated margin",
+      "approval time",
+      "offer acceptance"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_pricing_packaging_intelligence_source",
+        "label": "Pricing & Packaging Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_pricing_packaging_intelligence_workflow",
+        "label": "Pricing & Packaging Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "negotiation_support",
+    "name": "Negotiation Support",
+    "sort_order": 120,
+    "category": "Sales Execution",
+    "mission": "Menyiapkan opsi negosiasi dan mencatat konsesi agar margin tetap terjaga.",
+    "responsibilities": [
+      "Menyiapkan opsi negosiasi dan mencatat konsesi agar margin tetap terjaga.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Negotiation Support",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Negotiation brief with trade-offs, concession log, and escalation triggers",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Margin retained",
+      "concession visibility",
+      "negotiation cycle"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "negotiation_support_source",
+        "label": "Negotiation Support — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "negotiation_support_workflow",
+        "label": "Negotiation Support — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "enterprise_account_development",
+    "name": "Enterprise Account Development",
+    "sort_order": 121,
+    "category": "Sales Channels",
+    "mission": "Membangun pipeline enterprise dengan pemetaan akun dan proses pembelian yang panjang.",
+    "responsibilities": [
+      "Membangun pipeline enterprise dengan pemetaan akun dan proses pembelian yang panjang.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Enterprise Account Development",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Enterprise account map with stakeholder coverage, milestones, risks, and next steps",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Enterprise pipeline",
+      "stage progression",
+      "stakeholder coverage"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "enterprise_account_development_source",
+        "label": "Enterprise Account Development — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "enterprise_account_development_workflow",
+        "label": "Enterprise Account Development — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "smb_market_acquisition",
+    "name": "SMB Market Acquisition",
+    "sort_order": 122,
+    "category": "Sales Channels",
+    "mission": "Mengembangkan peluang bisnis kecil dan menengah dengan biaya akuisisi terukur.",
+    "responsibilities": [
+      "Mengembangkan peluang bisnis kecil dan menengah dengan biaya akuisisi terukur.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for SMB Market Acquisition",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "SMB prospect queue with segment, expected value, fit score, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified SMBs",
+      "conversion",
+      "acquisition cost"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "smb_market_acquisition_source",
+        "label": "SMB Market Acquisition — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "smb_market_acquisition_workflow",
+        "label": "SMB Market Acquisition — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "vertical_market_sales",
+    "name": "Vertical Market Sales",
+    "sort_order": 123,
+    "category": "Sales Channels",
+    "mission": "Membentuk pipeline industri prioritas berdasarkan kebutuhan dan siklus beli relevan.",
+    "responsibilities": [
+      "Membentuk pipeline industri prioritas berdasarkan kebutuhan dan siklus beli relevan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Vertical Market Sales",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Vertical market scorecard with target list, needs, buying triggers, and pipeline",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified vertical opportunities",
+      "win rate by industry"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "vertical_market_sales_source",
+        "label": "Vertical Market Sales — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "vertical_market_sales_workflow",
+        "label": "Vertical Market Sales — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "geographic_market_expansion",
+    "name": "Geographic Market Expansion",
+    "sort_order": 124,
+    "category": "Sales Channels",
+    "mission": "Menilai area baru berdasarkan jumlah target, kecocokan pasar, bahasa, dan biaya jangkauan.",
+    "responsibilities": [
+      "Menilai area baru berdasarkan jumlah target, kecocokan pasar, bahasa, dan biaya jangkauan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Geographic Market Expansion",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Market-entry scorecard, target clusters, local constraints, and test plan",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified market size",
+      "regional response",
+      "cost per opportunity"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "geographic_market_expansion_source",
+        "label": "Geographic Market Expansion — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "geographic_market_expansion_workflow",
+        "label": "Geographic Market Expansion — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "channel_partner_acquisition",
+    "name": "Channel Partner Acquisition",
+    "sort_order": 125,
+    "category": "Sales Channels",
+    "mission": "Menemukan partner kanal yang berpotensi membawa lead atau proyek berulang.",
+    "responsibilities": [
+      "Menemukan partner kanal yang berpotensi membawa lead atau proyek berulang.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Channel Partner Acquisition",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Ranked partner pipeline with audience fit, requirements, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified partners",
+      "partner-sourced pipeline",
+      "activation rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "channel_partner_acquisition_source",
+        "label": "Channel Partner Acquisition — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "channel_partner_acquisition_workflow",
+        "label": "Channel Partner Acquisition — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "strategic_partnership_development",
+    "name": "Strategic Partnership Development",
+    "sort_order": 126,
+    "category": "Sales Channels",
+    "mission": "Mengembangkan kolaborasi strategis dengan kontribusi dan target terukur.",
+    "responsibilities": [
+      "Mengembangkan kolaborasi strategis dengan kontribusi dan target terukur.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Strategic Partnership Development",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Partner brief with mutual value, roles, risks, and joint targets",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Active partnerships",
+      "joint pipeline",
+      "sourced revenue"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "strategic_partnership_development_source",
+        "label": "Strategic Partnership Development — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "strategic_partnership_development_workflow",
+        "label": "Strategic Partnership Development — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "referral_program_operations",
+    "name": "Referral Program Operations",
+    "sort_order": 127,
+    "category": "Sales Channels",
+    "mission": "Mengelola rujukan klien dan jaringan profesional sampai terukur dan ditindaklanjuti.",
+    "responsibilities": [
+      "Mengelola rujukan klien dan jaringan profesional sampai terukur dan ditindaklanjuti.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Referral Program Operations",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Referral register with referrer, permission, qualification, and outcome",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified referrals",
+      "referral conversion",
+      "response time"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "referral_program_operations_source",
+        "label": "Referral Program Operations — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "referral_program_operations_workflow",
+        "label": "Referral Program Operations — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "affiliate_channel_management",
+    "name": "Affiliate Channel Management",
+    "sort_order": 128,
+    "category": "Sales Channels",
+    "mission": "Memantau kualitas lead dan kontribusi kanal afiliasi tanpa kehilangan atribusi.",
+    "responsibilities": [
+      "Memantau kualitas lead dan kontribusi kanal afiliasi tanpa kehilangan atribusi.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Affiliate Channel Management",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Affiliate ledger with validated leads, attribution evidence, quality flags, and review inputs",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified affiliate leads",
+      "conversion by partner",
+      "invalid-lead rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "affiliate_channel_management_source",
+        "label": "Affiliate Channel Management — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "affiliate_channel_management_workflow",
+        "label": "Affiliate Channel Management — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "reseller_white_label_sales",
+    "name": "Reseller & White-Label Sales",
+    "sort_order": 129,
+    "category": "Sales Channels",
+    "mission": "Mengelola peluang reseller dan white-label dengan batas harga serta tanggung jawab jelas.",
+    "responsibilities": [
+      "Mengelola peluang reseller dan white-label dengan batas harga serta tanggung jawab jelas.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Reseller & White-Label Sales",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Reseller pipeline with territory, capability fit, commercial assumptions, and approvals",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified reseller pipeline",
+      "activation",
+      "channel margin"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "reseller_white_label_sales_source",
+        "label": "Reseller & White-Label Sales — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "reseller_white_label_sales_workflow",
+        "label": "Reseller & White-Label Sales — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "marketplace_opportunity_intelligence",
+    "name": "Marketplace Opportunity Intelligence",
+    "sort_order": 130,
+    "category": "Sales Channels",
+    "mission": "Mencari peluang proyek marketplace dan menyaringnya berdasarkan kecocokan serta kelayakan.",
+    "responsibilities": [
+      "Mencari peluang proyek marketplace dan menyaringnya berdasarkan kecocokan serta kelayakan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Marketplace Opportunity Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Deduplicated project queue with budget, fit score, deadline, rules, and status",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified opportunities",
+      "shortlist precision",
+      "win rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "marketplace_opportunity_intelligence_source",
+        "label": "Marketplace Opportunity Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "marketplace_opportunity_intelligence_workflow",
+        "label": "Marketplace Opportunity Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "rfp_tender_intelligence",
+    "name": "RFP & Tender Intelligence",
+    "sort_order": 131,
+    "category": "Sales Channels",
+    "mission": "Mendeteksi RFP/tender relevan dan memeriksa syarat, tenggat, serta kelayakan.",
+    "responsibilities": [
+      "Mendeteksi RFP/tender relevan dan memeriksa syarat, tenggat, serta kelayakan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for RFP & Tender Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Tender register with requirements, deadlines, risks, and bid/no-bid recommendation",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Relevant tenders",
+      "eligibility pass rate",
+      "deadline coverage"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "rfp_tender_intelligence_source",
+        "label": "RFP & Tender Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "rfp_tender_intelligence_workflow",
+        "label": "RFP & Tender Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "procurement_vendor_onboarding",
+    "name": "Procurement & Vendor Onboarding",
+    "sort_order": 132,
+    "category": "Sales Channels",
+    "mission": "Menyiapkan status dokumen untuk mendaftar sebagai vendor calon klien.",
+    "responsibilities": [
+      "Menyiapkan status dokumen untuk mendaftar sebagai vendor calon klien.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Procurement & Vendor Onboarding",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Vendor checklist with missing documents, submission status, and owner responsibilities",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Onboarding completion",
+      "time to approval",
+      "missing-item count"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "procurement_vendor_onboarding_source",
+        "label": "Procurement & Vendor Onboarding — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "procurement_vendor_onboarding_workflow",
+        "label": "Procurement & Vendor Onboarding — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "freelance_platform_opportunity_scoring",
+    "name": "Freelance Platform Opportunity Scoring",
+    "sort_order": 133,
+    "category": "Opportunity Growth",
+    "mission": "Menilai proyek freelance berdasarkan budget, scope, kemampuan, dan biaya bidding.",
+    "responsibilities": [
+      "Menilai proyek freelance berdasarkan budget, scope, kemampuan, dan biaya bidding.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Freelance Platform Opportunity Scoring",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Scored shortlist with budget fit, scope risks, effort, platform rules, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Shortlist precision",
+      "bid efficiency",
+      "project win rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "freelance_platform_opportunity_scoring_source",
+        "label": "Freelance Platform Opportunity Scoring — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "freelance_platform_opportunity_scoring_workflow",
+        "label": "Freelance Platform Opportunity Scoring — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "lost_deal_reactivation",
+    "name": "Lost Deal Reactivation",
+    "sort_order": 134,
+    "category": "Opportunity Growth",
+    "mission": "Menemukan deal lama yang patut ditinjau kembali karena alasan kalah atau kondisi berubah.",
+    "responsibilities": [
+      "Menemukan deal lama yang patut ditinjau kembali karena alasan kalah atau kondisi berubah.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Lost Deal Reactivation",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Reactivation queue with loss reason, changed signal, permission, and next step",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Reactivated opportunities",
+      "win-back rate",
+      "stale-contact rate"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "lost_deal_reactivation_source",
+        "label": "Lost Deal Reactivation — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "lost_deal_reactivation_workflow",
+        "label": "Lost Deal Reactivation — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "stalled_deal_recovery",
+    "name": "Stalled Deal Recovery",
+    "sort_order": 135,
+    "category": "Opportunity Growth",
+    "mission": "Mendeteksi deal mandek dan memberi rekomendasi pemulihan berdasarkan hambatan.",
+    "responsibilities": [
+      "Mendeteksi deal mandek dan memberi rekomendasi pemulihan berdasarkan hambatan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Stalled Deal Recovery",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Stalled-deal report with last activity, blocker, owner, and recovery action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Recovery rate",
+      "days in stage",
+      "next-step coverage"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "stalled_deal_recovery_source",
+        "label": "Stalled Deal Recovery — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "stalled_deal_recovery_workflow",
+        "label": "Stalled Deal Recovery — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "trial_poc_conversion",
+    "name": "Trial & POC Conversion",
+    "sort_order": 136,
+    "category": "Opportunity Growth",
+    "mission": "Menghubungkan hasil trial/POC dengan kriteria sukses dan keputusan komersial berikutnya.",
+    "responsibilities": [
+      "Menghubungkan hasil trial/POC dengan kriteria sukses dan keputusan komersial berikutnya.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Trial & POC Conversion",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Trial scorecard with adoption evidence, blockers, criteria status, and next step",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Trial-to-paid conversion",
+      "time to decision",
+      "criteria completion"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "trial_poc_conversion_source",
+        "label": "Trial & POC Conversion — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "trial_poc_conversion_workflow",
+        "label": "Trial & POC Conversion — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "upsell_opportunity_intelligence",
+    "name": "Upsell Opportunity Intelligence",
+    "sort_order": 137,
+    "category": "Opportunity Growth",
+    "mission": "Mendeteksi peningkatan paket yang relevan berdasarkan kebutuhan dan penggunaan layanan.",
+    "responsibilities": [
+      "Mendeteksi peningkatan paket yang relevan berdasarkan kebutuhan dan penggunaan layanan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Upsell Opportunity Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Upsell opportunities with evidence, value hypothesis, customer fit, and recommendation",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified upsell pipeline",
+      "conversion",
+      "incremental margin"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "upsell_opportunity_intelligence_source",
+        "label": "Upsell Opportunity Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "upsell_opportunity_intelligence_workflow",
+        "label": "Upsell Opportunity Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "cross_sell_opportunity_intelligence",
+    "name": "Cross-Sell Opportunity Intelligence",
+    "sort_order": 138,
+    "category": "Opportunity Growth",
+    "mission": "Mencocokkan kebutuhan klien dengan layanan lain yang benar-benar relevan.",
+    "responsibilities": [
+      "Mencocokkan kebutuhan klien dengan layanan lain yang benar-benar relevan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Cross-Sell Opportunity Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Cross-sell map with unmet need, eligible service, rationale, risks, and next action",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Qualified cross-sell opportunities",
+      "attach rate",
+      "customer fit"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "cross_sell_opportunity_intelligence_source",
+        "label": "Cross-Sell Opportunity Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "cross_sell_opportunity_intelligence_workflow",
+        "label": "Cross-Sell Opportunity Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "renewal_expansion_revenue",
+    "name": "Renewal & Expansion Revenue",
+    "sort_order": 139,
+    "category": "Opportunity Growth",
+    "mission": "Memantau pembaruan kontrak dan kebutuhan baru untuk mendukung pendapatan berulang.",
+    "responsibilities": [
+      "Memantau pembaruan kontrak dan kebutuhan baru untuk mendukung pendapatan berulang.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Renewal & Expansion Revenue",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Renewal calendar with risk, expansion hypotheses, notice periods, and decisions",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Renewal rate",
+      "revenue retention",
+      "expansion pipeline"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "renewal_expansion_revenue_source",
+        "label": "Renewal & Expansion Revenue — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "renewal_expansion_revenue_workflow",
+        "label": "Renewal & Expansion Revenue — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "customer_advocacy_referrals",
+    "name": "Customer Advocacy & Referrals",
+    "sort_order": 140,
+    "category": "Opportunity Growth",
+    "mission": "Mengidentifikasi klien yang layak dimintai rujukan dengan tetap meminta izin.",
+    "responsibilities": [
+      "Mengidentifikasi klien yang layak dimintai rujukan dengan tetap meminta izin.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Customer Advocacy & Referrals",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Advocacy shortlist with satisfaction evidence, permission, opportunity, and owner",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Willing advocates",
+      "qualified referrals",
+      "permission compliance"
+    ],
+    "automation_level": "approval_gated",
+    "approval_policy": "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs.",
+    "integrations": [
+      {
+        "key": "customer_advocacy_referrals_source",
+        "label": "Customer Advocacy & Referrals — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "customer_advocacy_referrals_workflow",
+        "label": "Customer Advocacy & Referrals — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_forecasting_commitments",
+    "name": "Sales Forecasting & Commitments",
+    "sort_order": 141,
+    "category": "Revenue Operations",
+    "mission": "Menyusun forecast dari tahap pipeline, bukti buyer, risiko, dan tanggal keputusan.",
+    "responsibilities": [
+      "Menyusun forecast dari tahap pipeline, bukti buyer, risiko, dan tanggal keputusan.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Forecasting & Commitments",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Forecast by period and stage with assumptions, confidence range, slippage risk, and history",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Forecast accuracy",
+      "slippage rate",
+      "pipeline coverage"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_forecasting_commitments_source",
+        "label": "Sales Forecasting & Commitments — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_forecasting_commitments_workflow",
+        "label": "Sales Forecasting & Commitments — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "pipeline_hygiene_crm_quality",
+    "name": "Pipeline Hygiene & CRM Quality",
+    "sort_order": 142,
+    "category": "Revenue Operations",
+    "mission": "Menemukan deal tidak lengkap, duplikat, usang, atau bertentangan agar pipeline dapat dipercaya.",
+    "responsibilities": [
+      "Menemukan deal tidak lengkap, duplikat, usang, atau bertentangan agar pipeline dapat dipercaya.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Pipeline Hygiene & CRM Quality",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "CRM hygiene queue with missing fields, duplicates, stale deals, and corrections",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Complete-record rate",
+      "stale deals",
+      "duplicate rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "pipeline_hygiene_crm_quality_source",
+        "label": "Pipeline Hygiene & CRM Quality — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "pipeline_hygiene_crm_quality_workflow",
+        "label": "Pipeline Hygiene & CRM Quality — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "lead_routing_sla_management",
+    "name": "Lead Routing & SLA Management",
+    "sort_order": 143,
+    "category": "Revenue Operations",
+    "mission": "Mendistribusikan lead kepada penanggung jawab tepat dan memantau SLA respons.",
+    "responsibilities": [
+      "Mendistribusikan lead kepada penanggung jawab tepat dan memantau SLA respons.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Lead Routing & SLA Management",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Routing log with owner, rationale, deadline, escalation, and response timestamp",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "SLA compliance",
+      "first-response time",
+      "misrouting rate"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "lead_routing_sla_management_source",
+        "label": "Lead Routing & SLA Management — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "lead_routing_sla_management_workflow",
+        "label": "Lead Routing & SLA Management — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "territory_capacity_planning",
+    "name": "Territory & Capacity Planning",
+    "sort_order": 144,
+    "category": "Revenue Operations",
+    "mission": "Menyeimbangkan potensi wilayah, jumlah akun, kapasitas tim, dan beban peluang.",
+    "responsibilities": [
+      "Menyeimbangkan potensi wilayah, jumlah akun, kapasitas tim, dan beban peluang.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Territory & Capacity Planning",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Territory plan with account allocation, workload, capacity gap, and scenarios",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Territory coverage",
+      "workload balance",
+      "target potential"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "territory_capacity_planning_source",
+        "label": "Territory & Capacity Planning — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "territory_capacity_planning_workflow",
+        "label": "Territory & Capacity Planning — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_performance_coaching",
+    "name": "Sales Performance Coaching",
+    "sort_order": 145,
+    "category": "Revenue Operations",
+    "mission": "Menemukan pola kinerja sales dan area perbaikan berbasis metrik nyata.",
+    "responsibilities": [
+      "Menemukan pola kinerja sales dan area perbaikan berbasis metrik nyata.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Performance Coaching",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Coaching report with funnel bottleneck, evidence, practice focus, and metric",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Stage conversion",
+      "baseline improvement",
+      "coaching completion"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_performance_coaching_source",
+        "label": "Sales Performance Coaching — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_performance_coaching_workflow",
+        "label": "Sales Performance Coaching — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_representative_assistant",
+    "name": "Sales Representative Assistant",
+    "sort_order": 146,
+    "category": "Revenue Operations",
+    "mission": "Menyiapkan daftar kerja harian sales berdasarkan prioritas, CRM, dan playbook disetujui.",
+    "responsibilities": [
+      "Menyiapkan daftar kerja harian sales berdasarkan prioritas, CRM, dan playbook disetujui.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Representative Assistant",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Daily work queue with next action, CRM context, due time, and policy reminders",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Task completion",
+      "follow-up timeliness",
+      "CRM accuracy"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_representative_assistant_source",
+        "label": "Sales Representative Assistant — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_representative_assistant_workflow",
+        "label": "Sales Representative Assistant — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "sales_enablement_asset_intelligence",
+    "name": "Sales Enablement Asset Intelligence",
+    "sort_order": 147,
+    "category": "Revenue Operations",
+    "mission": "Merekomendasikan materi sales yang sudah disetujui tanpa membuat konten baru.",
+    "responsibilities": [
+      "Merekomendasikan materi sales yang sudah disetujui tanpa membuat konten baru.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Sales Enablement Asset Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Approved asset shortlist with rationale, version, permissions, and evidence gaps",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Asset relevance",
+      "reuse rate",
+      "time-to-find evidence"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "sales_enablement_asset_intelligence_source",
+        "label": "Sales Enablement Asset Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "sales_enablement_asset_intelligence_workflow",
+        "label": "Sales Enablement Asset Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "competitor_deal_intelligence",
+    "name": "Competitor Deal Intelligence",
+    "sort_order": 148,
+    "category": "Revenue Operations",
+    "mission": "Menganalisis informasi kompetitor yang sah dan alasan deal kalah untuk memperbaiki strategi.",
+    "responsibilities": [
+      "Menganalisis informasi kompetitor yang sah dan alasan deal kalah untuk memperbaiki strategi.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Competitor Deal Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Competitor brief with sourced facts, win/loss signals, and recommendations",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Evidence freshness",
+      "competitive win rate",
+      "insight coverage"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "competitor_deal_intelligence_source",
+        "label": "Competitor Deal Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "competitor_deal_intelligence_workflow",
+        "label": "Competitor Deal Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "pricing_competitiveness_intelligence",
+    "name": "Pricing Competitiveness Intelligence",
+    "sort_order": 149,
+    "category": "Revenue Operations",
+    "mission": "Membandingkan sinyal harga pasar yang sah dengan nilai layanan dan batas margin.",
+    "responsibilities": [
+      "Membandingkan sinyal harga pasar yang sah dengan nilai layanan dan batas margin.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Pricing Competitiveness Intelligence",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Pricing benchmark with source/date, comparable scope, confidence, and safe recommendation",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Benchmark freshness",
+      "proposal win rate",
+      "margin preservation"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "pricing_competitiveness_intelligence_source",
+        "label": "Pricing Competitiveness Intelligence — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "pricing_competitiveness_intelligence_workflow",
+        "label": "Pricing Competitiveness Intelligence — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
+  },
+  {
+    "slug": "revenue_attribution_channel_roi",
+    "name": "Revenue Attribution & Channel ROI",
+    "sort_order": 150,
+    "category": "Revenue Operations",
+    "mission": "Menghubungkan sumber lead ke peluang dan pendapatan untuk mengevaluasi efektivitas kanal.",
+    "responsibilities": [
+      "Menghubungkan sumber lead ke peluang dan pendapatan untuk mengevaluasi efektivitas kanal.",
+      "Score fit, value, urgency, risk, and confidence using approved AIGROWTH criteria",
+      "Maintain owner, status, evidence source, SLA, and next action",
+      "Log exceptions and escalate blocked or high-risk decisions"
+    ],
+    "inputs": [
+      "CRM and existing prospect/opportunity history",
+      "Authorized source evidence for Revenue Attribution & Channel ROI",
+      "Approved AIGROWTH service catalog, capacity, and commercial guardrails"
+    ],
+    "outputs": [
+      "Channel report with sourced pipeline, revenue, cost assumptions, confidence, and recommendation",
+      "Prioritized work queue with owner, status, SLA, and next action",
+      "Evidence trail, exceptions, and measurable results for Owner Dashboard"
+    ],
+    "kpis": [
+      "Attributed pipeline",
+      "channel ROI",
+      "cost per qualified opportunity"
+    ],
+    "automation_level": "assisted",
+    "approval_policy": "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval.",
+    "integrations": [
+      {
+        "key": "revenue_attribution_channel_roi_source",
+        "label": "Revenue Attribution & Channel ROI — authorized source",
+        "required": true,
+        "notes": "Verify authorization, provenance, freshness, schema, and applicable platform/privacy requirements; do not mark connected until tested."
+      },
+      {
+        "key": "revenue_attribution_channel_roi_workflow",
+        "label": "Revenue Attribution & Channel ROI — workflow and outcome tracking",
+        "required": true,
+        "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ]
   }
 ];

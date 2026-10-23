@@ -14,9 +14,9 @@ Dokumen ini memisahkan fungsi yang sudah memiliki source code dari integrasi eks
 | Geography | Metadata Cloudflare country/city | Dapat kosong jika metadata tidak tersedia |
 | Trend harian | occurred_at | Dashboard mengelompokkan periode waktu |
 
-## 2. Registry 100 divisi
+## 2. Registry 150 divisi
 
-Migration 0002 mendaftarkan 11 divisi dasar dan migration 0003 menambahkan 89 divisi dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard. Rincian misi tiap divisi ada di [katalog lengkap 100 divisi](100-DIVISIONS-CATALOG.md).
+Migration 0002 mendaftarkan 11 divisi dasar, migration 0003 menambahkan 89 divisi spesialis, dan migration 0004 menambahkan 50 divisi tambahan yang fokus pada sales dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard. Rincian misi tiap divisi ada di [katalog 50 divisi sales tambahan](50-SALES-DIVISIONS.md).
 
 | # | Divisi | Tugas inti |
 |---:|---|---|
@@ -34,7 +34,7 @@ Migration 0002 mendaftarkan 11 divisi dasar dan migration 0003 menambahkan 89 di
 
 ## 3. Integrasi yang direncanakan
 
-Registry memuat 210 placeholder koneksi. Status awal tiap koneksi adalah not_connected sampai sumber, token, izin, schema dan jalur data diverifikasi. Contohnya meliputi CRM/D1, email provider, lead source, konektor platform resmi, riset, project/task store, Cloudflare Workers, CI/smoke test, data transaksi, audit logs, monitoring targets dan channel alert.
+Registry memuat 310 placeholder koneksi. Status awal tiap koneksi adalah not_connected sampai sumber, token, izin, schema dan jalur data diverifikasi. Contohnya meliputi CRM/D1, email provider, lead source, konektor platform resmi, riset, project/task store, Cloudflare Workers, CI/smoke test, data transaksi, audit logs, monitoring targets dan channel alert.
 
 Integrasi harus menggunakan API/metode resmi dan aturan akses platform. Jangan bypass login, CAPTCHA, rate limits, atau Terms of Service.
 
@@ -55,9 +55,9 @@ Website analytics baru dinyatakan terhubung setelah:
 1. GET /health menyatakan ready=true, storageMode=shared_d1, databaseSchemaReady=true dan divisionsSchemaReady=true.
 2. POST /collect menghasilkan HTTP 202 dan stored=true.
 3. GET /api/website-analytics?days=7 menghasilkan HTTP 200 dan source=cloudflare-d1.
-4. GET /api/divisions menghasilkan tepat 100 divisi dan tepat 210 koneksi integrasi.
+4. GET /api/divisions menghasilkan tepat 150 divisi dan tepat 310 koneksi integrasi.
 5. Script tracker dipasang pada HTML website existing.
-6. Dashboard menampilkan metrik analitik dan 100 kartu divisi.
+6. Dashboard menampilkan metrik analitik dan 150 kartu divisi.
 7. Data uji benar-benar muncul setelah kunjungan baru, tanpa merusak login, routing atau tema dashboard.
 
 Divisi baru dinyatakan operational setelah integrasi sumbernya dikonfigurasi, koneksi diuji, error logging aktif, dan jalur tugasnya memiliki adapter eksekusi serta approval policy yang benar.
