@@ -107,6 +107,75 @@ test("collect rejects unsupported event types", async () => {
   assert.equal((await response.json()).error, "invalid_event_type_or_shape");
 });
 
+
+function makeFakeD1() {
+  const written = [];
+  return {
+    written,
+    prepare(sql) {
+      const statement = { sql, values: [] };
+      statement.bind = (...values) => { statement.values = values; return statement; };
+      statement.first = async () => {
+        if (sql.includes("AS total_events")) {
+          return { total_events: written.length, page_views: 1, unique_visitors: 1, active_visitors: 0 };
+        }
+        return null;
+      };
+      statement.all = async () => ({ results: [] });
+      return statement;
+    },
+    async batch(statements) {
+      written.push(...statements);
+      return statements.map(() => ({ success: true }));
+    }
+  };
+}
+
+test("collect writes events directly to the shared D1 binding without an ingest URL", async () => {
+  const DB = makeFakeD1();
+  const response = await worker.fetch(new Request("https://bridge.test/collect", {
+    method: "POST",
+    headers: { Origin: origin, "Content-Type": "application/json" },
+    body: JSON.stringify({ events: [makeEvent()] })
+  }), { ALLOWED_ORIGINS: origin, DB });
+  const result = await response.json();
+
+  assert.equal(response.status, 202);
+  assert.equal(result.ok, true);
+  assert.equal(result.stored, true);
+  assert.equal(result.forwarded, false);
+  assert.equal(DB.written.length, 1);
+  assert.match(DB.written[0].sql, /INSERT INTO website_analytics_events/);
+  assert.match(DB.written[0].sql, /ON CONFLICT\(event_id\) DO NOTHING/);
+  assert.equal(DB.written[0].values[1], "page_view");
+});
+
+test("analytics endpoint returns aggregated D1 metrics", async () => {
+  const DB = makeFakeD1();
+  const response = await worker.fetch(new Request("https://bridge.test/api/website-analytics?days=7", {
+    headers: { Origin: "https://dashboard.aigrowth.my.id" }
+  }), { DB, ALLOWED_ORIGINS: "https://dashboard.aigrowth.my.id" });
+  const result = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(result.ok, true);
+  assert.equal(result.source, "cloudflare-d1");
+  assert.equal(result.range_days, 7);
+  assert.equal(result.summary.page_views, 1);
+  assert.ok(Array.isArray(result.top_pages));
+});
+
+test("dashboard analytics panel script is served without exposing secrets", async () => {
+  const response = await worker.fetch(new Request("https://bridge.test/dashboard-panel.js"));
+  const body = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type"), /javascript/);
+  assert.match(body, /Live Website Analytics/);
+  assert.match(body, /api\/website-analytics/);
+  assert.doesNotMatch(body, /DASHBOARD_INGEST_TOKEN|test-only-secret/);
+});
+
 test("tracker source is served with JavaScript content type", async () => {
   const response = await worker.fetch(new Request("https://bridge.test/tracker.js", {
     headers: { Origin: origin }
