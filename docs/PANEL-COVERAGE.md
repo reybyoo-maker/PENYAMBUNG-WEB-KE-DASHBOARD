@@ -1,57 +1,63 @@
-# Peta Cakupan Panel Dashboard AIGROWTH
+# AIGROWTH panel coverage and definition of done
 
-Dokumen ini membedakan apa yang otomatis direkam oleh tracker browser dan apa yang memerlukan sumber data operasional lain. **Panel terdaftar di manifest bukan berarti datanya otomatis terisi**—setiap jalur harus memenuhi kontrak ingest dashboard dan diuji.
+Dokumen ini memisahkan fungsi yang sudah memiliki source code dari integrasi eksternal yang masih harus disambungkan. Menampilkan modul di manifest bukan bukti bahwa integrasinya sedang berjalan.
 
-## A. Panel Analitik Website
+## 1. Analitik Website
 
-| Fitur yang terlihat di dashboard | Event/field dari bridge | Batasan |
+| Fitur | Sumber / event | Batasan |
 |---|---|---|
-| Grafik kunjungan 7/14/30/90 hari | `page_view`, `occurred_at`, `page_url` | Pengelompokan periode dilakukan dashboard |
-| Aktivitas langsung | `active_ping` tiap 30 detik saat tab aktif, `visitor_id`, `session_id` | Bergantung pada tab/browser aktif dan penerimaan event |
-| Klik terbanyak | `click`, `ebook_click`, `custom_event`, nama elemen | Hanya klik pada link/tombol/`data-track` |
-| Halaman teratas | `page_url`, `page_title` | Query string dan fragment sengaja dihilangkan |
-| Negara | `country` dari metadata Cloudflare | Bisa kosong jika Cloudflare tidak menyediakan nilai |
-| Kota/region | `city`, `region` dari metadata Cloudflare | Bisa kosong atau kurang spesifik |
-| Tipe perangkat | `device_type` | Klasifikasi ringan dari user-agent |
-| Model HP | `device_model` jika terdeteksi | Banyak browser menyembunyikan model; nilai kosong adalah normal |
-| OS dan browser | `os`, `browser` | Klasifikasi ringan, bukan fingerprinting |
-| Sumber trafik | `referrer_domain`, UTM source/medium/campaign/content/term | Hanya parameter UTM yang diizinkan; query lain tidak dikirim |
-| Jam ramai | `occurred_at`, `timezone` | Dashboard bertanggung jawab mengelompokkan sesuai WIB |
-| Klik e-book | `ebook_click`, `product_hint` | Klik bukan transaksi, pembayaran, atau closing |
-| Closing e-book | Tidak dibuat oleh tracker browser | Masukkan dari sistem transaksi tepercaya melalui kontrak `ebook_sales` |
+| Page views dan top pages | page_view, page_url, page_title | Query string dan fragment dihilangkan |
+| Active visitors | active_ping, visitor_id, session_id | Berdasarkan tab/browser aktif dan heartbeat |
+| Top clicks | click, ebook_click, custom_event | Tidak menganggap klik sebagai transaksi |
+| Traffic source | Referrer domain dan UTM yang diizinkan | Hanya nilai kampanye yang diizinkan |
+| Device / OS / browser | User-agent browser | Klasifikasi ringan, model dapat kosong |
+| Geography | Metadata Cloudflare country/city | Dapat kosong jika metadata tidak tersedia |
+| Trend harian | occurred_at | Dashboard mengelompokkan periode waktu |
 
-### Privasi tracker
+## 2. Registry 11 divisi
 
-Bridge tidak membaca nilai input form, password, isi chat, data pembayaran, query string lengkap, atau alamat IP. Negara/kota dipakai hanya jika tersedia dari metadata Cloudflare pada request yang masuk ke Worker.
+Migration 0002 mendaftarkan seluruh divisi dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard.
 
-## B. Panel lain dan sumber yang harus terhubung
+| # | Divisi | Tugas inti |
+|---:|---|---|
+| 1 | Sales & CRM | Lead scoring, pipeline, follow-up, win/loss |
+| 2 | Sales Outsourcing Multi-Platform | Peluang proyek lintas platform, proposal review, status peluang |
+| 3 | Marketing Intelligence | Intel pasar, kompetitor, niche, intent dan rekomendasi berbasis bukti; bukan produksi konten |
+| 4 | Client Success | Onboarding, client health, milestone, retensi |
+| 5 | Operations & Service Delivery | Delivery plan, task breakdown, dependensi, SLA, handoff |
+| 6 | Technology & Automation | Workflow dan API, rilis, pemulihan, rollback |
+| 7 | Quality Assurance & Reliability | Health checks, smoke tests, validasi hasil, insiden |
+| 8 | Data & Integration Intelligence | Schema mapping, deduplication, sinkronisasi, rekonsiliasi |
+| 9 | Finance Analytics | Pendapatan, biaya, margin, cashflow dan budget alert |
+| 10 | Owner Control | Executive summary, prioritas, approval, audit trail |
+| 11 | Website & System Monitoring | Uptime, Worker health, alert, eskalasi insiden |
 
-| Panel | Sumber data yang dibutuhkan | Status untuk bridge ini |
-|---|---|---|
-| Database Scraping | Sistem scraping mengirim daftar prospek dan status pengiriman | Endpoint kontrak diketahui dari UI: `POST /api/ingest/scrape`; perlu integrasi sumber |
-| CRM Pipeline & follow-up | Lead, izin kontak, jadwal follow-up, balasan | Perlu kontrak penuh Worker aktual dan sumber CRM |
-| Project & Keuangan | Status proyek, bruto, biaya, pembayaran dan tenggat | Perlu sumber project/finance; netto harus dihitung server dashboard |
-| AI Workforce | Agen, divisi, tugas, progres, log | Kontrak UI: `POST /api/ingest/workforce` |
-| Automation Monitoring | Uptime, error, bug, insiden | Cron/monitor sistem dan kontrak insiden; tidak berasal dari page view |
-| Virtual Office 3D | Status/posisi agen dan peristiwa workforce | Perlu feed data agen yang sesuai format panel |
-| Ringkasan & Audit Proses | Data lintas scraping, balasan, CRM, proyek dan pembayaran | Terbentuk dari data sumber yang masuk; bukan event website tunggal |
-| Content Prompt & Ide | Library prompt dan status prompt | Kontrak UI: `POST /api/ingest/content_prompts` |
-| Referensi konten | URL, platform, niche, catatan, tag | Kontrak UI: `POST /api/ingest/content_refs` |
-| Kuota API & Token | Pemakaian, limit, biaya, jadwal reset | Kontrak UI: `POST /api/ingest/quota` |
-| Persetujuan Owner | Permintaan approval, risiko, biaya, status | Kontrak UI: `POST /api/ingest/approval_requests` |
-| Rapat & Evaluasi AI | Hasil rapat, keputusan, lesson, rencana | Kontrak UI: `POST /api/ingest/meetings` |
+## 3. Integrasi yang direncanakan
 
-## C. Gerbang selesai (Definition of Done)
+Registry memuat 32 placeholder koneksi. Status awal tiap koneksi adalah not_connected sampai sumber, token, izin, schema dan jalur data diverifikasi. Contohnya meliputi CRM/D1, email provider, lead source, konektor platform resmi, riset, project/task store, Cloudflare Workers, CI/smoke test, data transaksi, audit logs, monitoring targets dan channel alert.
 
-Koneksi Website Analytics baru boleh disebut selesai setelah semua ini benar:
+Integrasi harus menggunakan API/metode resmi dan aturan akses platform. Jangan bypass login, CAPTCHA, rate limits, atau Terms of Service.
 
-1. Worker bridge `/health` menampilkan `ready: true`.
-2. Script `/tracker.js` dipasang pada website publik.
-3. Request page view ke `/collect` mendapat respons `202` dengan `stored: true`.
-4. Worker bridge menggunakan binding `DB` yang menunjuk ke D1 `aigrowth-core-db` yang sama dengan dashboard.
-5. Endpoint agregat `/api/website-analytics?days=7` memberi HTTP 200 dan `source: cloudflare-d1`.
-6. Event uji benar-benar terlihat di panel Analitik Website/dashboard database setelah `dashboard-panel.js` dipasang.
-7. Klik, UTM, perangkat, geo, dan active ping diperiksa untuk field yang tersedia.
-8. Website publik tetap hidup dan tidak berubah tema/struktur hanya karena tracker dipasang.
+## 4. Task queue dan guardrails
 
-Jalur utama menyimpan event langsung ke tabel `website_analytics_events` pada D1 bersama. Tidak dibutuhkan URL ingest terpisah atau token ingest. Deployment bridge dan dua pemasangan script pada Worker existing tetap harus dilakukan sebelum koneksi live dinyatakan selesai.
+POST /api/divisions/:slug/tasks memerlukan bearer token server-side melalui secret AGA_OWNER_API_TOKEN. Task yang dibuat akan berstatus awaiting_approval, mencatat payload yang tervalidasi, dan tidak mengeksekusi aksi sendiri. Ini merupakan queue foundation, bukan klaim bahwa executor AI sudah berjalan.
+
+- Outreach/proposal eksternal: approval, opt-out, batas pengiriman, dan compliance platform.
+- Production deployment, schema change destruktif, DNS dan restart: approval/runbook.
+- Finance: analytic/read-only; pembayaran, refund dan transfer tidak dijalankan otomatis.
+- Client Success: perubahan scope, harga dan deadline membutuhkan approval.
+- Data: merge/delete massal dan backfill besar membutuhkan approval.
+- Owner Control: tindakan berisiko tinggi harus diaudit.
+
+## 5. Definition of done
+
+Website analytics baru dinyatakan terhubung setelah:
+1. GET /health menyatakan ready=true, storageMode=shared_d1, databaseSchemaReady=true dan divisionsSchemaReady=true.
+2. POST /collect menghasilkan HTTP 202 dan stored=true.
+3. GET /api/website-analytics?days=7 menghasilkan HTTP 200 dan source=cloudflare-d1.
+4. GET /api/divisions menghasilkan tepat 11 divisi dan sedikitnya 30 koneksi integrasi.
+5. Script tracker dipasang pada HTML website existing.
+6. Dashboard menampilkan metrik analitik dan 11 kartu divisi.
+7. Data uji benar-benar muncul setelah kunjungan baru, tanpa merusak login, routing atau tema dashboard.
+
+Divisi baru dinyatakan operational setelah integrasi sumbernya dikonfigurasi, koneksi diuji, error logging aktif, dan jalur tugasnya memiliki adapter eksekusi serta approval policy yang benar.
