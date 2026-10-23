@@ -44,6 +44,13 @@ jobs:
         run: node scripts/prepare-wrangler-config.mjs
       - name: Apply analytics migration to existing D1
         run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0001_website_analytics.sql --config=wrangler.deploy.toml
+      - name: Apply division registry migration to existing D1
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0002_divisions_operations.sql --config=wrangler.deploy.toml
+      - name: Configure optional Owner task API token
+        if: ${{ secrets.AGA_OWNER_API_TOKEN != '' }}
+        env:
+          AGA_OWNER_API_TOKEN: ${{ secrets.AGA_OWNER_API_TOKEN }}
+        run: printf '%s' "$AGA_OWNER_API_TOKEN" | npx wrangler@4 secret put AGA_OWNER_API_TOKEN --name aga-dashboard-bridge
       - name: Deploy bridge to Cloudflare
         run: npx wrangler@4 deploy --config=wrangler.deploy.toml
       - name: Verify deployed Worker and D1 schema
@@ -55,6 +62,8 @@ jobs:
           echo "$HEALTH" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ready!==true || v.configuration?.storageMode!=="shared_d1") { console.error("Bridge not ready or not using shared D1:",v); process.exit(1); } console.log("Health verified: shared D1 is ready.");})'
           ANALYTICS="$(curl --fail --silent --show-error "$BASE/api/website-analytics?days=7")"
           echo "$ANALYTICS" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ok!==true || v.source!=="cloudflare-d1") { console.error("Analytics API verification failed:",v); process.exit(1); } console.log("Analytics API verified; page_views="+(v.summary?.page_views ?? 0));})'
+          DIVISIONS="$(curl --fail --silent --show-error "$BASE/api/divisions")"
+          echo "$DIVISIONS" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ok!==true || v.divisions?.length!==11 || v.summary?.total_integrations<30) { console.error("Division registry verification failed:",{divisions:v.divisions?.length,integrations:v.summary?.total_integrations,error:v.error}); process.exit(1); } console.log("Division registry verified: "+v.divisions.length+" divisions and "+v.summary.total_integrations+" integration records.");})'
       - name: Publish activation notes
         if: always()
         run: |
@@ -64,5 +73,5 @@ jobs:
             echo "- D1 target: aigrowth-core-db"
             echo "- Next HTML integration after successful deployment:"
             echo "  - Website Worker agencyai: load /tracker.js in head"
-            echo "  - Dashboard Worker aigrowth-owner-dashboard: load /dashboard-panel.js in head"
+            echo "  - Dashboard Worker aigrowth-owner-dashboard: load /dashboard-panel.js in head (it also loads divisions panel)"
           } >> "$GITHUB_STEP_SUMMARY"
