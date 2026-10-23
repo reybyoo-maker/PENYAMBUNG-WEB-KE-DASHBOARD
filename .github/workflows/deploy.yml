@@ -1,13 +1,6 @@
 name: Deploy AIGROWTH bridge
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "src/**"
-      - "wrangler.toml"
-      - "package.json"
-      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 permissions:
@@ -27,35 +20,49 @@ jobs:
         run: npm install
       - name: Test before deploy
         run: npm test
-
-      - name: Check deployment configuration
-        id: config
+      - name: Validate Cloudflare credentials
         env:
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          DASHBOARD_INGEST_TOKEN: ${{ secrets.DASHBOARD_INGEST_TOKEN }}
-          DASHBOARD_TRACKING_URL: ${{ vars.DASHBOARD_TRACKING_URL }}
-        run: |
-          if [ -n "${CF_API_TOKEN:-}" ] && [ -n "${CF_ACCOUNT_ID:-}" ] && [ -n "${DASHBOARD_INGEST_TOKEN:-}" ] && [ -n "${DASHBOARD_TRACKING_URL:-}" ]; then
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Tests run; deployment skipped until Cloudflare secrets, dashboard ingest secret, and DASHBOARD_TRACKING_URL variable are configured."
-          fi
-
-      - name: Configure token and deploy
-        if: ${{ steps.config.outputs.configured == 'true' }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          DASHBOARD_INGEST_TOKEN: ${{ secrets.DASHBOARD_INGEST_TOKEN }}
-          DASHBOARD_TRACKING_URL: ${{ vars.DASHBOARD_TRACKING_URL }}
-          ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS || 'https://aigrowth.my.id' }}
-          DASHBOARD_PAYLOAD_MODE: ${{ vars.DASHBOARD_PAYLOAD_MODE || 'records' }}
         run: |
           set -euo pipefail
-          printf '%s' "$DASHBOARD_INGEST_TOKEN" | npx wrangler@4 secret put DASHBOARD_INGEST_TOKEN --name aga-dashboard-bridge
-          npx wrangler@4 deploy \
-            --var "DASHBOARD_TRACKING_URL:$DASHBOARD_TRACKING_URL" \
-            --var "ALLOWED_ORIGINS:$ALLOWED_ORIGINS" \
-            --var "DASHBOARD_PAYLOAD_MODE:$DASHBOARD_PAYLOAD_MODE"
+          if [ -z "${CF_API_TOKEN:-}" ] || [ -z "${CF_ACCOUNT_ID:-}" ]; then
+            echo "::error::Deployment blocked: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in GitHub Actions secrets. No deployment was attempted."
+            exit 1
+          fi
+      - name: Locate existing AIGROWTH D1 database
+        id: d1
+        run: |
+          set -euo pipefail
+          npx wrangler@4 d1 list --json > /tmp/d1-list.json
+          D1_DATABASE_ID="$(node scripts/resolve-d1-id.mjs /tmp/d1-list.json)"
+          echo "database_id=$D1_DATABASE_ID" >> "$GITHUB_OUTPUT"
+          echo "Resolved existing database aigrowth-core-db."
+      - name: Generate D1 binding config
+        env:
+          D1_DATABASE_ID: ${{ steps.d1.outputs.database_id }}
+        run: node scripts/prepare-wrangler-config.mjs
+      - name: Apply analytics migration to existing D1
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --file=migrations/0001_website_analytics.sql --config=wrangler.deploy.toml
+      - name: Deploy bridge to Cloudflare
+        run: npx wrangler@4 deploy --config=wrangler.deploy.toml
+      - name: Verify deployed Worker and D1 schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://aga-dashboard-bridge.reybyoo.workers.dev"
+          HEALTH="$(curl --fail --silent --show-error "$BASE/health")"
+          echo "$HEALTH" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ready!==true || v.configuration?.storageMode!=="shared_d1") { console.error("Bridge not ready or not using shared D1:",v); process.exit(1); } console.log("Health verified: shared D1 is ready.");})'
+          ANALYTICS="$(curl --fail --silent --show-error "$BASE/api/website-analytics?days=7")"
+          echo "$ANALYTICS" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ok!==true || v.source!=="cloudflare-d1") { console.error("Analytics API verification failed:",v); process.exit(1); } console.log("Analytics API verified; page_views="+(v.summary?.page_views ?? 0));})'
+      - name: Publish activation notes
+        if: always()
+        run: |
+          {
+            echo "## AIGROWTH bridge deployment"
+            echo "- Workflow: ${{ job.status }}"
+            echo "- D1 target: aigrowth-core-db"
+            echo "- Next HTML integration after successful deployment:"
+            echo "  - Website Worker agencyai: load /tracker.js in head"
+            echo "  - Dashboard Worker aigrowth-owner-dashboard: load /dashboard-panel.js in head"
+          } >> "$GITHUB_STEP_SUMMARY"
