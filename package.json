@@ -1,13 +1,15 @@
 {
   "name": "aigrowth-website-dashboard-bridge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "Cloudflare Worker bridge for AIGROWTH website analytics to Owner Dashboard",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "node --test"
+    "test": "node --test",
+    "deploy:cloudflare": "wrangler deploy --config wrangler.deploy.toml",
+    "d1:prepare": "node scripts/prepare-wrangler-config.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
