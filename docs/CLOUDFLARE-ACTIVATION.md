@@ -6,7 +6,7 @@ Tujuan: sambungkan website, panel analitik, dan registry 100 divisi menggunakan 
 
 1. Gunakan akun Cloudflare yang sama dengan Worker agencyai dan aigrowth-owner-dashboard. Pastikan database D1 bernama aigrowth-core-db memang tersedia.
 2. Di GitHub repo, buat Actions secrets CLOUDFLARE_API_TOKEN dan CLOUDFLARE_ACCOUNT_ID. Token perlu izin deploy Workers dan membaca/menjalankan migration D1 pada akun yang benar.
-3. Jalankan GitHub Actions → Deploy AIGROWTH bridge → Run workflow. Workflow menguji kode, mencari ID D1 berdasarkan nama, menjalankan kedua migration, deploy bridge, lalu memeriksa health, analytics dan registry divisi.
+3. Jalankan GitHub Actions → Deploy AIGROWTH bridge → Run workflow. Workflow menguji kode, mencari ID D1 berdasarkan nama, menjalankan ketiga migration, deploy bridge, lalu memeriksa health, analytics dan registry divisi.
 4. Workflow harus membuktikan /health menunjukkan ready=true dan storageMode=shared_d1. Endpoint /api/divisions harus mengembalikan 100 divisi dan tepat 210 catatan integrasi.
 5. Pada Worker website agencyai, tambahkan tracker hanya ke respons HTML halaman publik.
 6. Pada Worker dashboard aigrowth-owner-dashboard, tambahkan dashboard-panel.js hanya ke respons HTML dashboard setelah login. Script ini otomatis memuat panel divisi juga.
