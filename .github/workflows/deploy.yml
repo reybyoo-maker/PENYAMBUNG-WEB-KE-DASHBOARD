@@ -1,0 +1,52 @@
+name: Deploy AIGROWTH bridge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "wrangler.toml"
+      - "package.json"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm install
+      - name: Test before deploy
+        run: npm test
+
+      - name: Explain missing deployment configuration
+        if: ${{ vars.DASHBOARD_TRACKING_URL == '' || secrets.CLOUDFLARE_API_TOKEN == '' || secrets.CLOUDFLARE_ACCOUNT_ID == '' || secrets.DASHBOARD_INGEST_TOKEN == '' }}
+        run: |
+          echo "::notice::Bridge tests passed. Deployment skipped until CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, DASHBOARD_INGEST_TOKEN secrets and DASHBOARD_TRACKING_URL variable are configured."
+
+      - name: Configure token and deploy
+        if: ${{ vars.DASHBOARD_TRACKING_URL != '' && secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' && secrets.DASHBOARD_INGEST_TOKEN != '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DASHBOARD_INGEST_TOKEN: ${{ secrets.DASHBOARD_INGEST_TOKEN }}
+          DASHBOARD_TRACKING_URL: ${{ vars.DASHBOARD_TRACKING_URL }}
+          ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS || 'https://aigrowth.my.id' }}
+          DASHBOARD_PAYLOAD_MODE: ${{ vars.DASHBOARD_PAYLOAD_MODE || 'records' }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$DASHBOARD_INGEST_TOKEN" | npx wrangler@4 secret put DASHBOARD_INGEST_TOKEN --name aga-dashboard-bridge
+          npx wrangler@4 deploy \
+            --var "DASHBOARD_TRACKING_URL:$DASHBOARD_TRACKING_URL" \
+            --var "ALLOWED_ORIGINS:$ALLOWED_ORIGINS" \
+            --var "DASHBOARD_PAYLOAD_MODE:$DASHBOARD_PAYLOAD_MODE"
