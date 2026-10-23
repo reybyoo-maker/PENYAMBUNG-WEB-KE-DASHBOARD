@@ -1,3 +1,5 @@
+import { DIVISION_CATALOG } from "./divisions.js";
+
 export const WEBSITE_TRACKING_FEATURES = [
   { id: "page_views", label: "Kunjungan halaman", eventTypes: ["page_view"] },
   { id: "active_sessions", label: "Aktivitas langsung", eventTypes: ["active_ping", "page_view"] },
@@ -92,7 +94,7 @@ export const DASHBOARD_PANEL_MANIFEST = [
 
 export const MANIFEST = {
   service: "AIGROWTH Website-to-Dashboard Bridge",
-  version: "1.1.0",
+  version: "1.2.0",
   websiteOrigins: ["https://aigrowth.my.id"],
   routes: [
     { method: "GET", path: "/health", purpose: "Readiness check" },
@@ -100,8 +102,12 @@ export const MANIFEST = {
     { method: "GET", path: "/tracker.js", purpose: "Browser tracking script" },
     { method: "POST", path: "/collect", purpose: "Validate and store website events directly in shared D1" },
     { method: "GET", path: "/api/website-analytics", purpose: "Aggregated website metrics for the dashboard panel" },
-    { method: "GET", path: "/dashboard-panel.js", purpose: "Live analytics panel loader for the Owner Dashboard" }
+    { method: "GET", path: "/api/divisions", purpose: "Read 11 configured divisions, required integrations and task counts" },
+    { method: "POST", path: "/api/divisions/:slug/tasks", purpose: "Create an owner-authenticated task waiting for approval" },
+    { method: "GET", path: "/dashboard-panel.js", purpose: "Live website analytics and division panel loader for the Owner Dashboard" },
+    { method: "GET", path: "/divisions-panel.js", purpose: "Render all AIGROWTH divisions and integration readiness" }
   ],
   websiteTrackingFeatures: WEBSITE_TRACKING_FEATURES,
+  divisions: DIVISION_CATALOG,
   dashboardPanels: DASHBOARD_PANEL_MANIFEST
 };
