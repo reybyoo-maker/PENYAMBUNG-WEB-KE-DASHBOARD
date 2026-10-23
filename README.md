@@ -1,103 +1,59 @@
 # AIGROWTH — Penyambung Website ke Owner Dashboard
 
-Repo ini adalah **perantara kode**, bukan database atau layanan penerima event dengan sendirinya. Kode di sini dideploy menjadi Cloudflare Worker. Website mengirim event ke Worker tersebut, lalu Worker meneruskan event ke endpoint analitik yang benar pada Owner Dashboard menggunakan token server-side.
+Repo ini menyiapkan jalur analitik langsung di Cloudflare. Bridge Worker menulis event ke database D1 yang sama dengan Owner Dashboard, yaitu **aigrowth-core-db**, lalu menyediakan ringkasan analitik untuk panel. **URL ingest dashboard terpisah tidak diperlukan untuk jalur utama.**
 
-## Target koneksi
+## Target
 
-- Website publik: `https://aigrowth.my.id`
-- Owner dashboard: `https://dashboard.aigrowth.my.id`
-- Worker yang direncanakan untuk perantara: `aga-dashboard-bridge`
-- Data storage akhir: database/endpoint analitik milik dashboard yang sudah ada.
+- Website: https://aigrowth.my.id
+- Owner Dashboard: https://dashboard.aigrowth.my.id
+- Worker bridge: aga-dashboard-bridge
+- Penyimpanan: D1 aigrowth-core-db (database yang sudah digunakan dashboard)
 
-**Penting:** repo ini tidak menebak endpoint analitik dashboard. URL endpoint yang tepat harus diisi di GitHub Actions Variable `DASHBOARD_TRACKING_URL` setelah dikonfirmasi dari kode dashboard yang berjalan. Jangan mengisi URL halaman dashboard biasa atau URL tebakan. Jika endpoint kosong/salah, bridge gagal tertutup (fail closed), bukan pura-pura melaporkan data tersimpan.
+GitHub hanya menyimpan kode dan menjalankan deployment; event real-time mengalir melalui Cloudflare Workers dan D1.
 
-GitHub menyimpan source code dan menjalankan deployment; GitHub bukan penerima event runtime. Pada saat website dikunjungi, event dikirim ke Cloudflare Worker yang dideploy dari repo ini.
+## Apa yang ditambahkan
 
-## Yang dipantau untuk panel Analitik Website
+- POST /collect: validasi event, normalisasi metadata Cloudflare, dan simpan langsung ke D1 jika binding DB aktif.
+- GET /api/website-analytics?days=7|14|30|90: agregat kunjungan, pengunjung unik, aktivitas saat ini, halaman populer, klik, sumber trafik, perangkat, dan geografi.
+- GET /tracker.js: script untuk website.
+- GET /dashboard-panel.js: panel browser yang menampilkan analitik dari endpoint D1 di dashboard.
+- Migration membuat tabel website_analytics_events dan index pada D1 yang sama. Event ID unik mencegah event terduplikasi saat retry.
+- Tes menguji penyimpanan langsung, validasi event, dan akses endpoint.
 
-- Page view dan jalur halaman (tanpa query-string penuh).
-- Sesi/visitor pseudonim, serta heartbeat aktivitas aktif.
-- Klik link/tombol dan elemen bertanda `data-track`.
-- Klik dengan kata `ebook` / `e-book` untuk sinyal klik e-book (ini **bukan** bukti pembayaran/closing).
-- Referrer domain dan parameter kampanye UTM yang diizinkan.
-- Jenis perangkat, model yang tersedia dari user-agent, OS, browser, bahasa, zona waktu, serta ukuran layar.
-- Negara dan kota jika Cloudflare menyediakan metadata `request.cf`.
-- Waktu event untuk tren harian/jam puncak.
+Tidak ada nilai form, password, isi chat, query string penuh, alamat IP, atau data pembayaran yang dikirim. Klik e-book tetap hanya sinyal klik, bukan bukti transaksi.
 
-Nilai formulir, password, isi chat, dan data kartu/pembayaran **tidak** dikumpulkan. Closing/penjualan hanya boleh dicatat melalui sumber transaksi yang benar, bukan disimpulkan dari klik.
+## Deployment
 
-## Status fitur dashboard
+Jalankan GitHub Actions → **Deploy AIGROWTH bridge** → **Run workflow**. Workflow mencari database D1 yang sudah ada dengan nama persis aigrowth-core-db, menjalankan migration, membuat binding DB, deploy bridge, dan menguji endpoint health/analytics.
 
-`GET /manifest` mengembalikan daftar kapabilitas bridge dan daftar panel yang dikenali dari kontrak dashboard saat ini. Bridge browser mengirim data untuk **Analitik Website** dan sinyal klik e-book. Panel lain—Scraping/CRM, AI Workforce, proyek/keuangan, insiden, kuota, approval, dan rapat—membutuhkan integrasi sumber datanya sendiri; kunjungan website tidak bisa membuktikan data panel-panel itu. Daftar panel di manifest membantu audit cakupan, bukan klaim palsu bahwa semua panel sudah punya data.
+GitHub repo harus memiliki:
+- Secret CLOUDFLARE_API_TOKEN: izin Cloudflare Workers Scripts: Edit dan D1: Edit pada akun terkait.
+- Secret CLOUDFLARE_ACCOUNT_ID: ID akun Cloudflare yang benar.
 
-## Deploy
+Workflow sengaja berhenti dengan error jika database tidak ditemukan atau endpoint tidak lolos verifikasi. Ia tidak lagi menandai deployment yang dilewati sebagai deployment berhasil.
 
-### 1. Tambahkan GitHub Actions secrets dan variables
+## Dua pemasangan script yang perlu diterapkan di Worker yang sudah ada
 
-Buka repo → **Settings → Secrets and variables → Actions**.
+Setelah bridge berhasil dideploy, pasang satu script ke respons HTML website dan satu script ke respons HTML dashboard dengan Cloudflare Worker HTMLRewriter atau integrasi setara, **tanpa mengganti handler yang sudah berjalan**:
 
-**Secrets**
-- `CLOUDFLARE_API_TOKEN`: Cloudflare API token dengan hak deploy Workers yang dibutuhkan.
-- `CLOUDFLARE_ACCOUNT_ID`: Account ID Cloudflare.
-- `DASHBOARD_INGEST_TOKEN`: token yang sama dengan token ingest milik dashboard. Simpan hanya sebagai secret; jangan pernah taruh di HTML atau source JavaScript browser.
+Website Worker agencyai, di elemen head:
+    <script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"></script>
 
-**Variables**
-- `DASHBOARD_TRACKING_URL`: **URL HTTPS lengkap ke endpoint analitik website yang benar-benar didukung Worker dashboard**, termasuk path. Jangan menebak. Kode sumber dashboard perlu diperiksa untuk menentukan kontrak resminya.
-- `ALLOWED_ORIGINS` (opsional): default `https://aigrowth.my.id`; pisahkan beberapa origin dengan koma jika memang dibutuhkan.
-- `DASHBOARD_PAYLOAD_MODE` (opsional): `records` (default), `events`, atau `single`, sesuai kontrak endpoint dashboard.
+Dashboard Worker aigrowth-owner-dashboard, di elemen head:
+    <script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"></script>
 
-Workflow deployment sengaja tidak berjalan kalau URL endpoint, token, atau kredensial Cloudflare belum tersedia. Ini mencegah sistem dideploy dalam keadaan tidak bisa meneruskan event.
+Account subdomain reybyoo.workers.dev mengikuti hostname Worker yang sudah digunakan dashboard saat ini. Setelah deploy, verifikasi https://aga-dashboard-bridge.reybyoo.workers.dev/health menunjukkan ready: true dan storageMode: shared_d1, lalu buka /api/website-analytics?days=7. Kunjungan uji kemudian harus muncul pada panel analitik di dashboard.
 
-### 2. Periksa dan deploy
+**Jangan deploy kode repo ini sebagai pengganti Worker dashboard yang sudah ada.** Bridge adalah Worker terpisah; script dashboard hanya perlu ditambahkan pada HTML Worker existing agar tema, login, dan halaman dashboard tetap utuh.
 
-Setiap push ke branch `main` menjalankan tes. Jika konfigurasi deploy lengkap, GitHub Actions memasang secret dan deploy `aga-dashboard-bridge` ke Cloudflare Workers.
+## Panel lain
 
-Sesudah sukses, Worker memiliki:
-- `GET /health` — status kesiapan tanpa membuka rahasia.
-- `GET /manifest` — daftar kemampuan dan panel.
-- `GET /tracker.js` — script tracker browser.
-- `POST /collect` — validasi, penambahan metadata server, lalu forward ke endpoint dashboard.
-
-### 3. Sambungkan website (setelah Worker berhasil dideploy)
-
-Tambahkan satu baris ini ke `<head>` website, menggunakan hostname Worker yang benar-benar dikeluarkan Cloudflare setelah deploy:
-
-```html
-<script defer src="https://<HOST-WORKER-CLOUDFLARE-YANG-SEBENARNYA>/tracker.js"></script>
-```
-
-Ganti placeholder dengan hostname aktual dari deployment—jangan publikasikan placeholder itu. Script berjalan dari Worker sendiri sehingga endpoint collect dibuat dari origin script yang sama. Website utama dan temanya tidak perlu diganti.
-
-### 4. Verifikasi sungguhan
-
-1. Buka `/health`; pastikan konfigurasi endpoint dinyatakan siap.
-2. Buka `aigrowth.my.id` dengan tracker terpasang.
-3. Periksa request `POST /collect` dan respons forward sukses di browser/network serta logs Worker.
-4. Buka Owner Dashboard dan pastikan event tercatat sebagai analitik baru.
-5. Klik e-book atau elemen `data-track="nama"` dan pastikan event yang cocok masuk.
-6. Jika dashboard belum menunjukkan event, hentikan klaim selesai dan periksa endpoint/kontrak upstream.
+Bridge ini otomatis menangani analitik website, bukan mengarang data untuk panel Scraping, CRM, AI Workforce, proyek/keuangan, insiden, kuota, approval, atau rapat. Panel-panel tersebut tetap memerlukan koneksi ke sumber operasional masing-masing. Cakupan dan prasyaratnya tercatat di docs/PANEL-COVERAGE.md.
 
 ## Tes lokal
 
-Memerlukan Node.js 20+:
+Node.js 20+:
+    npm install
+    npm test
 
-```sh
-npm install
-npm test
-npm run dev
-```
-
-Set local Worker vars/secrets sebelum pengujian forward end-to-end. Tes unit tidak mengirim data ke dashboard produksi.
-
-## Keamanan dan privasi
-
-- Token ingest hanya dipakai oleh Worker server-side.
-- Endpoint dashboard harus HTTPS dan hostname tujuan dibatasi pada dashboard resmi.
-- Origin browser diverifikasi menggunakan allowlist.
-- Data event divalidasi dan dibatasi ukurannya.
-- Query string penuh, nilai input, isi pesan, serta data sensitif tidak dikirim.
-- Pemilik website perlu menyesuaikan pemberitahuan privasi/consent dengan kewajiban yang berlaku.
-
-## Batas yang diketahui saat repo dibuat
-
-Domain website dan dashboard sudah aktif. Namun endpoint ingest analitik website yang benar dan source Worker dashboard belum berhasil dikonfirmasi dalam sesi sebelumnya. Karena itu, kode ini menyiapkan bridge generik dengan konfigurasi eksplisit dan fail-closed; **event baru dianggap terhubung setelah endpoint resmi diisi dan data terlihat pada dashboard**.
+Tes unit tidak mengirim data ke database produksi.
