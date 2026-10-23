@@ -179,8 +179,8 @@ test("dashboard analytics panel script is served without exposing secrets", asyn
 });
 
 
-test("division catalog defines the full 11-division AIGROWTH structure", () => {
-  assert.equal(DIVISION_CATALOG.length, 11);
+test("division catalog defines the full 100-division AIGROWTH structure", () => {
+  assert.equal(DIVISION_CATALOG.length, 100);
   assert.equal(new Set(DIVISION_CATALOG.map((d) => d.slug)).size, 11);
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "sales_outsourcing_multi_platform"));
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "marketing_intelligence"));
@@ -192,7 +192,7 @@ test("division catalog defines the full 11-division AIGROWTH structure", () => {
 });
 
 test("manifest exposes all division contracts", () => {
-  assert.equal(MANIFEST.divisions.length, 11);
+  assert.equal(MANIFEST.divisions.length, 100);
   assert.ok(MANIFEST.routes.some((route) => route.path === "/api/divisions"));
   assert.ok(MANIFEST.routes.some((route) => route.path === "/divisions-panel.js"));
 });
@@ -295,9 +295,10 @@ test("GET divisions returns registry and integration readiness from D1", async (
   const result = await response.json();
   assert.equal(response.status, 200);
   assert.equal(result.ok, true);
-  assert.equal(result.divisions.length, 11);
-  assert.equal(result.summary.total_divisions, 11);
+  assert.equal(result.divisions.length, 100);
+  assert.equal(result.summary.total_divisions, 100);
   assert.equal(result.integrations.length, DIVISION_CATALOG.reduce((count, d) => count + d.integrations.length, 0));
+  assert.equal(result.integrations.length, 210);
   assert.equal(result.summary.connected_integrations, 0);
   assert.equal(result.divisions[0].responsibilities.length > 0, true);
 });
