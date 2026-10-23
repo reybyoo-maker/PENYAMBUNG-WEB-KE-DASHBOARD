@@ -19,7 +19,7 @@ export const DASHBOARD_PANEL_MANIFEST = [
     label: "Analitik Website",
     status: "bridge_supported",
     sourceRequired: "Website tracker",
-    note: "Event website dikirim oleh bridge; dashboard ingest URL wajib dikonfigurasi dan diuji."
+    note: "Event website ditulis langsung ke D1 bersama; dashboard panel membaca ringkasan melalui endpoint analytics bridge."
   },
   {
     id: "ebook_sales",
@@ -92,13 +92,15 @@ export const DASHBOARD_PANEL_MANIFEST = [
 
 export const MANIFEST = {
   service: "AIGROWTH Website-to-Dashboard Bridge",
-  version: "1.0.0",
+  version: "1.1.0",
   websiteOrigins: ["https://aigrowth.my.id"],
   routes: [
     { method: "GET", path: "/health", purpose: "Readiness check" },
     { method: "GET", path: "/manifest", purpose: "Feature and dashboard panel coverage" },
     { method: "GET", path: "/tracker.js", purpose: "Browser tracking script" },
-    { method: "POST", path: "/collect", purpose: "Validate and forward website events" }
+    { method: "POST", path: "/collect", purpose: "Validate and store website events directly in shared D1" },
+    { method: "GET", path: "/api/website-analytics", purpose: "Aggregated website metrics for the dashboard panel" },
+    { method: "GET", path: "/dashboard-panel.js", purpose: "Live analytics panel loader for the Owner Dashboard" }
   ],
   websiteTrackingFeatures: WEBSITE_TRACKING_FEATURES,
   dashboardPanels: DASHBOARD_PANEL_MANIFEST
