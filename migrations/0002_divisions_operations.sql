@@ -1,5 +1,3 @@
-PRAGMA foreign_keys = ON;
-
 CREATE TABLE IF NOT EXISTS aga_division_registry (
   slug TEXT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
