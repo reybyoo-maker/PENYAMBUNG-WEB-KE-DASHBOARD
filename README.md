@@ -1,4 +1,4 @@
-# AIGROWTH — Website, Dashboard & 11 Divisions
+# AIGROWTH — Website, Dashboard & 100 Divisions
 
 Repo ini menyediakan Cloudflare Worker bridge untuk analitik website, registry 100 divisi AIGROWTH, daftar kebutuhan integrasi, dan antrean task yang menunggu approval Owner. Event runtime disimpan langsung ke Cloudflare D1 aigrowth-core-db yang sama dengan Owner Dashboard.
 
@@ -17,19 +17,11 @@ GitHub digunakan untuk menyimpan kode dan men-trigger deployment. Saat berjalan,
 
 ## Registry semua divisi
 
-1. Sales & CRM
-2. Sales Outsourcing Multi-Platform
-3. Marketing Intelligence — riset dan analisis saja, tanpa otomatisasi pembuatan atau penerbitan konten
-4. Client Success
-5. Operations & Service Delivery
-6. Technology & Automation
-7. Quality Assurance & Reliability
-8. Data & Integration Intelligence
-9. Finance Analytics
-10. Owner Control
-11. Website & System Monitoring
+Registry berisi **100 divisi spesifik** dan **210 kebutuhan koneksi integrasi**. Sebelas divisi inti dipertahankan—Sales & CRM, Sales Outsourcing Multi-Platform, Marketing Intelligence, Client Success, Operations & Service Delivery, Technology & Automation, Quality Assurance & Reliability, Data & Integration Intelligence, Finance Analytics, Owner Control, serta Website & System Monitoring—dan diperluas dengan 89 divisi spesialis.
 
-Setiap divisi memiliki mission, tanggung jawab, input, output, KPI, approval policy, automation level, serta dependency integrasi. Migration 0002 membuat 100 record divisi, 210 record koneksi integrasi, dan tabel task queue. Semua koneksi mulai dari status not_connected sampai diverifikasi.
+Semua divisi mempunyai mission, tanggung jawab, input/output, KPI, approval policy, automation level, dan kebutuhan integrasi. Migration 0002 membuat skema plus 11 divisi inti, sementara migration 0003 menambahkan 89 divisi sehingga totalnya 100. Koneksi berstatus `not_connected` sampai provider dan aliran datanya benar-benar diuji.
+
+**[Buka katalog lengkap 100 divisi](docs/100-DIVISIONS-CATALOG.md)** untuk setiap misi, tanggung jawab, KPI, output, dan kebutuhan konektor.
 
 ## Endpoint bridge
 
@@ -56,7 +48,7 @@ GitHub Actions secrets yang diperlukan:
 Optional:
 - AGA_OWNER_API_TOKEN — server-side token untuk endpoint create task. Jika tidak ada, endpoint task queue akan tertutup (fail closed).
 
-Workflow menjalankan tes, mencari database D1 aigrowth-core-db, membuat konfigurasi binding DB secara sementara, menerapkan migration 0001, 0002, dan 0003, deploy Worker, serta memverifikasi health, analytics dan jumlah divisi/integrasi. Jangan menganggap overall workflow sukses jika deployment step terlewati; workflow baru berstatus sukses setelah pengecekan langsung lolos.
+Workflow menjalankan tes, mencari database D1 aigrowth-core-db, membuat konfigurasi binding DB secara sementara, menerapkan migration 0001, 0002, dan 0003, deploy Worker, serta memverifikasi health, analytics, 100 divisi, dan 210 definisi integrasi. Jangan menganggap overall workflow sukses jika deployment step terlewati; workflow baru berstatus sukses setelah pengecekan langsung lolos.
 
 ## Batas status operasional
 
