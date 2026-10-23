@@ -511,22 +511,31 @@ export default {
     if (request.method === "GET" && url.pathname === "/health") {
       const endpoint = parseDashboardUrl(env.DASHBOARD_TRACKING_URL);
       let databaseSchemaReady = false;
+      let divisionsSchemaReady = false;
       if (env.DB) {
         try {
           await env.DB.prepare("SELECT 1 FROM website_analytics_events LIMIT 1").first();
           databaseSchemaReady = true;
         } catch {}
+        try {
+          await env.DB.prepare("SELECT 1 FROM aga_division_registry LIMIT 1").first();
+          await env.DB.prepare("SELECT 1 FROM aga_division_integrations LIMIT 1").first();
+          await env.DB.prepare("SELECT 1 FROM aga_division_tasks LIMIT 1").first();
+          divisionsSchemaReady = true;
+        } catch {}
       }
+      const sharedD1Ready = databaseSchemaReady && divisionsSchemaReady;
       const forwardingReady = Boolean(endpoint && env.DASHBOARD_INGEST_TOKEN);
       return jsonResponse({
         ok: true,
         service: "aga-dashboard-bridge",
-        version: "1.1.0",
-        ready: databaseSchemaReady || forwardingReady,
+        version: "1.2.0",
+        ready: sharedD1Ready || forwardingReady,
         configuration: {
-          storageMode: databaseSchemaReady ? "shared_d1" : (forwardingReady ? "dashboard_forwarder" : "not_configured"),
+          storageMode: sharedD1Ready ? "shared_d1" : (databaseSchemaReady ? "partial_d1" : (forwardingReady ? "dashboard_forwarder" : "not_configured")),
           databaseConfigured: Boolean(env.DB),
           databaseSchemaReady,
+          divisionsSchemaReady,
           dashboardEndpointConfigured: Boolean(endpoint),
           ingestTokenConfigured: Boolean(env.DASHBOARD_INGEST_TOKEN),
           payloadMode: String(env.DASHBOARD_PAYLOAD_MODE || "records"),
