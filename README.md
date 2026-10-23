@@ -1,6 +1,6 @@
 # AIGROWTH — Website, Dashboard & 11 Divisions
 
-Repo ini menyediakan Cloudflare Worker bridge untuk analitik website, registry 11 divisi AIGROWTH, daftar kebutuhan integrasi, dan antrean task yang menunggu approval Owner. Event runtime disimpan langsung ke Cloudflare D1 aigrowth-core-db yang sama dengan Owner Dashboard.
+Repo ini menyediakan Cloudflare Worker bridge untuk analitik website, registry 100 divisi AIGROWTH, daftar kebutuhan integrasi, dan antrean task yang menunggu approval Owner. Event runtime disimpan langsung ke Cloudflare D1 aigrowth-core-db yang sama dengan Owner Dashboard.
 
 GitHub digunakan untuk menyimpan kode dan men-trigger deployment. Saat berjalan, website, Worker bridge, dan dashboard berkomunikasi melalui Cloudflare.
 
@@ -29,7 +29,7 @@ GitHub digunakan untuk menyimpan kode dan men-trigger deployment. Saat berjalan,
 10. Owner Control
 11. Website & System Monitoring
 
-Setiap divisi memiliki mission, tanggung jawab, input, output, KPI, approval policy, automation level, serta dependency integrasi. Migration 0002 membuat 11 record divisi, 32 record koneksi integrasi, dan tabel task queue. Semua koneksi mulai dari status not_connected sampai diverifikasi.
+Setiap divisi memiliki mission, tanggung jawab, input, output, KPI, approval policy, automation level, serta dependency integrasi. Migration 0002 membuat 100 record divisi, 210 record koneksi integrasi, dan tabel task queue. Semua koneksi mulai dari status not_connected sampai diverifikasi.
 
 ## Endpoint bridge
 
@@ -56,7 +56,7 @@ GitHub Actions secrets yang diperlukan:
 Optional:
 - AGA_OWNER_API_TOKEN — server-side token untuk endpoint create task. Jika tidak ada, endpoint task queue akan tertutup (fail closed).
 
-Workflow menjalankan tes, mencari database D1 aigrowth-core-db, membuat konfigurasi binding DB secara sementara, menerapkan migration 0001 dan 0002, deploy Worker, serta memverifikasi health, analytics dan jumlah divisi/integrasi. Jangan menganggap overall workflow sukses jika deployment step terlewati; workflow baru berstatus sukses setelah pengecekan langsung lolos.
+Workflow menjalankan tes, mencari database D1 aigrowth-core-db, membuat konfigurasi binding DB secara sementara, menerapkan migration 0001, 0002, dan 0003, deploy Worker, serta memverifikasi health, analytics dan jumlah divisi/integrasi. Jangan menganggap overall workflow sukses jika deployment step terlewati; workflow baru berstatus sukses setelah pengecekan langsung lolos.
 
 ## Batas status operasional
 
