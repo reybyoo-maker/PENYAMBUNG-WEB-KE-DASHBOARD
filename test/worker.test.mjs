@@ -174,6 +174,7 @@ test("dashboard analytics panel script is served without exposing secrets", asyn
   assert.match(response.headers.get("content-type"), /javascript/);
   assert.match(body, /Live Website Analytics/);
   assert.match(body, /api\/website-analytics/);
+  assert.match(body, /divisions-panel\.js/);
   assert.doesNotMatch(body, /DASHBOARD_INGEST_TOKEN|test-only-secret/);
 });
 
