@@ -556,9 +556,9 @@ export default {
       return getDivisions(request, env, origin);
     }
 
-    const divisionTaskMatch = url.pathname.match(/^\\/api\\/divisions\\/([a-z0-9_-]+)\\/tasks$/);
-    if (request.method === "POST" && divisionTaskMatch) {
-      return createDivisionTask(request, env, origin, divisionTaskMatch[1]);
+    const divisionTaskParts = url.pathname.split("/");
+    if (request.method === "POST" && divisionTaskParts.length === 5 && divisionTaskParts[1] === "api" && divisionTaskParts[2] === "divisions" && divisionTaskParts[4] === "tasks") {
+      return createDivisionTask(request, env, origin, divisionTaskParts[3]);
     }
 
     if (request.method === "GET" && url.pathname === "/dashboard-panel.js") {
