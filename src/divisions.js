@@ -51,6 +51,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Keep provenance and deduplicate records."
       }
+    ],
+    "workers": [
+      {
+        "key": "sales_crm_worker_intake",
+        "name": "Sales & CRM — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales & CRM."
+        ],
+        "inputs": [
+          "Verified leads",
+          "Outreach/reply history"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_crm_worker_analysis",
+        "name": "Sales & CRM — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales & CRM."
+        ],
+        "inputs": [
+          "Verified leads",
+          "Scored leads",
+          "Qualified leads",
+          "Response rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_crm_worker_workflow",
+        "name": "Sales & CRM — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales & CRM."
+        ],
+        "inputs": [
+          "Scored leads",
+          "Outreach follows consent, opt-out and sending limits; unsent campaigns require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_crm_worker_qa",
+        "name": "Sales & CRM — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales & CRM."
+        ],
+        "inputs": [
+          "Scored leads",
+          "Qualified leads",
+          "Response rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -105,6 +207,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Owner approves external submissions."
       }
+    ],
+    "workers": [
+      {
+        "key": "sales_outsourcing_multi_platform_worker_intake",
+        "name": "Sales Outsourcing Multi-Platform — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Outsourcing Multi-Platform."
+        ],
+        "inputs": [
+          "Platform registry",
+          "Service/pricing/availability"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_outsourcing_multi_platform_worker_analysis",
+        "name": "Sales Outsourcing Multi-Platform — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Outsourcing Multi-Platform."
+        ],
+        "inputs": [
+          "Platform registry",
+          "Opportunity pipeline",
+          "Qualified opportunities",
+          "Approved proposals"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_outsourcing_multi_platform_worker_workflow",
+        "name": "Sales Outsourcing Multi-Platform — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Outsourcing Multi-Platform."
+        ],
+        "inputs": [
+          "Opportunity pipeline",
+          "Respect platform terms, login protections, CAPTCHA and rate limits; do not auto-submit proposals without approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_outsourcing_multi_platform_worker_qa",
+        "name": "Sales Outsourcing Multi-Platform — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Outsourcing Multi-Platform."
+        ],
+        "inputs": [
+          "Opportunity pipeline",
+          "Qualified opportunities",
+          "Approved proposals"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -150,6 +354,108 @@ export const DIVISION_CATALOG = [
         "label": "CRM outcomes",
         "required": false,
         "notes": "Use sales outcomes to refine priorities."
+      }
+    ],
+    "workers": [
+      {
+        "key": "marketing_intelligence_worker_intake",
+        "name": "Marketing Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketing Intelligence."
+        ],
+        "inputs": [
+          "Public search/research sources",
+          "CRM outcomes"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "marketing_intelligence_worker_analysis",
+        "name": "Marketing Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketing Intelligence."
+        ],
+        "inputs": [
+          "Public search/research sources",
+          "Source-backed market briefs",
+          "Source freshness",
+          "Evidence-backed briefs"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "marketing_intelligence_worker_workflow",
+        "name": "Marketing Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketing Intelligence."
+        ],
+        "inputs": [
+          "Source-backed market briefs",
+          "Research and analysis only; no automated content production or publishing."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "marketing_intelligence_worker_qa",
+        "name": "Marketing Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketing Intelligence."
+        ],
+        "inputs": [
+          "Source-backed market briefs",
+          "Source freshness",
+          "Evidence-backed briefs"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -203,6 +509,108 @@ export const DIVISION_CATALOG = [
         "required": false,
         "notes": "Only approved contacts and scopes."
       }
+    ],
+    "workers": [
+      {
+        "key": "client_success_worker_intake",
+        "name": "Client Success — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Success."
+        ],
+        "inputs": [
+          "Approved contract/scope",
+          "Delivery milestones"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "client_success_worker_analysis",
+        "name": "Client Success — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Success."
+        ],
+        "inputs": [
+          "Approved contract/scope",
+          "Client health status",
+          "Time to onboard",
+          "Milestones on time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "client_success_worker_workflow",
+        "name": "Client Success — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Success."
+        ],
+        "inputs": [
+          "Client health status",
+          "Scope changes, deadlines, pricing commitments and refunds require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "client_success_worker_qa",
+        "name": "Client Success — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Success."
+        ],
+        "inputs": [
+          "Client health status",
+          "Time to onboard",
+          "Milestones on time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -254,6 +662,108 @@ export const DIVISION_CATALOG = [
         "label": "Client Success handoff",
         "required": true,
         "notes": "Share consistent milestone state."
+      }
+    ],
+    "workers": [
+      {
+        "key": "operations_service_delivery_worker_intake",
+        "name": "Operations & Service Delivery — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Operations & Service Delivery."
+        ],
+        "inputs": [
+          "Approved scope",
+          "Team capacity and backlog"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "operations_service_delivery_worker_analysis",
+        "name": "Operations & Service Delivery — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Operations & Service Delivery."
+        ],
+        "inputs": [
+          "Approved scope",
+          "Delivery plan",
+          "On-time delivery",
+          "Milestone completion"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "operations_service_delivery_worker_workflow",
+        "name": "Operations & Service Delivery — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Operations & Service Delivery."
+        ],
+        "inputs": [
+          "Delivery plan",
+          "Scope changes, new spend and external commitments need approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "operations_service_delivery_worker_qa",
+        "name": "Operations & Service Delivery — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Operations & Service Delivery."
+        ],
+        "inputs": [
+          "Delivery plan",
+          "On-time delivery",
+          "Milestone completion"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -307,6 +817,108 @@ export const DIVISION_CATALOG = [
         "required": false,
         "notes": "CI/CD with least privilege."
       }
+    ],
+    "workers": [
+      {
+        "key": "technology_automation_worker_intake",
+        "name": "Technology & Automation — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Technology & Automation."
+        ],
+        "inputs": [
+          "Process specs",
+          "Controlled credentials"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "technology_automation_worker_analysis",
+        "name": "Technology & Automation — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Technology & Automation."
+        ],
+        "inputs": [
+          "Process specs",
+          "Versioned workflows",
+          "Successful run rate",
+          "MTTR"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "technology_automation_worker_workflow",
+        "name": "Technology & Automation — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Technology & Automation."
+        ],
+        "inputs": [
+          "Versioned workflows",
+          "Production deploys, destructive schema changes, new spend and secrets access need approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "technology_automation_worker_qa",
+        "name": "Technology & Automation — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Technology & Automation."
+        ],
+        "inputs": [
+          "Versioned workflows",
+          "Successful run rate",
+          "MTTR"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -358,6 +970,108 @@ export const DIVISION_CATALOG = [
         "label": "Incident logging",
         "required": true,
         "notes": "Persist actionable incident records."
+      }
+    ],
+    "workers": [
+      {
+        "key": "qa_reliability_worker_intake",
+        "name": "Quality Assurance & Reliability — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Quality Assurance & Reliability."
+        ],
+        "inputs": [
+          "Test cases",
+          "Health endpoints/logs"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "qa_reliability_worker_analysis",
+        "name": "Quality Assurance & Reliability — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Quality Assurance & Reliability."
+        ],
+        "inputs": [
+          "Test cases",
+          "Test results",
+          "Defect escape rate",
+          "Time to detect"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "qa_reliability_worker_workflow",
+        "name": "Quality Assurance & Reliability — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Quality Assurance & Reliability."
+        ],
+        "inputs": [
+          "Test results",
+          "Restart, rollback or production repair only through approved runbooks."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "qa_reliability_worker_qa",
+        "name": "Quality Assurance & Reliability — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Quality Assurance & Reliability."
+        ],
+        "inputs": [
+          "Test results",
+          "Defect escape rate",
+          "Time to detect"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -411,6 +1125,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Store run time, counts and errors without secrets."
       }
+    ],
+    "workers": [
+      {
+        "key": "data_integration_intelligence_worker_intake",
+        "name": "Data & Integration Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data & Integration Intelligence."
+        ],
+        "inputs": [
+          "Databases/API sources",
+          "Schema mappings"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_integration_intelligence_worker_analysis",
+        "name": "Data & Integration Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data & Integration Intelligence."
+        ],
+        "inputs": [
+          "Databases/API sources",
+          "Validated records",
+          "Sync success rate",
+          "Duplicate rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_integration_intelligence_worker_workflow",
+        "name": "Data & Integration Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data & Integration Intelligence."
+        ],
+        "inputs": [
+          "Validated records",
+          "Schema changes, bulk merges/deletes and large backfills need approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "data_integration_intelligence_worker_qa",
+        "name": "Data & Integration Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data & Integration Intelligence."
+        ],
+        "inputs": [
+          "Validated records",
+          "Sync success rate",
+          "Duplicate rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -462,6 +1278,108 @@ export const DIVISION_CATALOG = [
         "label": "Project/billing records",
         "required": true,
         "notes": "Map revenue to project and invoice IDs."
+      }
+    ],
+    "workers": [
+      {
+        "key": "finance_analytics_worker_intake",
+        "name": "Finance Analytics — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Finance Analytics."
+        ],
+        "inputs": [
+          "Confirmed transactions",
+          "Tool costs/invoices"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "finance_analytics_worker_analysis",
+        "name": "Finance Analytics — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Finance Analytics."
+        ],
+        "inputs": [
+          "Confirmed transactions",
+          "Revenue/cost/margin reports",
+          "Gross margin",
+          "Operating cost"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "finance_analytics_worker_workflow",
+        "name": "Finance Analytics — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Finance Analytics."
+        ],
+        "inputs": [
+          "Revenue/cost/margin reports",
+          "Analytics only; payments, refunds, purchases and money transfers are never auto-executed."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "finance_analytics_worker_qa",
+        "name": "Finance Analytics — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Finance Analytics."
+        ],
+        "inputs": [
+          "Revenue/cost/margin reports",
+          "Gross margin",
+          "Operating cost"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -515,6 +1433,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Record actor, time and outcome; never secrets."
       }
+    ],
+    "workers": [
+      {
+        "key": "owner_control_worker_intake",
+        "name": "Owner Control — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Owner Control."
+        ],
+        "inputs": [
+          "Division KPIs",
+          "Task queue, approvals, incidents"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "owner_control_worker_analysis",
+        "name": "Owner Control — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Owner Control."
+        ],
+        "inputs": [
+          "Division KPIs",
+          "Executive dashboard",
+          "Approval age",
+          "Priority SLA"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "owner_control_worker_workflow",
+        "name": "Owner Control — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Owner Control."
+        ],
+        "inputs": [
+          "Executive dashboard",
+          "Owner is final authority for high-risk, budget-changing and sensitive external actions."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "owner_control_worker_qa",
+        "name": "Owner Control — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Owner Control."
+        ],
+        "inputs": [
+          "Executive dashboard",
+          "Approval age",
+          "Priority SLA"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -567,6 +1587,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Use Owner-approved notification path."
       }
+    ],
+    "workers": [
+      {
+        "key": "website_system_monitoring_worker_intake",
+        "name": "Website & System Monitoring — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Website & System Monitoring."
+        ],
+        "inputs": [
+          "Domains/endpoints",
+          "Expected status and latency"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "website_system_monitoring_worker_analysis",
+        "name": "Website & System Monitoring — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Website & System Monitoring."
+        ],
+        "inputs": [
+          "Domains/endpoints",
+          "Uptime timeline",
+          "Uptime",
+          "Time to detect"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "website_system_monitoring_worker_workflow",
+        "name": "Website & System Monitoring — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Website & System Monitoring."
+        ],
+        "inputs": [
+          "Uptime timeline",
+          "Monitoring and alerts may run automatically; DNS, deploy and production restart require approval/runbook."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "website_system_monitoring_worker_qa",
+        "name": "Website & System Monitoring — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Website & System Monitoring."
+        ],
+        "inputs": [
+          "Uptime timeline",
+          "Uptime",
+          "Time to detect"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -608,6 +1730,108 @@ export const DIVISION_CATALOG = [
         "label": "ICP & Offer Strategy — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "icp_offer_strategy_worker_intake",
+        "name": "ICP & Offer Strategy — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to ICP & Offer Strategy."
+        ],
+        "inputs": [
+          "CRM outcomes dan service catalog",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "icp_offer_strategy_worker_analysis",
+        "name": "ICP & Offer Strategy — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to ICP & Offer Strategy."
+        ],
+        "inputs": [
+          "CRM outcomes dan service catalog",
+          "ICP scorecard dan offer-fit brief",
+          "Offer acceptance",
+          "qualified-segment rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "icp_offer_strategy_worker_workflow",
+        "name": "ICP & Offer Strategy — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to ICP & Offer Strategy."
+        ],
+        "inputs": [
+          "ICP scorecard dan offer-fit brief",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "icp_offer_strategy_worker_qa",
+        "name": "ICP & Offer Strategy — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to ICP & Offer Strategy."
+        ],
+        "inputs": [
+          "ICP scorecard dan offer-fit brief",
+          "Offer acceptance",
+          "qualified-segment rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -651,6 +1875,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "account_based_prospecting_worker_intake",
+        "name": "Account-Based Prospecting — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Prospecting."
+        ],
+        "inputs": [
+          "Account directories dan public company pages",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "account_based_prospecting_worker_analysis",
+        "name": "Account-Based Prospecting — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Prospecting."
+        ],
+        "inputs": [
+          "Account directories dan public company pages",
+          "Target account lists dan account plans",
+          "Account fit",
+          "verified-contact coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "account_based_prospecting_worker_workflow",
+        "name": "Account-Based Prospecting — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Prospecting."
+        ],
+        "inputs": [
+          "Target account lists dan account plans",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "account_based_prospecting_worker_qa",
+        "name": "Account-Based Prospecting — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Prospecting."
+        ],
+        "inputs": [
+          "Target account lists dan account plans",
+          "Account fit",
+          "verified-contact coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -693,6 +2019,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "lead_enrichment_worker_intake",
+        "name": "Lead Enrichment — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment."
+        ],
+        "inputs": [
+          "Lead records dan permitted public sources",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_enrichment_worker_analysis",
+        "name": "Lead Enrichment — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment."
+        ],
+        "inputs": [
+          "Lead records dan permitted public sources",
+          "Enriched lead records dengan confidence/source",
+          "Field completeness",
+          "evidence freshness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_enrichment_worker_workflow",
+        "name": "Lead Enrichment — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment."
+        ],
+        "inputs": [
+          "Enriched lead records dengan confidence/source",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "lead_enrichment_worker_qa",
+        "name": "Lead Enrichment — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment."
+        ],
+        "inputs": [
+          "Enriched lead records dengan confidence/source",
+          "Field completeness",
+          "evidence freshness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -734,6 +2162,108 @@ export const DIVISION_CATALOG = [
         "label": "Lead Qualification — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "lead_qualification_worker_intake",
+        "name": "Lead Qualification — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Qualification."
+        ],
+        "inputs": [
+          "CRM lead records dan ICP",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_qualification_worker_analysis",
+        "name": "Lead Qualification — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Qualification."
+        ],
+        "inputs": [
+          "CRM lead records dan ICP",
+          "Qualified/disqualified decisions dengan alasan",
+          "Qualification precision",
+          "sales acceptance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_qualification_worker_workflow",
+        "name": "Lead Qualification — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Qualification."
+        ],
+        "inputs": [
+          "Qualified/disqualified decisions dengan alasan",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "lead_qualification_worker_qa",
+        "name": "Lead Qualification — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Qualification."
+        ],
+        "inputs": [
+          "Qualified/disqualified decisions dengan alasan",
+          "Qualification precision",
+          "sales acceptance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -778,6 +2308,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "email_deliverability_worker_intake",
+        "name": "Email Deliverability — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability."
+        ],
+        "inputs": [
+          "Provider delivery logs dan domain DNS",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "email_deliverability_worker_analysis",
+        "name": "Email Deliverability — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability."
+        ],
+        "inputs": [
+          "Provider delivery logs dan domain DNS",
+          "Deliverability report dan corrective checklist",
+          "Bounce rate",
+          "complaint rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "email_deliverability_worker_workflow",
+        "name": "Email Deliverability — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability."
+        ],
+        "inputs": [
+          "Deliverability report dan corrective checklist",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "email_deliverability_worker_qa",
+        "name": "Email Deliverability — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability."
+        ],
+        "inputs": [
+          "Deliverability report dan corrective checklist",
+          "Bounce rate",
+          "complaint rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -819,6 +2451,108 @@ export const DIVISION_CATALOG = [
         "label": "Outreach Sequence Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "outreach_sequence_intelligence_worker_intake",
+        "name": "Outreach Sequence Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outreach Sequence Intelligence."
+        ],
+        "inputs": [
+          "CRM timeline dan approved outreach policy",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "outreach_sequence_intelligence_worker_analysis",
+        "name": "Outreach Sequence Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outreach Sequence Intelligence."
+        ],
+        "inputs": [
+          "CRM timeline dan approved outreach policy",
+          "Sequence schedule dan follow-up queue",
+          "Follow-up compliance",
+          "reply rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "outreach_sequence_intelligence_worker_workflow",
+        "name": "Outreach Sequence Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outreach Sequence Intelligence."
+        ],
+        "inputs": [
+          "Sequence schedule dan follow-up queue",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "outreach_sequence_intelligence_worker_qa",
+        "name": "Outreach Sequence Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outreach Sequence Intelligence."
+        ],
+        "inputs": [
+          "Sequence schedule dan follow-up queue",
+          "Follow-up compliance",
+          "reply rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -862,6 +2596,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "sales_enablement_worker_intake",
+        "name": "Sales Enablement — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement."
+        ],
+        "inputs": [
+          "Service catalog, portfolio, FAQs",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_enablement_worker_analysis",
+        "name": "Sales Enablement — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement."
+        ],
+        "inputs": [
+          "Service catalog, portfolio, FAQs",
+          "Sales reference kit dan objection map",
+          "Evidence coverage",
+          "answer usefulness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_enablement_worker_workflow",
+        "name": "Sales Enablement — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement."
+        ],
+        "inputs": [
+          "Sales reference kit dan objection map",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_enablement_worker_qa",
+        "name": "Sales Enablement — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement."
+        ],
+        "inputs": [
+          "Sales reference kit dan objection map",
+          "Evidence coverage",
+          "answer usefulness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -903,6 +2739,108 @@ export const DIVISION_CATALOG = [
         "label": "Proposal & RFP Operations — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "proposal_rfp_operations_worker_intake",
+        "name": "Proposal & RFP Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal & RFP Operations."
+        ],
+        "inputs": [
+          "Opportunity briefs dan procurement requirements",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_rfp_operations_worker_analysis",
+        "name": "Proposal & RFP Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal & RFP Operations."
+        ],
+        "inputs": [
+          "Opportunity briefs dan procurement requirements",
+          "RFP compliance matrix dan proposal draft pack",
+          "Requirement coverage",
+          "on-time review"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_rfp_operations_worker_workflow",
+        "name": "Proposal & RFP Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal & RFP Operations."
+        ],
+        "inputs": [
+          "RFP compliance matrix dan proposal draft pack",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "proposal_rfp_operations_worker_qa",
+        "name": "Proposal & RFP Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal & RFP Operations."
+        ],
+        "inputs": [
+          "RFP compliance matrix dan proposal draft pack",
+          "Requirement coverage",
+          "on-time review"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -946,6 +2884,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "pricing_packaging_intelligence_worker_intake",
+        "name": "Pricing & Packaging Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "Cost data, offer catalog, public price signals",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "pricing_packaging_intelligence_worker_analysis",
+        "name": "Pricing & Packaging Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "Cost data, offer catalog, public price signals",
+          "Pricing comparison dan package recommendations",
+          "Gross-margin floor compliance",
+          "quote acceptance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "pricing_packaging_intelligence_worker_workflow",
+        "name": "Pricing & Packaging Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "Pricing comparison dan package recommendations",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "pricing_packaging_intelligence_worker_qa",
+        "name": "Pricing & Packaging Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "Pricing comparison dan package recommendations",
+          "Gross-margin floor compliance",
+          "quote acceptance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -987,6 +3027,108 @@ export const DIVISION_CATALOG = [
         "label": "Partnerships & Affiliates — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "partnerships_affiliates_worker_intake",
+        "name": "Partnerships & Affiliates — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partnerships & Affiliates."
+        ],
+        "inputs": [
+          "Partner directories dan partnership terms",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "partnerships_affiliates_worker_analysis",
+        "name": "Partnerships & Affiliates — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partnerships & Affiliates."
+        ],
+        "inputs": [
+          "Partner directories dan partnership terms",
+          "Partner shortlist dan due-diligence notes",
+          "Partner fit",
+          "qualified referrals"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "partnerships_affiliates_worker_workflow",
+        "name": "Partnerships & Affiliates — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partnerships & Affiliates."
+        ],
+        "inputs": [
+          "Partner shortlist dan due-diligence notes",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "partnerships_affiliates_worker_qa",
+        "name": "Partnerships & Affiliates — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partnerships & Affiliates."
+        ],
+        "inputs": [
+          "Partner shortlist dan due-diligence notes",
+          "Partner fit",
+          "qualified referrals"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1030,6 +3172,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "channel_partnerships_worker_intake",
+        "name": "Channel Partnerships — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partnerships."
+        ],
+        "inputs": [
+          "Partner profiles dan referral history",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "channel_partnerships_worker_analysis",
+        "name": "Channel Partnerships — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partnerships."
+        ],
+        "inputs": [
+          "Partner profiles dan referral history",
+          "Channel plan dan partner pipeline",
+          "Referral conversion",
+          "active partner rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "channel_partnerships_worker_workflow",
+        "name": "Channel Partnerships — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partnerships."
+        ],
+        "inputs": [
+          "Channel plan dan partner pipeline",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "channel_partnerships_worker_qa",
+        "name": "Channel Partnerships — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partnerships."
+        ],
+        "inputs": [
+          "Channel plan dan partner pipeline",
+          "Referral conversion",
+          "active partner rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1071,6 +3315,108 @@ export const DIVISION_CATALOG = [
         "label": "Revenue Operations — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "revenue_operations_worker_intake",
+        "name": "Revenue Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Operations."
+        ],
+        "inputs": [
+          "CRM pipeline dan confirmed sales outcomes",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "revenue_operations_worker_analysis",
+        "name": "Revenue Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Operations."
+        ],
+        "inputs": [
+          "CRM pipeline dan confirmed sales outcomes",
+          "Revenue dashboard definitions dan forecast inputs",
+          "Pipeline hygiene",
+          "forecast variance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "revenue_operations_worker_workflow",
+        "name": "Revenue Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Operations."
+        ],
+        "inputs": [
+          "Revenue dashboard definitions dan forecast inputs",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "revenue_operations_worker_qa",
+        "name": "Revenue Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Operations."
+        ],
+        "inputs": [
+          "Revenue dashboard definitions dan forecast inputs",
+          "Pipeline hygiene",
+          "forecast variance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1114,6 +3460,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "seo_intelligence_worker_intake",
+        "name": "SEO Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SEO Intelligence."
+        ],
+        "inputs": [
+          "Search console/approved SEO tools dan public SERPs",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "seo_intelligence_worker_analysis",
+        "name": "SEO Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SEO Intelligence."
+        ],
+        "inputs": [
+          "Search console/approved SEO tools dan public SERPs",
+          "SEO opportunity map dan technical findings",
+          "Query coverage",
+          "visibility change"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "seo_intelligence_worker_workflow",
+        "name": "SEO Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SEO Intelligence."
+        ],
+        "inputs": [
+          "SEO opportunity map dan technical findings",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "seo_intelligence_worker_qa",
+        "name": "SEO Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SEO Intelligence."
+        ],
+        "inputs": [
+          "SEO opportunity map dan technical findings",
+          "Query coverage",
+          "visibility change"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1155,6 +3603,108 @@ export const DIVISION_CATALOG = [
         "label": "Search Intent Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "search_intent_intelligence_worker_intake",
+        "name": "Search Intent Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Search Intent Intelligence."
+        ],
+        "inputs": [
+          "Search query datasets dan public results",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "search_intent_intelligence_worker_analysis",
+        "name": "Search Intent Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Search Intent Intelligence."
+        ],
+        "inputs": [
+          "Search query datasets dan public results",
+          "Search-intent taxonomy dan demand brief",
+          "Intent classification accuracy",
+          "buyer-intent coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "search_intent_intelligence_worker_workflow",
+        "name": "Search Intent Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Search Intent Intelligence."
+        ],
+        "inputs": [
+          "Search-intent taxonomy dan demand brief",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "search_intent_intelligence_worker_qa",
+        "name": "Search Intent Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Search Intent Intelligence."
+        ],
+        "inputs": [
+          "Search-intent taxonomy dan demand brief",
+          "Intent classification accuracy",
+          "buyer-intent coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1198,6 +3748,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "competitor_pricing_intelligence_worker_intake",
+        "name": "Competitor Pricing Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Pricing Intelligence."
+        ],
+        "inputs": [
+          "Public competitor pricing pages",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "competitor_pricing_intelligence_worker_analysis",
+        "name": "Competitor Pricing Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Pricing Intelligence."
+        ],
+        "inputs": [
+          "Public competitor pricing pages",
+          "Dated pricing matrix dan variance alerts",
+          "Price-data freshness",
+          "source coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "competitor_pricing_intelligence_worker_workflow",
+        "name": "Competitor Pricing Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Pricing Intelligence."
+        ],
+        "inputs": [
+          "Dated pricing matrix dan variance alerts",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "competitor_pricing_intelligence_worker_qa",
+        "name": "Competitor Pricing Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Pricing Intelligence."
+        ],
+        "inputs": [
+          "Dated pricing matrix dan variance alerts",
+          "Price-data freshness",
+          "source coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1239,6 +3891,108 @@ export const DIVISION_CATALOG = [
         "label": "Market Demand Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "market_demand_intelligence_worker_intake",
+        "name": "Market Demand Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Market Demand Intelligence."
+        ],
+        "inputs": [
+          "Public search trends, CRM outcomes, industry reports",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "market_demand_intelligence_worker_analysis",
+        "name": "Market Demand Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Market Demand Intelligence."
+        ],
+        "inputs": [
+          "Public search trends, CRM outcomes, industry reports",
+          "Market demand and confidence brief",
+          "Forecast error",
+          "evidence-backed opportunities"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "market_demand_intelligence_worker_workflow",
+        "name": "Market Demand Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Market Demand Intelligence."
+        ],
+        "inputs": [
+          "Market demand and confidence brief",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "market_demand_intelligence_worker_qa",
+        "name": "Market Demand Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Market Demand Intelligence."
+        ],
+        "inputs": [
+          "Market demand and confidence brief",
+          "Forecast error",
+          "evidence-backed opportunities"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1282,6 +4036,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "customer_voice_intelligence_worker_intake",
+        "name": "Customer Voice Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Voice Intelligence."
+        ],
+        "inputs": [
+          "Approved feedback, reviews, support tags",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "customer_voice_intelligence_worker_analysis",
+        "name": "Customer Voice Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Voice Intelligence."
+        ],
+        "inputs": [
+          "Approved feedback, reviews, support tags",
+          "Voice-of-customer insights dan theme trend",
+          "Theme consistency",
+          "traceable evidence"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "customer_voice_intelligence_worker_workflow",
+        "name": "Customer Voice Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Voice Intelligence."
+        ],
+        "inputs": [
+          "Voice-of-customer insights dan theme trend",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "customer_voice_intelligence_worker_qa",
+        "name": "Customer Voice Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Voice Intelligence."
+        ],
+        "inputs": [
+          "Voice-of-customer insights dan theme trend",
+          "Theme consistency",
+          "traceable evidence"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1323,6 +4179,108 @@ export const DIVISION_CATALOG = [
         "label": "Industry Trend Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "industry_trend_intelligence_worker_intake",
+        "name": "Industry Trend Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Industry Trend Intelligence."
+        ],
+        "inputs": [
+          "Industry sources dan announcements",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "industry_trend_intelligence_worker_analysis",
+        "name": "Industry Trend Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Industry Trend Intelligence."
+        ],
+        "inputs": [
+          "Industry sources dan announcements",
+          "Trend brief dengan sumber dan impact rating",
+          "Freshness",
+          "verified-source ratio"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "industry_trend_intelligence_worker_workflow",
+        "name": "Industry Trend Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Industry Trend Intelligence."
+        ],
+        "inputs": [
+          "Trend brief dengan sumber dan impact rating",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "industry_trend_intelligence_worker_qa",
+        "name": "Industry Trend Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Industry Trend Intelligence."
+        ],
+        "inputs": [
+          "Trend brief dengan sumber dan impact rating",
+          "Freshness",
+          "verified-source ratio"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1366,6 +4324,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "campaign_performance_intelligence_worker_intake",
+        "name": "Campaign Performance Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Campaign Performance Intelligence."
+        ],
+        "inputs": [
+          "Campaign metrics dan CRM outcomes",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "campaign_performance_intelligence_worker_analysis",
+        "name": "Campaign Performance Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Campaign Performance Intelligence."
+        ],
+        "inputs": [
+          "Campaign metrics dan CRM outcomes",
+          "Campaign performance analysis dan tests to consider",
+          "Attribution coverage",
+          "CAC data quality"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "campaign_performance_intelligence_worker_workflow",
+        "name": "Campaign Performance Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Campaign Performance Intelligence."
+        ],
+        "inputs": [
+          "Campaign performance analysis dan tests to consider",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "campaign_performance_intelligence_worker_qa",
+        "name": "Campaign Performance Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Campaign Performance Intelligence."
+        ],
+        "inputs": [
+          "Campaign performance analysis dan tests to consider",
+          "Attribution coverage",
+          "CAC data quality"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1407,6 +4467,108 @@ export const DIVISION_CATALOG = [
         "label": "Brand Reputation Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "brand_reputation_intelligence_worker_intake",
+        "name": "Brand Reputation Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Brand Reputation Intelligence."
+        ],
+        "inputs": [
+          "Public reviews and permitted brand mentions",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "brand_reputation_intelligence_worker_analysis",
+        "name": "Brand Reputation Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Brand Reputation Intelligence."
+        ],
+        "inputs": [
+          "Public reviews and permitted brand mentions",
+          "Reputation digest dan response recommendations",
+          "Mention coverage",
+          "classification precision"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "brand_reputation_intelligence_worker_workflow",
+        "name": "Brand Reputation Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Brand Reputation Intelligence."
+        ],
+        "inputs": [
+          "Reputation digest dan response recommendations",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "brand_reputation_intelligence_worker_qa",
+        "name": "Brand Reputation Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Brand Reputation Intelligence."
+        ],
+        "inputs": [
+          "Reputation digest dan response recommendations",
+          "Mention coverage",
+          "classification precision"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1450,6 +4612,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "client_onboarding_operations_worker_intake",
+        "name": "Client Onboarding Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Onboarding Operations."
+        ],
+        "inputs": [
+          "Approved contract and onboarding answers",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "client_onboarding_operations_worker_analysis",
+        "name": "Client Onboarding Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Onboarding Operations."
+        ],
+        "inputs": [
+          "Approved contract and onboarding answers",
+          "Onboarding readiness and missing-item list",
+          "Time to onboard",
+          "checklist completion"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "client_onboarding_operations_worker_workflow",
+        "name": "Client Onboarding Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Onboarding Operations."
+        ],
+        "inputs": [
+          "Onboarding readiness and missing-item list",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "client_onboarding_operations_worker_qa",
+        "name": "Client Onboarding Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Onboarding Operations."
+        ],
+        "inputs": [
+          "Onboarding readiness and missing-item list",
+          "Time to onboard",
+          "checklist completion"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1491,6 +4755,108 @@ export const DIVISION_CATALOG = [
         "label": "Customer Support Triage — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "customer_support_triage_worker_intake",
+        "name": "Customer Support Triage — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Support Triage."
+        ],
+        "inputs": [
+          "Support inbox/tickets and client SLAs",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "customer_support_triage_worker_analysis",
+        "name": "Customer Support Triage — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Support Triage."
+        ],
+        "inputs": [
+          "Support inbox/tickets and client SLAs",
+          "Ticket classification and routing recommendation",
+          "Routing accuracy",
+          "first response time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "customer_support_triage_worker_workflow",
+        "name": "Customer Support Triage — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Support Triage."
+        ],
+        "inputs": [
+          "Ticket classification and routing recommendation",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "customer_support_triage_worker_qa",
+        "name": "Customer Support Triage — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Support Triage."
+        ],
+        "inputs": [
+          "Ticket classification and routing recommendation",
+          "Routing accuracy",
+          "first response time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1534,6 +4900,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "sla_escalation_management_worker_intake",
+        "name": "SLA & Escalation Management — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SLA & Escalation Management."
+        ],
+        "inputs": [
+          "Task tracker and agreed SLA definitions",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sla_escalation_management_worker_analysis",
+        "name": "SLA & Escalation Management — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SLA & Escalation Management."
+        ],
+        "inputs": [
+          "Task tracker and agreed SLA definitions",
+          "SLA risk queue and escalation events",
+          "SLA attainment",
+          "escalation lead time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sla_escalation_management_worker_workflow",
+        "name": "SLA & Escalation Management — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SLA & Escalation Management."
+        ],
+        "inputs": [
+          "SLA risk queue and escalation events",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sla_escalation_management_worker_qa",
+        "name": "SLA & Escalation Management — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SLA & Escalation Management."
+        ],
+        "inputs": [
+          "SLA risk queue and escalation events",
+          "SLA attainment",
+          "escalation lead time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1575,6 +5043,108 @@ export const DIVISION_CATALOG = [
         "label": "Retention & Churn Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "retention_churn_intelligence_worker_intake",
+        "name": "Retention & Churn Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Retention & Churn Intelligence."
+        ],
+        "inputs": [
+          "Client health history and feedback",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "retention_churn_intelligence_worker_analysis",
+        "name": "Retention & Churn Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Retention & Churn Intelligence."
+        ],
+        "inputs": [
+          "Client health history and feedback",
+          "Churn risk score with evidence",
+          "Risk precision",
+          "save rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "retention_churn_intelligence_worker_workflow",
+        "name": "Retention & Churn Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Retention & Churn Intelligence."
+        ],
+        "inputs": [
+          "Churn risk score with evidence",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "retention_churn_intelligence_worker_qa",
+        "name": "Retention & Churn Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Retention & Churn Intelligence."
+        ],
+        "inputs": [
+          "Churn risk score with evidence",
+          "Risk precision",
+          "save rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1618,6 +5188,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "renewals_expansion_worker_intake",
+        "name": "Renewals & Expansion — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewals & Expansion."
+        ],
+        "inputs": [
+          "Contracts, delivery outcomes, client health",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "renewals_expansion_worker_analysis",
+        "name": "Renewals & Expansion — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewals & Expansion."
+        ],
+        "inputs": [
+          "Contracts, delivery outcomes, client health",
+          "Renewal timeline and expansion opportunity list",
+          "Renewal rate",
+          "expansion-qualified rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "renewals_expansion_worker_workflow",
+        "name": "Renewals & Expansion — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewals & Expansion."
+        ],
+        "inputs": [
+          "Renewal timeline and expansion opportunity list",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "renewals_expansion_worker_qa",
+        "name": "Renewals & Expansion — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewals & Expansion."
+        ],
+        "inputs": [
+          "Renewal timeline and expansion opportunity list",
+          "Renewal rate",
+          "expansion-qualified rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1659,6 +5331,108 @@ export const DIVISION_CATALOG = [
         "label": "Account Health Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "account_health_intelligence_worker_intake",
+        "name": "Account Health Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account Health Intelligence."
+        ],
+        "inputs": [
+          "CRM, project milestones and support tickets",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "account_health_intelligence_worker_analysis",
+        "name": "Account Health Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account Health Intelligence."
+        ],
+        "inputs": [
+          "CRM, project milestones and support tickets",
+          "Account health summary with drivers",
+          "Health-data completeness",
+          "risk detection"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "account_health_intelligence_worker_workflow",
+        "name": "Account Health Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account Health Intelligence."
+        ],
+        "inputs": [
+          "Account health summary with drivers",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "account_health_intelligence_worker_qa",
+        "name": "Account Health Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account Health Intelligence."
+        ],
+        "inputs": [
+          "Account health summary with drivers",
+          "Health-data completeness",
+          "risk detection"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1702,6 +5476,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "client_feedback_loop_worker_intake",
+        "name": "Client Feedback Loop — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Feedback Loop."
+        ],
+        "inputs": [
+          "Approved client feedback and project tasks",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "client_feedback_loop_worker_analysis",
+        "name": "Client Feedback Loop — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Feedback Loop."
+        ],
+        "inputs": [
+          "Approved client feedback and project tasks",
+          "Feedback action register",
+          "Closure rate",
+          "repeat-issue rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "client_feedback_loop_worker_workflow",
+        "name": "Client Feedback Loop — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Feedback Loop."
+        ],
+        "inputs": [
+          "Feedback action register",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "client_feedback_loop_worker_qa",
+        "name": "Client Feedback Loop — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Client Feedback Loop."
+        ],
+        "inputs": [
+          "Feedback action register",
+          "Closure rate",
+          "repeat-issue rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1743,6 +5619,108 @@ export const DIVISION_CATALOG = [
         "label": "Service Scope & Catalog — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "service_scope_catalog_worker_intake",
+        "name": "Service Scope & Catalog — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Scope & Catalog."
+        ],
+        "inputs": [
+          "Owner-approved service catalog",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "service_scope_catalog_worker_analysis",
+        "name": "Service Scope & Catalog — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Scope & Catalog."
+        ],
+        "inputs": [
+          "Owner-approved service catalog",
+          "Versioned service definitions and scope matrix",
+          "Scope clarity",
+          "change-request frequency"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "service_scope_catalog_worker_workflow",
+        "name": "Service Scope & Catalog — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Scope & Catalog."
+        ],
+        "inputs": [
+          "Versioned service definitions and scope matrix",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "service_scope_catalog_worker_qa",
+        "name": "Service Scope & Catalog — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Scope & Catalog."
+        ],
+        "inputs": [
+          "Versioned service definitions and scope matrix",
+          "Scope clarity",
+          "change-request frequency"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1786,6 +5764,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "workflow_orchestration_worker_intake",
+        "name": "Workflow Orchestration — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workflow Orchestration."
+        ],
+        "inputs": [
+          "Workflow definitions and runtime events",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "workflow_orchestration_worker_analysis",
+        "name": "Workflow Orchestration — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workflow Orchestration."
+        ],
+        "inputs": [
+          "Workflow definitions and runtime events",
+          "Workflow graphs and safe execution plans",
+          "Successful run rate",
+          "duplicate execution rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "workflow_orchestration_worker_workflow",
+        "name": "Workflow Orchestration — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workflow Orchestration."
+        ],
+        "inputs": [
+          "Workflow graphs and safe execution plans",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "workflow_orchestration_worker_qa",
+        "name": "Workflow Orchestration — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workflow Orchestration."
+        ],
+        "inputs": [
+          "Workflow graphs and safe execution plans",
+          "Successful run rate",
+          "duplicate execution rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1827,6 +5907,108 @@ export const DIVISION_CATALOG = [
         "label": "API Integration Engineering — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "api_integration_engineering_worker_intake",
+        "name": "API Integration Engineering — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to API Integration Engineering."
+        ],
+        "inputs": [
+          "API specifications and approved credentials",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "api_integration_engineering_worker_analysis",
+        "name": "API Integration Engineering — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to API Integration Engineering."
+        ],
+        "inputs": [
+          "API specifications and approved credentials",
+          "Versioned API adapters and contract tests",
+          "Contract pass rate",
+          "integration error rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "api_integration_engineering_worker_workflow",
+        "name": "API Integration Engineering — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to API Integration Engineering."
+        ],
+        "inputs": [
+          "Versioned API adapters and contract tests",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "api_integration_engineering_worker_qa",
+        "name": "API Integration Engineering — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to API Integration Engineering."
+        ],
+        "inputs": [
+          "Versioned API adapters and contract tests",
+          "Contract pass rate",
+          "integration error rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1870,6 +6052,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "webhook_event_routing_worker_intake",
+        "name": "Webhook Event Routing — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Webhook Event Routing."
+        ],
+        "inputs": [
+          "Webhook provider events and secret bindings",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "webhook_event_routing_worker_analysis",
+        "name": "Webhook Event Routing — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Webhook Event Routing."
+        ],
+        "inputs": [
+          "Webhook provider events and secret bindings",
+          "Validated event routes and delivery log",
+          "Signature validation",
+          "retry success"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "webhook_event_routing_worker_workflow",
+        "name": "Webhook Event Routing — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Webhook Event Routing."
+        ],
+        "inputs": [
+          "Validated event routes and delivery log",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "webhook_event_routing_worker_qa",
+        "name": "Webhook Event Routing — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Webhook Event Routing."
+        ],
+        "inputs": [
+          "Validated event routes and delivery log",
+          "Signature validation",
+          "retry success"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1911,6 +6195,108 @@ export const DIVISION_CATALOG = [
         "label": "Scheduler & Cron Operations — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "scheduler_cron_operations_worker_intake",
+        "name": "Scheduler & Cron Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Scheduler & Cron Operations."
+        ],
+        "inputs": [
+          "Cloudflare Cron and job inventory",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "scheduler_cron_operations_worker_analysis",
+        "name": "Scheduler & Cron Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Scheduler & Cron Operations."
+        ],
+        "inputs": [
+          "Cloudflare Cron and job inventory",
+          "Schedule registry and missed-run report",
+          "On-time run rate",
+          "overlap prevention"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "scheduler_cron_operations_worker_workflow",
+        "name": "Scheduler & Cron Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Scheduler & Cron Operations."
+        ],
+        "inputs": [
+          "Schedule registry and missed-run report",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "scheduler_cron_operations_worker_qa",
+        "name": "Scheduler & Cron Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Scheduler & Cron Operations."
+        ],
+        "inputs": [
+          "Schedule registry and missed-run report",
+          "On-time run rate",
+          "overlap prevention"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -1954,6 +6340,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "secrets_access_management_worker_intake",
+        "name": "Secrets & Access Management — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Secrets & Access Management."
+        ],
+        "inputs": [
+          "Secret metadata and permission inventory",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "secrets_access_management_worker_analysis",
+        "name": "Secrets & Access Management — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Secrets & Access Management."
+        ],
+        "inputs": [
+          "Secret metadata and permission inventory",
+          "Access matrix and rotation checklist",
+          "Overprivileged access count",
+          "rotation compliance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "secrets_access_management_worker_workflow",
+        "name": "Secrets & Access Management — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Secrets & Access Management."
+        ],
+        "inputs": [
+          "Access matrix and rotation checklist",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "secrets_access_management_worker_qa",
+        "name": "Secrets & Access Management — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Secrets & Access Management."
+        ],
+        "inputs": [
+          "Access matrix and rotation checklist",
+          "Overprivileged access count",
+          "rotation compliance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -1995,6 +6483,108 @@ export const DIVISION_CATALOG = [
         "label": "Cloudflare Release Engineering — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "cloudflare_release_engineering_worker_intake",
+        "name": "Cloudflare Release Engineering — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cloudflare Release Engineering."
+        ],
+        "inputs": [
+          "Git commit, Wrangler configuration and test evidence",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cloudflare_release_engineering_worker_analysis",
+        "name": "Cloudflare Release Engineering — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cloudflare Release Engineering."
+        ],
+        "inputs": [
+          "Git commit, Wrangler configuration and test evidence",
+          "Release plan, deployment result and rollback notes",
+          "Deploy success",
+          "rollback readiness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cloudflare_release_engineering_worker_workflow",
+        "name": "Cloudflare Release Engineering — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cloudflare Release Engineering."
+        ],
+        "inputs": [
+          "Release plan, deployment result and rollback notes",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "cloudflare_release_engineering_worker_qa",
+        "name": "Cloudflare Release Engineering — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cloudflare Release Engineering."
+        ],
+        "inputs": [
+          "Release plan, deployment result and rollback notes",
+          "Deploy success",
+          "rollback readiness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2038,6 +6628,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "database_schema_migration_worker_intake",
+        "name": "Database Schema & Migration — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Database Schema & Migration."
+        ],
+        "inputs": [
+          "SQL migrations and schema inventory",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "database_schema_migration_worker_analysis",
+        "name": "Database Schema & Migration — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Database Schema & Migration."
+        ],
+        "inputs": [
+          "SQL migrations and schema inventory",
+          "Migration plan and schema validation report",
+          "Migration pass rate",
+          "schema drift"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "database_schema_migration_worker_workflow",
+        "name": "Database Schema & Migration — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Database Schema & Migration."
+        ],
+        "inputs": [
+          "Migration plan and schema validation report",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "database_schema_migration_worker_qa",
+        "name": "Database Schema & Migration — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Database Schema & Migration."
+        ],
+        "inputs": [
+          "Migration plan and schema validation report",
+          "Migration pass rate",
+          "schema drift"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2080,6 +6772,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "backup_recovery_operations_worker_intake",
+        "name": "Backup & Recovery Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Backup & Recovery Operations."
+        ],
+        "inputs": [
+          "Database/export policies and system configuration",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "backup_recovery_operations_worker_analysis",
+        "name": "Backup & Recovery Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Backup & Recovery Operations."
+        ],
+        "inputs": [
+          "Database/export policies and system configuration",
+          "Backup status and recovery drill report",
+          "Backup freshness",
+          "recovery objective performance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "backup_recovery_operations_worker_workflow",
+        "name": "Backup & Recovery Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Backup & Recovery Operations."
+        ],
+        "inputs": [
+          "Backup status and recovery drill report",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "backup_recovery_operations_worker_qa",
+        "name": "Backup & Recovery Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Backup & Recovery Operations."
+        ],
+        "inputs": [
+          "Backup status and recovery drill report",
+          "Backup freshness",
+          "recovery objective performance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2121,6 +6915,108 @@ export const DIVISION_CATALOG = [
         "label": "Automation Cost Optimization — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "automation_cost_optimization_worker_intake",
+        "name": "Automation Cost Optimization — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Cost Optimization."
+        ],
+        "inputs": [
+          "Cloudflare usage, provider billing and workflow logs",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "automation_cost_optimization_worker_analysis",
+        "name": "Automation Cost Optimization — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Cost Optimization."
+        ],
+        "inputs": [
+          "Cloudflare usage, provider billing and workflow logs",
+          "Cost-saving recommendations and budget alerts",
+          "Cost per successful task",
+          "waste reduction"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "automation_cost_optimization_worker_workflow",
+        "name": "Automation Cost Optimization — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Cost Optimization."
+        ],
+        "inputs": [
+          "Cost-saving recommendations and budget alerts",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "automation_cost_optimization_worker_qa",
+        "name": "Automation Cost Optimization — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Cost Optimization."
+        ],
+        "inputs": [
+          "Cost-saving recommendations and budget alerts",
+          "Cost per successful task",
+          "waste reduction"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2165,6 +7061,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "ai_model_routing_worker_intake",
+        "name": "AI Model Routing — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Model Routing."
+        ],
+        "inputs": [
+          "Model availability/pricing and approved eval results",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "ai_model_routing_worker_analysis",
+        "name": "AI Model Routing — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Model Routing."
+        ],
+        "inputs": [
+          "Model availability/pricing and approved eval results",
+          "Routing policy and fallback map",
+          "Quality at budget",
+          "latency"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "ai_model_routing_worker_workflow",
+        "name": "AI Model Routing — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Model Routing."
+        ],
+        "inputs": [
+          "Routing policy and fallback map",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "ai_model_routing_worker_qa",
+        "name": "AI Model Routing — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Model Routing."
+        ],
+        "inputs": [
+          "Routing policy and fallback map",
+          "Quality at budget",
+          "latency"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2206,6 +7204,108 @@ export const DIVISION_CATALOG = [
         "label": "Agent & Prompt Evaluation — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "agent_prompt_evaluation_worker_intake",
+        "name": "Agent & Prompt Evaluation — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Agent & Prompt Evaluation."
+        ],
+        "inputs": [
+          "Approved test datasets and prompt versions",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "agent_prompt_evaluation_worker_analysis",
+        "name": "Agent & Prompt Evaluation — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Agent & Prompt Evaluation."
+        ],
+        "inputs": [
+          "Approved test datasets and prompt versions",
+          "Evaluation scorecards and regression report",
+          "Eval pass rate",
+          "regression detection"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "agent_prompt_evaluation_worker_workflow",
+        "name": "Agent & Prompt Evaluation — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Agent & Prompt Evaluation."
+        ],
+        "inputs": [
+          "Evaluation scorecards and regression report",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "agent_prompt_evaluation_worker_qa",
+        "name": "Agent & Prompt Evaluation — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Agent & Prompt Evaluation."
+        ],
+        "inputs": [
+          "Evaluation scorecards and regression report",
+          "Eval pass rate",
+          "regression detection"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2249,6 +7349,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "ai_guardrails_policy_worker_intake",
+        "name": "AI Guardrails & Policy — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Guardrails & Policy."
+        ],
+        "inputs": [
+          "Division policies and tool inventory",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "ai_guardrails_policy_worker_analysis",
+        "name": "AI Guardrails & Policy — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Guardrails & Policy."
+        ],
+        "inputs": [
+          "Division policies and tool inventory",
+          "Policy checks and exception queue",
+          "Policy violation rate",
+          "blocked-risk coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "ai_guardrails_policy_worker_workflow",
+        "name": "AI Guardrails & Policy — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Guardrails & Policy."
+        ],
+        "inputs": [
+          "Policy checks and exception queue",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "ai_guardrails_policy_worker_qa",
+        "name": "AI Guardrails & Policy — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to AI Guardrails & Policy."
+        ],
+        "inputs": [
+          "Policy checks and exception queue",
+          "Policy violation rate",
+          "blocked-risk coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2290,6 +7492,108 @@ export const DIVISION_CATALOG = [
         "label": "Runtime Performance Engineering — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "runtime_performance_engineering_worker_intake",
+        "name": "Runtime Performance Engineering — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runtime Performance Engineering."
+        ],
+        "inputs": [
+          "Worker observability and benchmark results",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "runtime_performance_engineering_worker_analysis",
+        "name": "Runtime Performance Engineering — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runtime Performance Engineering."
+        ],
+        "inputs": [
+          "Worker observability and benchmark results",
+          "Performance profile and optimization backlog",
+          "p95 latency",
+          "timeout rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "runtime_performance_engineering_worker_workflow",
+        "name": "Runtime Performance Engineering — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runtime Performance Engineering."
+        ],
+        "inputs": [
+          "Performance profile and optimization backlog",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "runtime_performance_engineering_worker_qa",
+        "name": "Runtime Performance Engineering — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runtime Performance Engineering."
+        ],
+        "inputs": [
+          "Performance profile and optimization backlog",
+          "p95 latency",
+          "timeout rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2333,6 +7637,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "regression_testing_worker_intake",
+        "name": "Regression Testing — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Regression Testing."
+        ],
+        "inputs": [
+          "Test suite and release diff",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "regression_testing_worker_analysis",
+        "name": "Regression Testing — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Regression Testing."
+        ],
+        "inputs": [
+          "Test suite and release diff",
+          "Regression test results and blockers",
+          "Regression escape rate",
+          "test pass rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "regression_testing_worker_workflow",
+        "name": "Regression Testing — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Regression Testing."
+        ],
+        "inputs": [
+          "Regression test results and blockers",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "regression_testing_worker_qa",
+        "name": "Regression Testing — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Regression Testing."
+        ],
+        "inputs": [
+          "Regression test results and blockers",
+          "Regression escape rate",
+          "test pass rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2374,6 +7780,108 @@ export const DIVISION_CATALOG = [
         "label": "End-to-End Testing — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "end_to_end_testing_worker_intake",
+        "name": "End-to-End Testing — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to End-to-End Testing."
+        ],
+        "inputs": [
+          "Test environments and end-to-end scenarios",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "end_to_end_testing_worker_analysis",
+        "name": "End-to-End Testing — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to End-to-End Testing."
+        ],
+        "inputs": [
+          "Test environments and end-to-end scenarios",
+          "End-to-end test evidence and defects",
+          "End-to-end pass rate",
+          "time to detect"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "end_to_end_testing_worker_workflow",
+        "name": "End-to-End Testing — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to End-to-End Testing."
+        ],
+        "inputs": [
+          "End-to-end test evidence and defects",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "end_to_end_testing_worker_qa",
+        "name": "End-to-End Testing — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to End-to-End Testing."
+        ],
+        "inputs": [
+          "End-to-end test evidence and defects",
+          "End-to-end pass rate",
+          "time to detect"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2418,6 +7926,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "data_quality_assurance_worker_intake",
+        "name": "Data Quality Assurance — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Quality Assurance."
+        ],
+        "inputs": [
+          "Operational records and data rules",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_quality_assurance_worker_analysis",
+        "name": "Data Quality Assurance — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Quality Assurance."
+        ],
+        "inputs": [
+          "Operational records and data rules",
+          "Data quality score and exception report",
+          "Completeness",
+          "validity"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_quality_assurance_worker_workflow",
+        "name": "Data Quality Assurance — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Quality Assurance."
+        ],
+        "inputs": [
+          "Data quality score and exception report",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "data_quality_assurance_worker_qa",
+        "name": "Data Quality Assurance — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Quality Assurance."
+        ],
+        "inputs": [
+          "Data quality score and exception report",
+          "Completeness",
+          "validity"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2459,6 +8069,108 @@ export const DIVISION_CATALOG = [
         "label": "Integration Contract Testing — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "integration_contract_testing_worker_intake",
+        "name": "Integration Contract Testing — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Integration Contract Testing."
+        ],
+        "inputs": [
+          "API/schema contracts and mock responses",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "integration_contract_testing_worker_analysis",
+        "name": "Integration Contract Testing — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Integration Contract Testing."
+        ],
+        "inputs": [
+          "API/schema contracts and mock responses",
+          "Contract test reports and drift alerts",
+          "Contract conformance",
+          "breaking changes detected"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "integration_contract_testing_worker_workflow",
+        "name": "Integration Contract Testing — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Integration Contract Testing."
+        ],
+        "inputs": [
+          "Contract test reports and drift alerts",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "integration_contract_testing_worker_qa",
+        "name": "Integration Contract Testing — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Integration Contract Testing."
+        ],
+        "inputs": [
+          "Contract test reports and drift alerts",
+          "Contract conformance",
+          "breaking changes detected"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2502,6 +8214,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "observability_log_intelligence_worker_intake",
+        "name": "Observability & Log Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Observability & Log Intelligence."
+        ],
+        "inputs": [
+          "Worker logs and task execution metadata",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "observability_log_intelligence_worker_analysis",
+        "name": "Observability & Log Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Observability & Log Intelligence."
+        ],
+        "inputs": [
+          "Worker logs and task execution metadata",
+          "Searchable event summaries and diagnostic trails",
+          "Diagnostic coverage",
+          "secret-redaction pass rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "observability_log_intelligence_worker_workflow",
+        "name": "Observability & Log Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Observability & Log Intelligence."
+        ],
+        "inputs": [
+          "Searchable event summaries and diagnostic trails",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "observability_log_intelligence_worker_qa",
+        "name": "Observability & Log Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Observability & Log Intelligence."
+        ],
+        "inputs": [
+          "Searchable event summaries and diagnostic trails",
+          "Diagnostic coverage",
+          "secret-redaction pass rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2543,6 +8357,108 @@ export const DIVISION_CATALOG = [
         "label": "Incident Command — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "incident_command_worker_intake",
+        "name": "Incident Command — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Command."
+        ],
+        "inputs": [
+          "Alerts, monitoring results and incident runbooks",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "incident_command_worker_analysis",
+        "name": "Incident Command — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Command."
+        ],
+        "inputs": [
+          "Alerts, monitoring results and incident runbooks",
+          "Incident timeline and action register",
+          "Time to acknowledge",
+          "MTTR"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "incident_command_worker_workflow",
+        "name": "Incident Command — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Command."
+        ],
+        "inputs": [
+          "Incident timeline and action register",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "incident_command_worker_qa",
+        "name": "Incident Command — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Command."
+        ],
+        "inputs": [
+          "Incident timeline and action register",
+          "Time to acknowledge",
+          "MTTR"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2587,6 +8503,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "site_reliability_engineering_worker_intake",
+        "name": "Site Reliability Engineering — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Site Reliability Engineering."
+        ],
+        "inputs": [
+          "Service endpoints, metrics and incident history",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "site_reliability_engineering_worker_analysis",
+        "name": "Site Reliability Engineering — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Site Reliability Engineering."
+        ],
+        "inputs": [
+          "Service endpoints, metrics and incident history",
+          "SLO dashboard and reliability backlog",
+          "Availability",
+          "error-budget burn"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "site_reliability_engineering_worker_workflow",
+        "name": "Site Reliability Engineering — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Site Reliability Engineering."
+        ],
+        "inputs": [
+          "SLO dashboard and reliability backlog",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "site_reliability_engineering_worker_qa",
+        "name": "Site Reliability Engineering — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Site Reliability Engineering."
+        ],
+        "inputs": [
+          "SLO dashboard and reliability backlog",
+          "Availability",
+          "error-budget burn"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2628,6 +8646,108 @@ export const DIVISION_CATALOG = [
         "label": "Security Posture Monitoring — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "security_posture_monitoring_worker_intake",
+        "name": "Security Posture Monitoring — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Security Posture Monitoring."
+        ],
+        "inputs": [
+          "Approved security scan outputs and config snapshots",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "security_posture_monitoring_worker_analysis",
+        "name": "Security Posture Monitoring — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Security Posture Monitoring."
+        ],
+        "inputs": [
+          "Approved security scan outputs and config snapshots",
+          "Security findings ranked by severity",
+          "Critical finding age",
+          "remediation rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "security_posture_monitoring_worker_workflow",
+        "name": "Security Posture Monitoring — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Security Posture Monitoring."
+        ],
+        "inputs": [
+          "Security findings ranked by severity",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "security_posture_monitoring_worker_qa",
+        "name": "Security Posture Monitoring — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Security Posture Monitoring."
+        ],
+        "inputs": [
+          "Security findings ranked by severity",
+          "Critical finding age",
+          "remediation rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2671,6 +8791,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "privacy_consent_operations_worker_intake",
+        "name": "Privacy & Consent Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Privacy & Consent Operations."
+        ],
+        "inputs": [
+          "Privacy notice, consent preferences and data inventory",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "privacy_consent_operations_worker_analysis",
+        "name": "Privacy & Consent Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Privacy & Consent Operations."
+        ],
+        "inputs": [
+          "Privacy notice, consent preferences and data inventory",
+          "Privacy control register and exception queue",
+          "Consent coverage",
+          "request SLA"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "privacy_consent_operations_worker_workflow",
+        "name": "Privacy & Consent Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Privacy & Consent Operations."
+        ],
+        "inputs": [
+          "Privacy control register and exception queue",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "privacy_consent_operations_worker_qa",
+        "name": "Privacy & Consent Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Privacy & Consent Operations."
+        ],
+        "inputs": [
+          "Privacy control register and exception queue",
+          "Consent coverage",
+          "request SLA"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2713,6 +8935,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "access_audit_identity_worker_intake",
+        "name": "Access Audit & Identity — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Access Audit & Identity."
+        ],
+        "inputs": [
+          "Identity roles, audit events and connector scopes",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "access_audit_identity_worker_analysis",
+        "name": "Access Audit & Identity — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Access Audit & Identity."
+        ],
+        "inputs": [
+          "Identity roles, audit events and connector scopes",
+          "Access review report and least-privilege changes proposed",
+          "Review completion",
+          "stale access findings"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "access_audit_identity_worker_workflow",
+        "name": "Access Audit & Identity — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Access Audit & Identity."
+        ],
+        "inputs": [
+          "Access review report and least-privilege changes proposed",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "access_audit_identity_worker_qa",
+        "name": "Access Audit & Identity — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Access Audit & Identity."
+        ],
+        "inputs": [
+          "Access review report and least-privilege changes proposed",
+          "Review completion",
+          "stale access findings"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2754,6 +9078,108 @@ export const DIVISION_CATALOG = [
         "label": "Data Governance & Lineage — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "data_governance_lineage_worker_intake",
+        "name": "Data Governance & Lineage — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Governance & Lineage."
+        ],
+        "inputs": [
+          "Data schemas, process owners and source maps",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_governance_lineage_worker_analysis",
+        "name": "Data Governance & Lineage — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Governance & Lineage."
+        ],
+        "inputs": [
+          "Data schemas, process owners and source maps",
+          "Data dictionary and lineage map",
+          "Field ownership coverage",
+          "lineage completeness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_governance_lineage_worker_workflow",
+        "name": "Data Governance & Lineage — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Governance & Lineage."
+        ],
+        "inputs": [
+          "Data dictionary and lineage map",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "data_governance_lineage_worker_qa",
+        "name": "Data Governance & Lineage — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Governance & Lineage."
+        ],
+        "inputs": [
+          "Data dictionary and lineage map",
+          "Field ownership coverage",
+          "lineage completeness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2798,6 +9224,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "data_pipeline_engineering_worker_intake",
+        "name": "Data Pipeline Engineering — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Pipeline Engineering."
+        ],
+        "inputs": [
+          "Source APIs, schemas and sync schedules",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_pipeline_engineering_worker_analysis",
+        "name": "Data Pipeline Engineering — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Pipeline Engineering."
+        ],
+        "inputs": [
+          "Source APIs, schemas and sync schedules",
+          "Versioned sync jobs and reconciliation results",
+          "Pipeline success",
+          "lag"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "data_pipeline_engineering_worker_workflow",
+        "name": "Data Pipeline Engineering — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Pipeline Engineering."
+        ],
+        "inputs": [
+          "Versioned sync jobs and reconciliation results",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "data_pipeline_engineering_worker_qa",
+        "name": "Data Pipeline Engineering — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Data Pipeline Engineering."
+        ],
+        "inputs": [
+          "Versioned sync jobs and reconciliation results",
+          "Pipeline success",
+          "lag"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2839,6 +9367,108 @@ export const DIVISION_CATALOG = [
         "label": "Business Intelligence & Reporting — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "business_intelligence_reporting_worker_intake",
+        "name": "Business Intelligence & Reporting — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Intelligence & Reporting."
+        ],
+        "inputs": [
+          "CRM, delivery, finance and website analytics",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "business_intelligence_reporting_worker_analysis",
+        "name": "Business Intelligence & Reporting — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Intelligence & Reporting."
+        ],
+        "inputs": [
+          "CRM, delivery, finance and website analytics",
+          "Trusted KPI tables and decision reports",
+          "Metric reconciliation",
+          "report freshness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "business_intelligence_reporting_worker_workflow",
+        "name": "Business Intelligence & Reporting — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Intelligence & Reporting."
+        ],
+        "inputs": [
+          "Trusted KPI tables and decision reports",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "business_intelligence_reporting_worker_qa",
+        "name": "Business Intelligence & Reporting — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Intelligence & Reporting."
+        ],
+        "inputs": [
+          "Trusted KPI tables and decision reports",
+          "Metric reconciliation",
+          "report freshness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2882,6 +9512,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "experimentation_measurement_worker_intake",
+        "name": "Experimentation & Measurement — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Experimentation & Measurement."
+        ],
+        "inputs": [
+          "Approved experiments and measured outcomes",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "experimentation_measurement_worker_analysis",
+        "name": "Experimentation & Measurement — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Experimentation & Measurement."
+        ],
+        "inputs": [
+          "Approved experiments and measured outcomes",
+          "Experiment plan and evidence-based result",
+          "Measurement completeness",
+          "decision usefulness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "experimentation_measurement_worker_workflow",
+        "name": "Experimentation & Measurement — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Experimentation & Measurement."
+        ],
+        "inputs": [
+          "Experiment plan and evidence-based result",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "experimentation_measurement_worker_qa",
+        "name": "Experimentation & Measurement — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Experimentation & Measurement."
+        ],
+        "inputs": [
+          "Experiment plan and evidence-based result",
+          "Measurement completeness",
+          "decision usefulness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -2923,6 +9655,108 @@ export const DIVISION_CATALOG = [
         "label": "Billing & Invoicing Operations — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "billing_invoicing_operations_worker_intake",
+        "name": "Billing & Invoicing Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Billing & Invoicing Operations."
+        ],
+        "inputs": [
+          "Approved contract, delivery milestones and invoice records",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "billing_invoicing_operations_worker_analysis",
+        "name": "Billing & Invoicing Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Billing & Invoicing Operations."
+        ],
+        "inputs": [
+          "Approved contract, delivery milestones and invoice records",
+          "Invoice readiness checklist and due-date queue",
+          "On-time invoice readiness",
+          "billing completeness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "billing_invoicing_operations_worker_workflow",
+        "name": "Billing & Invoicing Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Billing & Invoicing Operations."
+        ],
+        "inputs": [
+          "Invoice readiness checklist and due-date queue",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "billing_invoicing_operations_worker_qa",
+        "name": "Billing & Invoicing Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Billing & Invoicing Operations."
+        ],
+        "inputs": [
+          "Invoice readiness checklist and due-date queue",
+          "On-time invoice readiness",
+          "billing completeness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -2966,6 +9800,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "accounts_receivable_tracking_worker_intake",
+        "name": "Accounts Receivable Tracking — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Accounts Receivable Tracking."
+        ],
+        "inputs": [
+          "Invoice and confirmed payment records",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "accounts_receivable_tracking_worker_analysis",
+        "name": "Accounts Receivable Tracking — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Accounts Receivable Tracking."
+        ],
+        "inputs": [
+          "Invoice and confirmed payment records",
+          "Receivables aging and collection reminders for review",
+          "Days sales outstanding",
+          "overdue balance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "accounts_receivable_tracking_worker_workflow",
+        "name": "Accounts Receivable Tracking — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Accounts Receivable Tracking."
+        ],
+        "inputs": [
+          "Receivables aging and collection reminders for review",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "accounts_receivable_tracking_worker_qa",
+        "name": "Accounts Receivable Tracking — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Accounts Receivable Tracking."
+        ],
+        "inputs": [
+          "Receivables aging and collection reminders for review",
+          "Days sales outstanding",
+          "overdue balance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3007,6 +9943,108 @@ export const DIVISION_CATALOG = [
         "label": "Expense & Subscription Tracking — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "expense_subscription_tracking_worker_intake",
+        "name": "Expense & Subscription Tracking — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Expense & Subscription Tracking."
+        ],
+        "inputs": [
+          "Provider billing and approved expense records",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "expense_subscription_tracking_worker_analysis",
+        "name": "Expense & Subscription Tracking — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Expense & Subscription Tracking."
+        ],
+        "inputs": [
+          "Provider billing and approved expense records",
+          "Expense register and renewal calendar",
+          "Cost completeness",
+          "unused subscription spend"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "expense_subscription_tracking_worker_workflow",
+        "name": "Expense & Subscription Tracking — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Expense & Subscription Tracking."
+        ],
+        "inputs": [
+          "Expense register and renewal calendar",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "expense_subscription_tracking_worker_qa",
+        "name": "Expense & Subscription Tracking — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Expense & Subscription Tracking."
+        ],
+        "inputs": [
+          "Expense register and renewal calendar",
+          "Cost completeness",
+          "unused subscription spend"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3050,6 +10088,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "budget_guard_spend_approvals_worker_intake",
+        "name": "Budget Guard & Spend Approvals — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Budget Guard & Spend Approvals."
+        ],
+        "inputs": [
+          "Budget limits, billing telemetry and owner decisions",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "budget_guard_spend_approvals_worker_analysis",
+        "name": "Budget Guard & Spend Approvals — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Budget Guard & Spend Approvals."
+        ],
+        "inputs": [
+          "Budget limits, billing telemetry and owner decisions",
+          "Budget variance alerts and approval requests",
+          "Budget overrun prevention",
+          "forecast variance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "budget_guard_spend_approvals_worker_workflow",
+        "name": "Budget Guard & Spend Approvals — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Budget Guard & Spend Approvals."
+        ],
+        "inputs": [
+          "Budget variance alerts and approval requests",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "budget_guard_spend_approvals_worker_qa",
+        "name": "Budget Guard & Spend Approvals — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Budget Guard & Spend Approvals."
+        ],
+        "inputs": [
+          "Budget variance alerts and approval requests",
+          "Budget overrun prevention",
+          "forecast variance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3091,6 +10231,108 @@ export const DIVISION_CATALOG = [
         "label": "Project Profitability Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "project_profitability_intelligence_worker_intake",
+        "name": "Project Profitability Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Project Profitability Intelligence."
+        ],
+        "inputs": [
+          "Project billing, delivery logs and expense data",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "project_profitability_intelligence_worker_analysis",
+        "name": "Project Profitability Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Project Profitability Intelligence."
+        ],
+        "inputs": [
+          "Project billing, delivery logs and expense data",
+          "Project margin report and margin-risk alert",
+          "Gross margin accuracy",
+          "unallocated costs"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "project_profitability_intelligence_worker_workflow",
+        "name": "Project Profitability Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Project Profitability Intelligence."
+        ],
+        "inputs": [
+          "Project margin report and margin-risk alert",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "project_profitability_intelligence_worker_qa",
+        "name": "Project Profitability Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Project Profitability Intelligence."
+        ],
+        "inputs": [
+          "Project margin report and margin-risk alert",
+          "Gross margin accuracy",
+          "unallocated costs"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3134,6 +10376,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "cash_flow_forecasting_worker_intake",
+        "name": "Cash Flow Forecasting — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cash Flow Forecasting."
+        ],
+        "inputs": [
+          "Receivables, payables and confirmed cash transactions",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cash_flow_forecasting_worker_analysis",
+        "name": "Cash Flow Forecasting — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cash Flow Forecasting."
+        ],
+        "inputs": [
+          "Receivables, payables and confirmed cash transactions",
+          "Cashflow projection and liquidity warnings",
+          "Forecast variance",
+          "data completeness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cash_flow_forecasting_worker_workflow",
+        "name": "Cash Flow Forecasting — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cash Flow Forecasting."
+        ],
+        "inputs": [
+          "Cashflow projection and liquidity warnings",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "cash_flow_forecasting_worker_qa",
+        "name": "Cash Flow Forecasting — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cash Flow Forecasting."
+        ],
+        "inputs": [
+          "Cashflow projection and liquidity warnings",
+          "Forecast variance",
+          "data completeness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3175,6 +10519,108 @@ export const DIVISION_CATALOG = [
         "label": "Procurement & Vendor Spend — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "procurement_vendor_spend_worker_intake",
+        "name": "Procurement & Vendor Spend — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Spend."
+        ],
+        "inputs": [
+          "Approved needs, vendor quotes and spend policy",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "procurement_vendor_spend_worker_analysis",
+        "name": "Procurement & Vendor Spend — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Spend."
+        ],
+        "inputs": [
+          "Approved needs, vendor quotes and spend policy",
+          "Vendor comparison and procurement request",
+          "Savings vs comparable quote",
+          "approval completeness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "procurement_vendor_spend_worker_workflow",
+        "name": "Procurement & Vendor Spend — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Spend."
+        ],
+        "inputs": [
+          "Vendor comparison and procurement request",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "procurement_vendor_spend_worker_qa",
+        "name": "Procurement & Vendor Spend — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Spend."
+        ],
+        "inputs": [
+          "Vendor comparison and procurement request",
+          "Savings vs comparable quote",
+          "approval completeness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3218,6 +10664,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "contract_operations_worker_intake",
+        "name": "Contract Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contract Operations."
+        ],
+        "inputs": [
+          "Owner-approved contracts and document repository",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "contract_operations_worker_analysis",
+        "name": "Contract Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contract Operations."
+        ],
+        "inputs": [
+          "Owner-approved contracts and document repository",
+          "Contract register and obligation calendar",
+          "Obligation tracking coverage",
+          "renewal alert lead time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "contract_operations_worker_workflow",
+        "name": "Contract Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contract Operations."
+        ],
+        "inputs": [
+          "Contract register and obligation calendar",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "contract_operations_worker_qa",
+        "name": "Contract Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contract Operations."
+        ],
+        "inputs": [
+          "Contract register and obligation calendar",
+          "Obligation tracking coverage",
+          "renewal alert lead time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3259,6 +10807,108 @@ export const DIVISION_CATALOG = [
         "label": "Business Risk & Compliance — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "business_risk_compliance_worker_intake",
+        "name": "Business Risk & Compliance — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Risk & Compliance."
+        ],
+        "inputs": [
+          "Policies, incident records and risk register",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "business_risk_compliance_worker_analysis",
+        "name": "Business Risk & Compliance — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Risk & Compliance."
+        ],
+        "inputs": [
+          "Policies, incident records and risk register",
+          "Risk register and mitigation status",
+          "High-risk open age",
+          "control evidence coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "business_risk_compliance_worker_workflow",
+        "name": "Business Risk & Compliance — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Risk & Compliance."
+        ],
+        "inputs": [
+          "Risk register and mitigation status",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "business_risk_compliance_worker_qa",
+        "name": "Business Risk & Compliance — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Risk & Compliance."
+        ],
+        "inputs": [
+          "Risk register and mitigation status",
+          "High-risk open age",
+          "control evidence coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3302,6 +10952,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "vendor_intelligence_worker_intake",
+        "name": "Vendor Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vendor Intelligence."
+        ],
+        "inputs": [
+          "Vendor sites, provider docs and usage history",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "vendor_intelligence_worker_analysis",
+        "name": "Vendor Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vendor Intelligence."
+        ],
+        "inputs": [
+          "Vendor sites, provider docs and usage history",
+          "Vendor matrix and recommendation brief",
+          "Vendor evidence freshness",
+          "fit score"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "vendor_intelligence_worker_workflow",
+        "name": "Vendor Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vendor Intelligence."
+        ],
+        "inputs": [
+          "Vendor matrix and recommendation brief",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "vendor_intelligence_worker_qa",
+        "name": "Vendor Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vendor Intelligence."
+        ],
+        "inputs": [
+          "Vendor matrix and recommendation brief",
+          "Vendor evidence freshness",
+          "fit score"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3343,6 +11095,108 @@ export const DIVISION_CATALOG = [
         "label": "Platform Terms Compliance — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "platform_terms_compliance_worker_intake",
+        "name": "Platform Terms Compliance — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Terms Compliance."
+        ],
+        "inputs": [
+          "Official platform policies and connector inventory",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "platform_terms_compliance_worker_analysis",
+        "name": "Platform Terms Compliance — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Terms Compliance."
+        ],
+        "inputs": [
+          "Official platform policies and connector inventory",
+          "Platform compliance matrix and change alerts",
+          "Policy review freshness",
+          "compliance exceptions"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "platform_terms_compliance_worker_workflow",
+        "name": "Platform Terms Compliance — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Terms Compliance."
+        ],
+        "inputs": [
+          "Platform compliance matrix and change alerts",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "platform_terms_compliance_worker_qa",
+        "name": "Platform Terms Compliance — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Terms Compliance."
+        ],
+        "inputs": [
+          "Platform compliance matrix and change alerts",
+          "Policy review freshness",
+          "compliance exceptions"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3386,6 +11240,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "platform_connector_certification_worker_intake",
+        "name": "Platform Connector Certification — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Connector Certification."
+        ],
+        "inputs": [
+          "Official docs and connector test environment",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "platform_connector_certification_worker_analysis",
+        "name": "Platform Connector Certification — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Connector Certification."
+        ],
+        "inputs": [
+          "Official docs and connector test environment",
+          "Connector readiness certification and limitations",
+          "Connector contract pass",
+          "failed run rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "platform_connector_certification_worker_workflow",
+        "name": "Platform Connector Certification — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Connector Certification."
+        ],
+        "inputs": [
+          "Connector readiness certification and limitations",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "platform_connector_certification_worker_qa",
+        "name": "Platform Connector Certification — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Platform Connector Certification."
+        ],
+        "inputs": [
+          "Connector readiness certification and limitations",
+          "Connector contract pass",
+          "failed run rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3427,6 +11383,108 @@ export const DIVISION_CATALOG = [
         "label": "Freelance Market Intelligence — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "freelance_market_intelligence_worker_intake",
+        "name": "Freelance Market Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Market Intelligence."
+        ],
+        "inputs": [
+          "Permitted marketplace listings and opportunity history",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "freelance_market_intelligence_worker_analysis",
+        "name": "Freelance Market Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Market Intelligence."
+        ],
+        "inputs": [
+          "Permitted marketplace listings and opportunity history",
+          "Freelance market map and priority sectors",
+          "Qualified opportunity yield",
+          "data freshness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "freelance_market_intelligence_worker_workflow",
+        "name": "Freelance Market Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Market Intelligence."
+        ],
+        "inputs": [
+          "Freelance market map and priority sectors",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "freelance_market_intelligence_worker_qa",
+        "name": "Freelance Market Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Market Intelligence."
+        ],
+        "inputs": [
+          "Freelance market map and priority sectors",
+          "Qualified opportunity yield",
+          "data freshness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3470,6 +11528,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "partner_qualification_worker_intake",
+        "name": "Partner Qualification — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partner Qualification."
+        ],
+        "inputs": [
+          "Partner profiles, references and public records",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "partner_qualification_worker_analysis",
+        "name": "Partner Qualification — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partner Qualification."
+        ],
+        "inputs": [
+          "Partner profiles, references and public records",
+          "Partner qualification scorecard",
+          "Qualification acceptance",
+          "due-diligence completeness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "partner_qualification_worker_workflow",
+        "name": "Partner Qualification — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partner Qualification."
+        ],
+        "inputs": [
+          "Partner qualification scorecard",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "partner_qualification_worker_qa",
+        "name": "Partner Qualification — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Partner Qualification."
+        ],
+        "inputs": [
+          "Partner qualification scorecard",
+          "Qualification acceptance",
+          "due-diligence completeness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3511,6 +11671,108 @@ export const DIVISION_CATALOG = [
         "label": "Proposal Research — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "proposal_research_worker_intake",
+        "name": "Proposal Research — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Research."
+        ],
+        "inputs": [
+          "Public customer context and approved portfolio",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_research_worker_analysis",
+        "name": "Proposal Research — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Research."
+        ],
+        "inputs": [
+          "Public customer context and approved portfolio",
+          "Evidence pack and proposal research brief",
+          "Source traceability",
+          "requirement coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_research_worker_workflow",
+        "name": "Proposal Research — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Research."
+        ],
+        "inputs": [
+          "Evidence pack and proposal research brief",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "proposal_research_worker_qa",
+        "name": "Proposal Research — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Research."
+        ],
+        "inputs": [
+          "Evidence pack and proposal research brief",
+          "Source traceability",
+          "requirement coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3554,6 +11816,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "public_tender_intelligence_worker_intake",
+        "name": "Public Tender Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Public Tender Intelligence."
+        ],
+        "inputs": [
+          "Official public procurement notices",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "public_tender_intelligence_worker_analysis",
+        "name": "Public Tender Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Public Tender Intelligence."
+        ],
+        "inputs": [
+          "Official public procurement notices",
+          "Tender shortlist and compliance calendar",
+          "Eligibility accuracy",
+          "missed-deadline prevention"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "public_tender_intelligence_worker_workflow",
+        "name": "Public Tender Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Public Tender Intelligence."
+        ],
+        "inputs": [
+          "Tender shortlist and compliance calendar",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "public_tender_intelligence_worker_qa",
+        "name": "Public Tender Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Public Tender Intelligence."
+        ],
+        "inputs": [
+          "Tender shortlist and compliance calendar",
+          "Eligibility accuracy",
+          "missed-deadline prevention"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3595,6 +11959,108 @@ export const DIVISION_CATALOG = [
         "label": "Service Opportunity Research — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "service_opportunity_research_worker_intake",
+        "name": "Service Opportunity Research — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Opportunity Research."
+        ],
+        "inputs": [
+          "Public job descriptions and service catalog",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "service_opportunity_research_worker_analysis",
+        "name": "Service Opportunity Research — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Opportunity Research."
+        ],
+        "inputs": [
+          "Public job descriptions and service catalog",
+          "Service opportunity map and demand evidence",
+          "Evidence-backed opportunities",
+          "fit accuracy"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "service_opportunity_research_worker_workflow",
+        "name": "Service Opportunity Research — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Opportunity Research."
+        ],
+        "inputs": [
+          "Service opportunity map and demand evidence",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "service_opportunity_research_worker_qa",
+        "name": "Service Opportunity Research — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Service Opportunity Research."
+        ],
+        "inputs": [
+          "Service opportunity map and demand evidence",
+          "Evidence-backed opportunities",
+          "fit accuracy"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3638,6 +12104,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "workforce_orchestration_worker_intake",
+        "name": "Workforce Orchestration — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workforce Orchestration."
+        ],
+        "inputs": [
+          "Division registry, task queue and capacity data",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "workforce_orchestration_worker_analysis",
+        "name": "Workforce Orchestration — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workforce Orchestration."
+        ],
+        "inputs": [
+          "Division registry, task queue and capacity data",
+          "Assignment plan and dependency graph",
+          "Task routing accuracy",
+          "blocked-task age"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "workforce_orchestration_worker_workflow",
+        "name": "Workforce Orchestration — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workforce Orchestration."
+        ],
+        "inputs": [
+          "Assignment plan and dependency graph",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "workforce_orchestration_worker_qa",
+        "name": "Workforce Orchestration — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Workforce Orchestration."
+        ],
+        "inputs": [
+          "Assignment plan and dependency graph",
+          "Task routing accuracy",
+          "blocked-task age"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3679,6 +12247,108 @@ export const DIVISION_CATALOG = [
         "label": "Capacity Planning — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "capacity_planning_worker_intake",
+        "name": "Capacity Planning — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Capacity Planning."
+        ],
+        "inputs": [
+          "Backlog, historical runtimes and availability",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "capacity_planning_worker_analysis",
+        "name": "Capacity Planning — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Capacity Planning."
+        ],
+        "inputs": [
+          "Backlog, historical runtimes and availability",
+          "Capacity forecast and overload alerts",
+          "On-time forecast",
+          "overload hours"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "capacity_planning_worker_workflow",
+        "name": "Capacity Planning — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Capacity Planning."
+        ],
+        "inputs": [
+          "Capacity forecast and overload alerts",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "capacity_planning_worker_qa",
+        "name": "Capacity Planning — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Capacity Planning."
+        ],
+        "inputs": [
+          "Capacity forecast and overload alerts",
+          "On-time forecast",
+          "overload hours"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3722,6 +12392,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "task_prioritization_worker_intake",
+        "name": "Task Prioritization — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Task Prioritization."
+        ],
+        "inputs": [
+          "Tasks, OKRs, deadlines and incidents",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "task_prioritization_worker_analysis",
+        "name": "Task Prioritization — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Task Prioritization."
+        ],
+        "inputs": [
+          "Tasks, OKRs, deadlines and incidents",
+          "Ranked backlog with rationale",
+          "Priority acceptance",
+          "urgent-task SLA"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "task_prioritization_worker_workflow",
+        "name": "Task Prioritization — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Task Prioritization."
+        ],
+        "inputs": [
+          "Ranked backlog with rationale",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "task_prioritization_worker_qa",
+        "name": "Task Prioritization — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Task Prioritization."
+        ],
+        "inputs": [
+          "Ranked backlog with rationale",
+          "Priority acceptance",
+          "urgent-task SLA"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3763,6 +12535,108 @@ export const DIVISION_CATALOG = [
         "label": "Process Documentation — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "process_documentation_worker_intake",
+        "name": "Process Documentation — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Process Documentation."
+        ],
+        "inputs": [
+          "Process owners and workflow definitions",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "process_documentation_worker_analysis",
+        "name": "Process Documentation — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Process Documentation."
+        ],
+        "inputs": [
+          "Process owners and workflow definitions",
+          "Process maps and control points",
+          "Process coverage",
+          "stale-document rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "process_documentation_worker_workflow",
+        "name": "Process Documentation — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Process Documentation."
+        ],
+        "inputs": [
+          "Process maps and control points",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "process_documentation_worker_qa",
+        "name": "Process Documentation — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Process Documentation."
+        ],
+        "inputs": [
+          "Process maps and control points",
+          "Process coverage",
+          "stale-document rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3806,6 +12680,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "knowledge_base_operations_worker_intake",
+        "name": "Knowledge Base Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Knowledge Base Operations."
+        ],
+        "inputs": [
+          "Approved internal docs and runbooks",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "knowledge_base_operations_worker_analysis",
+        "name": "Knowledge Base Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Knowledge Base Operations."
+        ],
+        "inputs": [
+          "Approved internal docs and runbooks",
+          "Searchable knowledge index and freshness report",
+          "Retrieval relevance",
+          "stale-reference rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "knowledge_base_operations_worker_workflow",
+        "name": "Knowledge Base Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Knowledge Base Operations."
+        ],
+        "inputs": [
+          "Searchable knowledge index and freshness report",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "knowledge_base_operations_worker_qa",
+        "name": "Knowledge Base Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Knowledge Base Operations."
+        ],
+        "inputs": [
+          "Searchable knowledge index and freshness report",
+          "Retrieval relevance",
+          "stale-reference rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3847,6 +12823,108 @@ export const DIVISION_CATALOG = [
         "label": "Runbook & SOP Management — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "runbook_sop_management_worker_intake",
+        "name": "Runbook & SOP Management — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runbook & SOP Management."
+        ],
+        "inputs": [
+          "Approved process maps and incident learnings",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "runbook_sop_management_worker_analysis",
+        "name": "Runbook & SOP Management — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runbook & SOP Management."
+        ],
+        "inputs": [
+          "Approved process maps and incident learnings",
+          "Versioned SOP/runbooks and drill checklist",
+          "Runbook coverage",
+          "drill pass rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "runbook_sop_management_worker_workflow",
+        "name": "Runbook & SOP Management — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runbook & SOP Management."
+        ],
+        "inputs": [
+          "Versioned SOP/runbooks and drill checklist",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "runbook_sop_management_worker_qa",
+        "name": "Runbook & SOP Management — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Runbook & SOP Management."
+        ],
+        "inputs": [
+          "Versioned SOP/runbooks and drill checklist",
+          "Runbook coverage",
+          "drill pass rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3890,6 +12968,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "automation_inventory_worker_intake",
+        "name": "Automation Inventory — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Inventory."
+        ],
+        "inputs": [
+          "Cloudflare Workers, automation tool metadata and repositories",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "automation_inventory_worker_analysis",
+        "name": "Automation Inventory — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Inventory."
+        ],
+        "inputs": [
+          "Cloudflare Workers, automation tool metadata and repositories",
+          "Automation catalog and dependency map",
+          "Inventory coverage",
+          "unknown-owner count"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "automation_inventory_worker_workflow",
+        "name": "Automation Inventory — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Inventory."
+        ],
+        "inputs": [
+          "Automation catalog and dependency map",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "automation_inventory_worker_qa",
+        "name": "Automation Inventory — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Automation Inventory."
+        ],
+        "inputs": [
+          "Automation catalog and dependency map",
+          "Inventory coverage",
+          "unknown-owner count"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -3931,6 +13111,108 @@ export const DIVISION_CATALOG = [
         "label": "Incident Communications — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "incident_communications_worker_intake",
+        "name": "Incident Communications — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Communications."
+        ],
+        "inputs": [
+          "Incident records and approved comms policy",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "incident_communications_worker_analysis",
+        "name": "Incident Communications — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Communications."
+        ],
+        "inputs": [
+          "Incident records and approved comms policy",
+          "Internal incident update drafts and status log",
+          "Update timeliness",
+          "factual correction rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "incident_communications_worker_workflow",
+        "name": "Incident Communications — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Communications."
+        ],
+        "inputs": [
+          "Internal incident update drafts and status log",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "incident_communications_worker_qa",
+        "name": "Incident Communications — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Incident Communications."
+        ],
+        "inputs": [
+          "Internal incident update drafts and status log",
+          "Update timeliness",
+          "factual correction rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -3974,6 +13256,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "meeting_decision_registry_worker_intake",
+        "name": "Meeting & Decision Registry — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting & Decision Registry."
+        ],
+        "inputs": [
+          "Owner-approved meeting notes and tasks",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "meeting_decision_registry_worker_analysis",
+        "name": "Meeting & Decision Registry — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting & Decision Registry."
+        ],
+        "inputs": [
+          "Owner-approved meeting notes and tasks",
+          "Decision log and action register",
+          "Action closure",
+          "decision traceability"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "meeting_decision_registry_worker_workflow",
+        "name": "Meeting & Decision Registry — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting & Decision Registry."
+        ],
+        "inputs": [
+          "Decision log and action register",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "meeting_decision_registry_worker_qa",
+        "name": "Meeting & Decision Registry — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting & Decision Registry."
+        ],
+        "inputs": [
+          "Decision log and action register",
+          "Action closure",
+          "decision traceability"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4015,6 +13399,108 @@ export const DIVISION_CATALOG = [
         "label": "Approval Workflow Operations — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "approval_workflow_operations_worker_intake",
+        "name": "Approval Workflow Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Approval Workflow Operations."
+        ],
+        "inputs": [
+          "Task queue, approval rules and Owner identity",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "approval_workflow_operations_worker_analysis",
+        "name": "Approval Workflow Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Approval Workflow Operations."
+        ],
+        "inputs": [
+          "Task queue, approval rules and Owner identity",
+          "Approval queue, status, and audit trail",
+          "Approval SLA",
+          "unauthorized action prevention"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "approval_workflow_operations_worker_workflow",
+        "name": "Approval Workflow Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Approval Workflow Operations."
+        ],
+        "inputs": [
+          "Approval queue, status, and audit trail",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "approval_workflow_operations_worker_qa",
+        "name": "Approval Workflow Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Approval Workflow Operations."
+        ],
+        "inputs": [
+          "Approval queue, status, and audit trail",
+          "Approval SLA",
+          "unauthorized action prevention"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4058,6 +13544,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "internal_administration_worker_intake",
+        "name": "Internal Administration — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Internal Administration."
+        ],
+        "inputs": [
+          "Internal task register and approved policies",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "internal_administration_worker_analysis",
+        "name": "Internal Administration — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Internal Administration."
+        ],
+        "inputs": [
+          "Internal task register and approved policies",
+          "Admin calendar and completion report",
+          "On-time completion",
+          "overdue actions"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "internal_administration_worker_workflow",
+        "name": "Internal Administration — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Internal Administration."
+        ],
+        "inputs": [
+          "Admin calendar and completion report",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "internal_administration_worker_qa",
+        "name": "Internal Administration — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Internal Administration."
+        ],
+        "inputs": [
+          "Admin calendar and completion report",
+          "On-time completion",
+          "overdue actions"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4099,6 +13687,108 @@ export const DIVISION_CATALOG = [
         "label": "Asset & License Inventory — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "asset_license_inventory_worker_intake",
+        "name": "Asset & License Inventory — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Asset & License Inventory."
+        ],
+        "inputs": [
+          "Provider account inventories and purchase records",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "asset_license_inventory_worker_analysis",
+        "name": "Asset & License Inventory — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Asset & License Inventory."
+        ],
+        "inputs": [
+          "Provider account inventories and purchase records",
+          "Asset register and renewal warnings",
+          "Inventory coverage",
+          "missed-renewal rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "asset_license_inventory_worker_workflow",
+        "name": "Asset & License Inventory — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Asset & License Inventory."
+        ],
+        "inputs": [
+          "Asset register and renewal warnings",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "asset_license_inventory_worker_qa",
+        "name": "Asset & License Inventory — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Asset & License Inventory."
+        ],
+        "inputs": [
+          "Asset register and renewal warnings",
+          "Inventory coverage",
+          "missed-renewal rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4142,6 +13832,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "feedback_learning_loop_worker_intake",
+        "name": "Feedback & Learning Loop — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Feedback & Learning Loop."
+        ],
+        "inputs": [
+          "QA reports, sales outcomes and incident reviews",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "feedback_learning_loop_worker_analysis",
+        "name": "Feedback & Learning Loop — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Feedback & Learning Loop."
+        ],
+        "inputs": [
+          "QA reports, sales outcomes and incident reviews",
+          "Lessons register and improvement experiments",
+          "Lessons applied",
+          "recurrence reduction"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "feedback_learning_loop_worker_workflow",
+        "name": "Feedback & Learning Loop — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Feedback & Learning Loop."
+        ],
+        "inputs": [
+          "Lessons register and improvement experiments",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "feedback_learning_loop_worker_qa",
+        "name": "Feedback & Learning Loop — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Feedback & Learning Loop."
+        ],
+        "inputs": [
+          "Lessons register and improvement experiments",
+          "Lessons applied",
+          "recurrence reduction"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4183,6 +13975,108 @@ export const DIVISION_CATALOG = [
         "label": "Cross-Division Coordination — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "cross_division_coordination_worker_intake",
+        "name": "Cross-Division Coordination — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Division Coordination."
+        ],
+        "inputs": [
+          "Division registry and task links",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cross_division_coordination_worker_analysis",
+        "name": "Cross-Division Coordination — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Division Coordination."
+        ],
+        "inputs": [
+          "Division registry and task links",
+          "Cross-division dependency board",
+          "Handoff acceptance time",
+          "dependency blockage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cross_division_coordination_worker_workflow",
+        "name": "Cross-Division Coordination — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Division Coordination."
+        ],
+        "inputs": [
+          "Cross-division dependency board",
+          "Use verified source data, log exceptions and escalate sensitive or irreversible actions to Owner."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "cross_division_coordination_worker_qa",
+        "name": "Cross-Division Coordination — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Division Coordination."
+        ],
+        "inputs": [
+          "Cross-division dependency board",
+          "Handoff acceptance time",
+          "dependency blockage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4226,6 +14120,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "kpi_executive_reporting_worker_intake",
+        "name": "KPI & Executive Reporting — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to KPI & Executive Reporting."
+        ],
+        "inputs": [
+          "Validated division KPI records",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "kpi_executive_reporting_worker_analysis",
+        "name": "KPI & Executive Reporting — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to KPI & Executive Reporting."
+        ],
+        "inputs": [
+          "Validated division KPI records",
+          "Executive scorecard and exception summaries",
+          "KPI completeness",
+          "metric reconciliation"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "kpi_executive_reporting_worker_workflow",
+        "name": "KPI & Executive Reporting — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to KPI & Executive Reporting."
+        ],
+        "inputs": [
+          "Executive scorecard and exception summaries",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "kpi_executive_reporting_worker_qa",
+        "name": "KPI & Executive Reporting — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to KPI & Executive Reporting."
+        ],
+        "inputs": [
+          "Executive scorecard and exception summaries",
+          "KPI completeness",
+          "metric reconciliation"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4268,6 +14264,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
       }
+    ],
+    "workers": [
+      {
+        "key": "audit_change_management_worker_intake",
+        "name": "Audit & Change Management — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Audit & Change Management."
+        ],
+        "inputs": [
+          "Git changes, Worker deployments and access events",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "audit_change_management_worker_analysis",
+        "name": "Audit & Change Management — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Audit & Change Management."
+        ],
+        "inputs": [
+          "Git changes, Worker deployments and access events",
+          "Change log and review checklist",
+          "Change traceability",
+          "unauthorized changes"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "audit_change_management_worker_workflow",
+        "name": "Audit & Change Management — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Audit & Change Management."
+        ],
+        "inputs": [
+          "Change log and review checklist",
+          "External commitments, financial decisions and material changes require Owner approval; keep an audit trail."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "audit_change_management_worker_qa",
+        "name": "Audit & Change Management — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Audit & Change Management."
+        ],
+        "inputs": [
+          "Change log and review checklist",
+          "Change traceability",
+          "unauthorized changes"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4309,6 +14407,108 @@ export const DIVISION_CATALOG = [
         "label": "Business Continuity & Disaster Recovery — validation and logs",
         "required": true,
         "notes": "Configure validation rules, failure logs, last-check timestamps, and a tested escalation route."
+      }
+    ],
+    "workers": [
+      {
+        "key": "business_continuity_disaster_recovery_worker_intake",
+        "name": "Business Continuity & Disaster Recovery — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Continuity & Disaster Recovery."
+        ],
+        "inputs": [
+          "Service inventory, backups and continuity requirements",
+          "Approved requests, scope, and operating policies"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "business_continuity_disaster_recovery_worker_analysis",
+        "name": "Business Continuity & Disaster Recovery — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Continuity & Disaster Recovery."
+        ],
+        "inputs": [
+          "Service inventory, backups and continuity requirements",
+          "Continuity plan and recovery drill results",
+          "Recovery test pass",
+          "critical dependency coverage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "business_continuity_disaster_recovery_worker_workflow",
+        "name": "Business Continuity & Disaster Recovery — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Continuity & Disaster Recovery."
+        ],
+        "inputs": [
+          "Continuity plan and recovery drill results",
+          "Use least privilege, verified evidence and approved runbooks; production-impacting actions require approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "business_continuity_disaster_recovery_worker_qa",
+        "name": "Business Continuity & Disaster Recovery — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Business Continuity & Disaster Recovery."
+        ],
+        "inputs": [
+          "Continuity plan and recovery drill results",
+          "Recovery test pass",
+          "critical dependency coverage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4354,6 +14554,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "outbound_prospecting_intelligence_worker_intake",
+        "name": "Outbound Prospecting Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outbound Prospecting Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Outbound Prospecting Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "outbound_prospecting_intelligence_worker_analysis",
+        "name": "Outbound Prospecting Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outbound Prospecting Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Ranked target accounts with fit score, evidence, public contact route, and next action",
+          "Qualified targets",
+          "contact validity"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "outbound_prospecting_intelligence_worker_workflow",
+        "name": "Outbound Prospecting Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outbound Prospecting Intelligence."
+        ],
+        "inputs": [
+          "Ranked target accounts with fit score, evidence, public contact route, and next action",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "outbound_prospecting_intelligence_worker_qa",
+        "name": "Outbound Prospecting Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Outbound Prospecting Intelligence."
+        ],
+        "inputs": [
+          "Ranked target accounts with fit score, evidence, public contact route, and next action",
+          "Qualified targets",
+          "contact validity"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4397,6 +14699,108 @@ export const DIVISION_CATALOG = [
         "label": "Inbound Lead Conversion — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "inbound_lead_conversion_worker_intake",
+        "name": "Inbound Lead Conversion — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Inbound Lead Conversion."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Inbound Lead Conversion"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "inbound_lead_conversion_worker_analysis",
+        "name": "Inbound Lead Conversion — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Inbound Lead Conversion."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Qualified inquiry queue with intent, urgency, owner, SLA, and next action",
+          "Inquiry qualification rate",
+          "response time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "inbound_lead_conversion_worker_workflow",
+        "name": "Inbound Lead Conversion — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Inbound Lead Conversion."
+        ],
+        "inputs": [
+          "Qualified inquiry queue with intent, urgency, owner, SLA, and next action",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "inbound_lead_conversion_worker_qa",
+        "name": "Inbound Lead Conversion — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Inbound Lead Conversion."
+        ],
+        "inputs": [
+          "Qualified inquiry queue with intent, urgency, owner, SLA, and next action",
+          "Inquiry qualification rate",
+          "response time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4442,6 +14846,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "account_based_sales_worker_intake",
+        "name": "Account-Based Sales — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Sales."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Account-Based Sales"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "account_based_sales_worker_analysis",
+        "name": "Account-Based Sales — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Sales."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Account plans with stakeholder map, needs, opportunity map, and next steps",
+          "Account coverage",
+          "opportunity creation"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "account_based_sales_worker_workflow",
+        "name": "Account-Based Sales — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Sales."
+        ],
+        "inputs": [
+          "Account plans with stakeholder map, needs, opportunity map, and next steps",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "account_based_sales_worker_qa",
+        "name": "Account-Based Sales — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Account-Based Sales."
+        ],
+        "inputs": [
+          "Account plans with stakeholder map, needs, opportunity map, and next steps",
+          "Account coverage",
+          "opportunity creation"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4485,6 +14991,108 @@ export const DIVISION_CATALOG = [
         "label": "Sales Signal Intelligence — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "sales_signal_intelligence_worker_intake",
+        "name": "Sales Signal Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Signal Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Signal Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_signal_intelligence_worker_analysis",
+        "name": "Sales Signal Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Signal Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Time-stamped buying-signal feed with source, confidence, and suggested action",
+          "Verified signals",
+          "signal-to-opportunity rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_signal_intelligence_worker_workflow",
+        "name": "Sales Signal Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Signal Intelligence."
+        ],
+        "inputs": [
+          "Time-stamped buying-signal feed with source, confidence, and suggested action",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_signal_intelligence_worker_qa",
+        "name": "Sales Signal Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Signal Intelligence."
+        ],
+        "inputs": [
+          "Time-stamped buying-signal feed with source, confidence, and suggested action",
+          "Verified signals",
+          "signal-to-opportunity rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4530,6 +15138,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "lead_enrichment_verification_worker_intake",
+        "name": "Lead Enrichment & Verification — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment & Verification."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Lead Enrichment & Verification"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_enrichment_verification_worker_analysis",
+        "name": "Lead Enrichment & Verification — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment & Verification."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Deduplicated lead records with verified fields, freshness, and provenance",
+          "Record completeness",
+          "validity"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_enrichment_verification_worker_workflow",
+        "name": "Lead Enrichment & Verification — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment & Verification."
+        ],
+        "inputs": [
+          "Deduplicated lead records with verified fields, freshness, and provenance",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "lead_enrichment_verification_worker_qa",
+        "name": "Lead Enrichment & Verification — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Enrichment & Verification."
+        ],
+        "inputs": [
+          "Deduplicated lead records with verified fields, freshness, and provenance",
+          "Record completeness",
+          "validity"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4573,6 +15283,108 @@ export const DIVISION_CATALOG = [
         "label": "Contact Discovery & Compliance — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "contact_discovery_compliance_worker_intake",
+        "name": "Contact Discovery & Compliance — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contact Discovery & Compliance."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Contact Discovery & Compliance"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "contact_discovery_compliance_worker_analysis",
+        "name": "Contact Discovery & Compliance — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contact Discovery & Compliance."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Contact-route records with public source evidence and suppression-list status",
+          "Usable contact routes",
+          "invalid-contact rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "contact_discovery_compliance_worker_workflow",
+        "name": "Contact Discovery & Compliance — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contact Discovery & Compliance."
+        ],
+        "inputs": [
+          "Contact-route records with public source evidence and suppression-list status",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "contact_discovery_compliance_worker_qa",
+        "name": "Contact Discovery & Compliance — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Contact Discovery & Compliance."
+        ],
+        "inputs": [
+          "Contact-route records with public source evidence and suppression-list status",
+          "Usable contact routes",
+          "invalid-contact rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4618,6 +15430,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "multi_channel_outreach_orchestration_worker_intake",
+        "name": "Multi-Channel Outreach Orchestration — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Multi-Channel Outreach Orchestration."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Multi-Channel Outreach Orchestration"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "multi_channel_outreach_orchestration_worker_analysis",
+        "name": "Multi-Channel Outreach Orchestration — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Multi-Channel Outreach Orchestration."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Approved touch schedule with channel, timing, suppression state, and outcomes",
+          "Positive replies",
+          "duplicate-touch rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "multi_channel_outreach_orchestration_worker_workflow",
+        "name": "Multi-Channel Outreach Orchestration — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Multi-Channel Outreach Orchestration."
+        ],
+        "inputs": [
+          "Approved touch schedule with channel, timing, suppression state, and outcomes",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "multi_channel_outreach_orchestration_worker_qa",
+        "name": "Multi-Channel Outreach Orchestration — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Multi-Channel Outreach Orchestration."
+        ],
+        "inputs": [
+          "Approved touch schedule with channel, timing, suppression state, and outcomes",
+          "Positive replies",
+          "duplicate-touch rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4661,6 +15575,108 @@ export const DIVISION_CATALOG = [
         "label": "Email Deliverability Intelligence — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "email_deliverability_intelligence_worker_intake",
+        "name": "Email Deliverability Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Email Deliverability Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "email_deliverability_intelligence_worker_analysis",
+        "name": "Email Deliverability Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Deliverability report with bounce causes, sender health, risks, and fixes",
+          "Delivery rate",
+          "bounce rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "email_deliverability_intelligence_worker_workflow",
+        "name": "Email Deliverability Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability Intelligence."
+        ],
+        "inputs": [
+          "Deliverability report with bounce causes, sender health, risks, and fixes",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "email_deliverability_intelligence_worker_qa",
+        "name": "Email Deliverability Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Email Deliverability Intelligence."
+        ],
+        "inputs": [
+          "Deliverability report with bounce causes, sender health, risks, and fixes",
+          "Delivery rate",
+          "bounce rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4706,6 +15722,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "linkedin_social_selling_worker_intake",
+        "name": "LinkedIn Social Selling — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to LinkedIn Social Selling."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for LinkedIn Social Selling"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "linkedin_social_selling_worker_analysis",
+        "name": "LinkedIn Social Selling — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to LinkedIn Social Selling."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Social-selling queue with company context, relationship path, and next action",
+          "Qualified conversations",
+          "relevant interactions"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "linkedin_social_selling_worker_workflow",
+        "name": "LinkedIn Social Selling — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to LinkedIn Social Selling."
+        ],
+        "inputs": [
+          "Social-selling queue with company context, relationship path, and next action",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "linkedin_social_selling_worker_qa",
+        "name": "LinkedIn Social Selling — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to LinkedIn Social Selling."
+        ],
+        "inputs": [
+          "Social-selling queue with company context, relationship path, and next action",
+          "Qualified conversations",
+          "relevant interactions"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4749,6 +15867,108 @@ export const DIVISION_CATALOG = [
         "label": "Buyer Committee Mapping — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "buyer_committee_mapping_worker_intake",
+        "name": "Buyer Committee Mapping — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Buyer Committee Mapping."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Buyer Committee Mapping"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "buyer_committee_mapping_worker_analysis",
+        "name": "Buyer Committee Mapping — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Buyer Committee Mapping."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Stakeholder map with roles, evidence, gaps, and meeting objectives",
+          "Stakeholder coverage",
+          "multi-threaded deals"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "buyer_committee_mapping_worker_workflow",
+        "name": "Buyer Committee Mapping — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Buyer Committee Mapping."
+        ],
+        "inputs": [
+          "Stakeholder map with roles, evidence, gaps, and meeting objectives",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "buyer_committee_mapping_worker_qa",
+        "name": "Buyer Committee Mapping — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Buyer Committee Mapping."
+        ],
+        "inputs": [
+          "Stakeholder map with roles, evidence, gaps, and meeting objectives",
+          "Stakeholder coverage",
+          "multi-threaded deals"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4794,6 +16014,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "meeting_booking_qualification_worker_intake",
+        "name": "Meeting Booking & Qualification — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting Booking & Qualification."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Meeting Booking & Qualification"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "meeting_booking_qualification_worker_analysis",
+        "name": "Meeting Booking & Qualification — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting Booking & Qualification."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Qualified meeting record with attendee, agenda, need, time, and CRM link",
+          "Meetings booked",
+          "show rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "meeting_booking_qualification_worker_workflow",
+        "name": "Meeting Booking & Qualification — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting Booking & Qualification."
+        ],
+        "inputs": [
+          "Qualified meeting record with attendee, agenda, need, time, and CRM link",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "meeting_booking_qualification_worker_qa",
+        "name": "Meeting Booking & Qualification — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Meeting Booking & Qualification."
+        ],
+        "inputs": [
+          "Qualified meeting record with attendee, agenda, need, time, and CRM link",
+          "Meetings booked",
+          "show rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4837,6 +16159,108 @@ export const DIVISION_CATALOG = [
         "label": "Sales Meeting Preparation — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "sales_meeting_preparation_worker_intake",
+        "name": "Sales Meeting Preparation — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Meeting Preparation."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Meeting Preparation"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_meeting_preparation_worker_analysis",
+        "name": "Sales Meeting Preparation — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Meeting Preparation."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Meeting brief, discovery checklist, approved case references, and open questions",
+          "Prep coverage",
+          "meeting readiness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_meeting_preparation_worker_workflow",
+        "name": "Sales Meeting Preparation — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Meeting Preparation."
+        ],
+        "inputs": [
+          "Meeting brief, discovery checklist, approved case references, and open questions",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_meeting_preparation_worker_qa",
+        "name": "Sales Meeting Preparation — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Meeting Preparation."
+        ],
+        "inputs": [
+          "Meeting brief, discovery checklist, approved case references, and open questions",
+          "Prep coverage",
+          "meeting readiness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4882,6 +16306,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "discovery_call_qualification_worker_intake",
+        "name": "Discovery Call Qualification — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Discovery Call Qualification."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Discovery Call Qualification"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "discovery_call_qualification_worker_analysis",
+        "name": "Discovery Call Qualification — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Discovery Call Qualification."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Qualification scorecard with needs, urgency, budget status, risks, and recommendation",
+          "Qualification completeness",
+          "progression rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "discovery_call_qualification_worker_workflow",
+        "name": "Discovery Call Qualification — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Discovery Call Qualification."
+        ],
+        "inputs": [
+          "Qualification scorecard with needs, urgency, budget status, risks, and recommendation",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "discovery_call_qualification_worker_qa",
+        "name": "Discovery Call Qualification — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Discovery Call Qualification."
+        ],
+        "inputs": [
+          "Qualification scorecard with needs, urgency, budget status, risks, and recommendation",
+          "Qualification completeness",
+          "progression rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -4925,6 +16451,108 @@ export const DIVISION_CATALOG = [
         "label": "Demo Operations & Readiness — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "demo_operations_readiness_worker_intake",
+        "name": "Demo Operations & Readiness — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Demo Operations & Readiness."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Demo Operations & Readiness"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "demo_operations_readiness_worker_analysis",
+        "name": "Demo Operations & Readiness — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Demo Operations & Readiness."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Demo readiness checklist, scenario plan, test results, blockers, and owners",
+          "Demo readiness",
+          "demo incidents"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "demo_operations_readiness_worker_workflow",
+        "name": "Demo Operations & Readiness — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Demo Operations & Readiness."
+        ],
+        "inputs": [
+          "Demo readiness checklist, scenario plan, test results, blockers, and owners",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "demo_operations_readiness_worker_qa",
+        "name": "Demo Operations & Readiness — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Demo Operations & Readiness."
+        ],
+        "inputs": [
+          "Demo readiness checklist, scenario plan, test results, blockers, and owners",
+          "Demo readiness",
+          "demo incidents"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -4970,6 +16598,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "objection_intelligence_worker_intake",
+        "name": "Objection Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Objection Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Objection Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "objection_intelligence_worker_analysis",
+        "name": "Objection Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Objection Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Objection register with category, frequency, response reference, and escalation need",
+          "Objection resolution",
+          "repeated objections"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "objection_intelligence_worker_workflow",
+        "name": "Objection Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Objection Intelligence."
+        ],
+        "inputs": [
+          "Objection register with category, frequency, response reference, and escalation need",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "objection_intelligence_worker_qa",
+        "name": "Objection Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Objection Intelligence."
+        ],
+        "inputs": [
+          "Objection register with category, frequency, response reference, and escalation need",
+          "Objection resolution",
+          "repeated objections"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5013,6 +16743,108 @@ export const DIVISION_CATALOG = [
         "label": "Sales Conversation Intelligence — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "sales_conversation_intelligence_worker_intake",
+        "name": "Sales Conversation Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Conversation Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Conversation Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_conversation_intelligence_worker_analysis",
+        "name": "Sales Conversation Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Conversation Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Conversation summary, buyer commitments, action items, risk flags, and CRM suggestions",
+          "Action capture",
+          "next-step completion"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_conversation_intelligence_worker_workflow",
+        "name": "Sales Conversation Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Conversation Intelligence."
+        ],
+        "inputs": [
+          "Conversation summary, buyer commitments, action items, risk flags, and CRM suggestions",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_conversation_intelligence_worker_qa",
+        "name": "Sales Conversation Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Conversation Intelligence."
+        ],
+        "inputs": [
+          "Conversation summary, buyer commitments, action items, risk flags, and CRM suggestions",
+          "Action capture",
+          "next-step completion"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5058,6 +16890,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "proposal_strategy_fit_worker_intake",
+        "name": "Proposal Strategy & Fit — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Strategy & Fit."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Proposal Strategy & Fit"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_strategy_fit_worker_analysis",
+        "name": "Proposal Strategy & Fit — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Strategy & Fit."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Proposal strategy brief with scope, approved proof, assumptions, exclusions, and review points",
+          "Proposal fit",
+          "review time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_strategy_fit_worker_workflow",
+        "name": "Proposal Strategy & Fit — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Strategy & Fit."
+        ],
+        "inputs": [
+          "Proposal strategy brief with scope, approved proof, assumptions, exclusions, and review points",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "proposal_strategy_fit_worker_qa",
+        "name": "Proposal Strategy & Fit — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Strategy & Fit."
+        ],
+        "inputs": [
+          "Proposal strategy brief with scope, approved proof, assumptions, exclusions, and review points",
+          "Proposal fit",
+          "review time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5101,6 +17035,108 @@ export const DIVISION_CATALOG = [
         "label": "Proposal Quality Review — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "proposal_quality_review_worker_intake",
+        "name": "Proposal Quality Review — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Quality Review."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Proposal Quality Review"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_quality_review_worker_analysis",
+        "name": "Proposal Quality Review — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Quality Review."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Proposal review report with coverage, errors, commercial risks, and approval status",
+          "First-pass approval",
+          "preventable errors"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "proposal_quality_review_worker_workflow",
+        "name": "Proposal Quality Review — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Quality Review."
+        ],
+        "inputs": [
+          "Proposal review report with coverage, errors, commercial risks, and approval status",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "proposal_quality_review_worker_qa",
+        "name": "Proposal Quality Review — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Proposal Quality Review."
+        ],
+        "inputs": [
+          "Proposal review report with coverage, errors, commercial risks, and approval status",
+          "First-pass approval",
+          "preventable errors"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5146,6 +17182,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "sales_pricing_packaging_intelligence_worker_intake",
+        "name": "Pricing & Packaging Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Pricing & Packaging Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_pricing_packaging_intelligence_worker_analysis",
+        "name": "Pricing & Packaging Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Pricing scenario comparison with assumptions, margin estimate, package fit, and recommendation",
+          "Estimated margin",
+          "approval time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_pricing_packaging_intelligence_worker_workflow",
+        "name": "Pricing & Packaging Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "Pricing scenario comparison with assumptions, margin estimate, package fit, and recommendation",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_pricing_packaging_intelligence_worker_qa",
+        "name": "Pricing & Packaging Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing & Packaging Intelligence."
+        ],
+        "inputs": [
+          "Pricing scenario comparison with assumptions, margin estimate, package fit, and recommendation",
+          "Estimated margin",
+          "approval time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5189,6 +17327,108 @@ export const DIVISION_CATALOG = [
         "label": "Negotiation Support — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "negotiation_support_worker_intake",
+        "name": "Negotiation Support — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Negotiation Support."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Negotiation Support"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "negotiation_support_worker_analysis",
+        "name": "Negotiation Support — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Negotiation Support."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Negotiation brief with trade-offs, concession log, and escalation triggers",
+          "Margin retained",
+          "concession visibility"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "negotiation_support_worker_workflow",
+        "name": "Negotiation Support — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Negotiation Support."
+        ],
+        "inputs": [
+          "Negotiation brief with trade-offs, concession log, and escalation triggers",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "negotiation_support_worker_qa",
+        "name": "Negotiation Support — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Negotiation Support."
+        ],
+        "inputs": [
+          "Negotiation brief with trade-offs, concession log, and escalation triggers",
+          "Margin retained",
+          "concession visibility"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5234,6 +17474,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "enterprise_account_development_worker_intake",
+        "name": "Enterprise Account Development — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Enterprise Account Development."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Enterprise Account Development"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "enterprise_account_development_worker_analysis",
+        "name": "Enterprise Account Development — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Enterprise Account Development."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Enterprise account map with stakeholder coverage, milestones, risks, and next steps",
+          "Enterprise pipeline",
+          "stage progression"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "enterprise_account_development_worker_workflow",
+        "name": "Enterprise Account Development — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Enterprise Account Development."
+        ],
+        "inputs": [
+          "Enterprise account map with stakeholder coverage, milestones, risks, and next steps",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "enterprise_account_development_worker_qa",
+        "name": "Enterprise Account Development — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Enterprise Account Development."
+        ],
+        "inputs": [
+          "Enterprise account map with stakeholder coverage, milestones, risks, and next steps",
+          "Enterprise pipeline",
+          "stage progression"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5278,6 +17620,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "smb_market_acquisition_worker_intake",
+        "name": "SMB Market Acquisition — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SMB Market Acquisition."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for SMB Market Acquisition"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "smb_market_acquisition_worker_analysis",
+        "name": "SMB Market Acquisition — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SMB Market Acquisition."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "SMB prospect queue with segment, expected value, fit score, and next action",
+          "Qualified SMBs",
+          "conversion"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "smb_market_acquisition_worker_workflow",
+        "name": "SMB Market Acquisition — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SMB Market Acquisition."
+        ],
+        "inputs": [
+          "SMB prospect queue with segment, expected value, fit score, and next action",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "smb_market_acquisition_worker_qa",
+        "name": "SMB Market Acquisition — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to SMB Market Acquisition."
+        ],
+        "inputs": [
+          "SMB prospect queue with segment, expected value, fit score, and next action",
+          "Qualified SMBs",
+          "conversion"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5320,6 +17764,108 @@ export const DIVISION_CATALOG = [
         "label": "Vertical Market Sales — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "vertical_market_sales_worker_intake",
+        "name": "Vertical Market Sales — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vertical Market Sales."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Vertical Market Sales"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "vertical_market_sales_worker_analysis",
+        "name": "Vertical Market Sales — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vertical Market Sales."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Vertical market scorecard with target list, needs, buying triggers, and pipeline",
+          "Qualified vertical opportunities",
+          "win rate by industry"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "vertical_market_sales_worker_workflow",
+        "name": "Vertical Market Sales — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vertical Market Sales."
+        ],
+        "inputs": [
+          "Vertical market scorecard with target list, needs, buying triggers, and pipeline",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "vertical_market_sales_worker_qa",
+        "name": "Vertical Market Sales — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Vertical Market Sales."
+        ],
+        "inputs": [
+          "Vertical market scorecard with target list, needs, buying triggers, and pipeline",
+          "Qualified vertical opportunities",
+          "win rate by industry"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5365,6 +17911,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "geographic_market_expansion_worker_intake",
+        "name": "Geographic Market Expansion — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Geographic Market Expansion."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Geographic Market Expansion"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "geographic_market_expansion_worker_analysis",
+        "name": "Geographic Market Expansion — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Geographic Market Expansion."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Market-entry scorecard, target clusters, local constraints, and test plan",
+          "Qualified market size",
+          "regional response"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "geographic_market_expansion_worker_workflow",
+        "name": "Geographic Market Expansion — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Geographic Market Expansion."
+        ],
+        "inputs": [
+          "Market-entry scorecard, target clusters, local constraints, and test plan",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "geographic_market_expansion_worker_qa",
+        "name": "Geographic Market Expansion — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Geographic Market Expansion."
+        ],
+        "inputs": [
+          "Market-entry scorecard, target clusters, local constraints, and test plan",
+          "Qualified market size",
+          "regional response"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5408,6 +18056,108 @@ export const DIVISION_CATALOG = [
         "label": "Channel Partner Acquisition — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "channel_partner_acquisition_worker_intake",
+        "name": "Channel Partner Acquisition — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partner Acquisition."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Channel Partner Acquisition"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "channel_partner_acquisition_worker_analysis",
+        "name": "Channel Partner Acquisition — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partner Acquisition."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Ranked partner pipeline with audience fit, requirements, and next action",
+          "Qualified partners",
+          "partner-sourced pipeline"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "channel_partner_acquisition_worker_workflow",
+        "name": "Channel Partner Acquisition — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partner Acquisition."
+        ],
+        "inputs": [
+          "Ranked partner pipeline with audience fit, requirements, and next action",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "channel_partner_acquisition_worker_qa",
+        "name": "Channel Partner Acquisition — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Channel Partner Acquisition."
+        ],
+        "inputs": [
+          "Ranked partner pipeline with audience fit, requirements, and next action",
+          "Qualified partners",
+          "partner-sourced pipeline"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5453,6 +18203,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "strategic_partnership_development_worker_intake",
+        "name": "Strategic Partnership Development — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Strategic Partnership Development."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Strategic Partnership Development"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "strategic_partnership_development_worker_analysis",
+        "name": "Strategic Partnership Development — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Strategic Partnership Development."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Partner brief with mutual value, roles, risks, and joint targets",
+          "Active partnerships",
+          "joint pipeline"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "strategic_partnership_development_worker_workflow",
+        "name": "Strategic Partnership Development — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Strategic Partnership Development."
+        ],
+        "inputs": [
+          "Partner brief with mutual value, roles, risks, and joint targets",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "strategic_partnership_development_worker_qa",
+        "name": "Strategic Partnership Development — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Strategic Partnership Development."
+        ],
+        "inputs": [
+          "Partner brief with mutual value, roles, risks, and joint targets",
+          "Active partnerships",
+          "joint pipeline"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5496,6 +18348,108 @@ export const DIVISION_CATALOG = [
         "label": "Referral Program Operations — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "referral_program_operations_worker_intake",
+        "name": "Referral Program Operations — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Referral Program Operations."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Referral Program Operations"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "referral_program_operations_worker_analysis",
+        "name": "Referral Program Operations — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Referral Program Operations."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Referral register with referrer, permission, qualification, and outcome",
+          "Qualified referrals",
+          "referral conversion"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "referral_program_operations_worker_workflow",
+        "name": "Referral Program Operations — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Referral Program Operations."
+        ],
+        "inputs": [
+          "Referral register with referrer, permission, qualification, and outcome",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "referral_program_operations_worker_qa",
+        "name": "Referral Program Operations — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Referral Program Operations."
+        ],
+        "inputs": [
+          "Referral register with referrer, permission, qualification, and outcome",
+          "Qualified referrals",
+          "referral conversion"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5541,6 +18495,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "affiliate_channel_management_worker_intake",
+        "name": "Affiliate Channel Management — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Affiliate Channel Management."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Affiliate Channel Management"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "affiliate_channel_management_worker_analysis",
+        "name": "Affiliate Channel Management — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Affiliate Channel Management."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Affiliate ledger with validated leads, attribution evidence, quality flags, and review inputs",
+          "Qualified affiliate leads",
+          "conversion by partner"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "affiliate_channel_management_worker_workflow",
+        "name": "Affiliate Channel Management — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Affiliate Channel Management."
+        ],
+        "inputs": [
+          "Affiliate ledger with validated leads, attribution evidence, quality flags, and review inputs",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "affiliate_channel_management_worker_qa",
+        "name": "Affiliate Channel Management — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Affiliate Channel Management."
+        ],
+        "inputs": [
+          "Affiliate ledger with validated leads, attribution evidence, quality flags, and review inputs",
+          "Qualified affiliate leads",
+          "conversion by partner"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5584,6 +18640,108 @@ export const DIVISION_CATALOG = [
         "label": "Reseller & White-Label Sales — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "reseller_white_label_sales_worker_intake",
+        "name": "Reseller & White-Label Sales — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Reseller & White-Label Sales."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Reseller & White-Label Sales"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "reseller_white_label_sales_worker_analysis",
+        "name": "Reseller & White-Label Sales — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Reseller & White-Label Sales."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Reseller pipeline with territory, capability fit, commercial assumptions, and approvals",
+          "Qualified reseller pipeline",
+          "activation"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "reseller_white_label_sales_worker_workflow",
+        "name": "Reseller & White-Label Sales — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Reseller & White-Label Sales."
+        ],
+        "inputs": [
+          "Reseller pipeline with territory, capability fit, commercial assumptions, and approvals",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "reseller_white_label_sales_worker_qa",
+        "name": "Reseller & White-Label Sales — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Reseller & White-Label Sales."
+        ],
+        "inputs": [
+          "Reseller pipeline with territory, capability fit, commercial assumptions, and approvals",
+          "Qualified reseller pipeline",
+          "activation"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5629,6 +18787,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "marketplace_opportunity_intelligence_worker_intake",
+        "name": "Marketplace Opportunity Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketplace Opportunity Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Marketplace Opportunity Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "marketplace_opportunity_intelligence_worker_analysis",
+        "name": "Marketplace Opportunity Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketplace Opportunity Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Deduplicated project queue with budget, fit score, deadline, rules, and status",
+          "Qualified opportunities",
+          "shortlist precision"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "marketplace_opportunity_intelligence_worker_workflow",
+        "name": "Marketplace Opportunity Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketplace Opportunity Intelligence."
+        ],
+        "inputs": [
+          "Deduplicated project queue with budget, fit score, deadline, rules, and status",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "marketplace_opportunity_intelligence_worker_qa",
+        "name": "Marketplace Opportunity Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Marketplace Opportunity Intelligence."
+        ],
+        "inputs": [
+          "Deduplicated project queue with budget, fit score, deadline, rules, and status",
+          "Qualified opportunities",
+          "shortlist precision"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5672,6 +18932,108 @@ export const DIVISION_CATALOG = [
         "label": "RFP & Tender Intelligence — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "rfp_tender_intelligence_worker_intake",
+        "name": "RFP & Tender Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to RFP & Tender Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for RFP & Tender Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "rfp_tender_intelligence_worker_analysis",
+        "name": "RFP & Tender Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to RFP & Tender Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Tender register with requirements, deadlines, risks, and bid/no-bid recommendation",
+          "Relevant tenders",
+          "eligibility pass rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "rfp_tender_intelligence_worker_workflow",
+        "name": "RFP & Tender Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to RFP & Tender Intelligence."
+        ],
+        "inputs": [
+          "Tender register with requirements, deadlines, risks, and bid/no-bid recommendation",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "rfp_tender_intelligence_worker_qa",
+        "name": "RFP & Tender Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to RFP & Tender Intelligence."
+        ],
+        "inputs": [
+          "Tender register with requirements, deadlines, risks, and bid/no-bid recommendation",
+          "Relevant tenders",
+          "eligibility pass rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5717,6 +19079,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "procurement_vendor_onboarding_worker_intake",
+        "name": "Procurement & Vendor Onboarding — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Onboarding."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Procurement & Vendor Onboarding"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "procurement_vendor_onboarding_worker_analysis",
+        "name": "Procurement & Vendor Onboarding — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Onboarding."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Vendor checklist with missing documents, submission status, and owner responsibilities",
+          "Onboarding completion",
+          "time to approval"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "procurement_vendor_onboarding_worker_workflow",
+        "name": "Procurement & Vendor Onboarding — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Onboarding."
+        ],
+        "inputs": [
+          "Vendor checklist with missing documents, submission status, and owner responsibilities",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "procurement_vendor_onboarding_worker_qa",
+        "name": "Procurement & Vendor Onboarding — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Procurement & Vendor Onboarding."
+        ],
+        "inputs": [
+          "Vendor checklist with missing documents, submission status, and owner responsibilities",
+          "Onboarding completion",
+          "time to approval"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5760,6 +19224,108 @@ export const DIVISION_CATALOG = [
         "label": "Freelance Platform Opportunity Scoring — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "freelance_platform_opportunity_scoring_worker_intake",
+        "name": "Freelance Platform Opportunity Scoring — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Platform Opportunity Scoring."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Freelance Platform Opportunity Scoring"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "freelance_platform_opportunity_scoring_worker_analysis",
+        "name": "Freelance Platform Opportunity Scoring — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Platform Opportunity Scoring."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Scored shortlist with budget fit, scope risks, effort, platform rules, and next action",
+          "Shortlist precision",
+          "bid efficiency"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "freelance_platform_opportunity_scoring_worker_workflow",
+        "name": "Freelance Platform Opportunity Scoring — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Platform Opportunity Scoring."
+        ],
+        "inputs": [
+          "Scored shortlist with budget fit, scope risks, effort, platform rules, and next action",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "freelance_platform_opportunity_scoring_worker_qa",
+        "name": "Freelance Platform Opportunity Scoring — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Freelance Platform Opportunity Scoring."
+        ],
+        "inputs": [
+          "Scored shortlist with budget fit, scope risks, effort, platform rules, and next action",
+          "Shortlist precision",
+          "bid efficiency"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5805,6 +19371,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "lost_deal_reactivation_worker_intake",
+        "name": "Lost Deal Reactivation — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lost Deal Reactivation."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Lost Deal Reactivation"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lost_deal_reactivation_worker_analysis",
+        "name": "Lost Deal Reactivation — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lost Deal Reactivation."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Reactivation queue with loss reason, changed signal, permission, and next step",
+          "Reactivated opportunities",
+          "win-back rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lost_deal_reactivation_worker_workflow",
+        "name": "Lost Deal Reactivation — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lost Deal Reactivation."
+        ],
+        "inputs": [
+          "Reactivation queue with loss reason, changed signal, permission, and next step",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "lost_deal_reactivation_worker_qa",
+        "name": "Lost Deal Reactivation — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lost Deal Reactivation."
+        ],
+        "inputs": [
+          "Reactivation queue with loss reason, changed signal, permission, and next step",
+          "Reactivated opportunities",
+          "win-back rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5848,6 +19516,108 @@ export const DIVISION_CATALOG = [
         "label": "Stalled Deal Recovery — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "stalled_deal_recovery_worker_intake",
+        "name": "Stalled Deal Recovery — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Stalled Deal Recovery."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Stalled Deal Recovery"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "stalled_deal_recovery_worker_analysis",
+        "name": "Stalled Deal Recovery — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Stalled Deal Recovery."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Stalled-deal report with last activity, blocker, owner, and recovery action",
+          "Recovery rate",
+          "days in stage"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "stalled_deal_recovery_worker_workflow",
+        "name": "Stalled Deal Recovery — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Stalled Deal Recovery."
+        ],
+        "inputs": [
+          "Stalled-deal report with last activity, blocker, owner, and recovery action",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "stalled_deal_recovery_worker_qa",
+        "name": "Stalled Deal Recovery — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Stalled Deal Recovery."
+        ],
+        "inputs": [
+          "Stalled-deal report with last activity, blocker, owner, and recovery action",
+          "Recovery rate",
+          "days in stage"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5893,6 +19663,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "trial_poc_conversion_worker_intake",
+        "name": "Trial & POC Conversion — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Trial & POC Conversion."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Trial & POC Conversion"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "trial_poc_conversion_worker_analysis",
+        "name": "Trial & POC Conversion — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Trial & POC Conversion."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Trial scorecard with adoption evidence, blockers, criteria status, and next step",
+          "Trial-to-paid conversion",
+          "time to decision"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "trial_poc_conversion_worker_workflow",
+        "name": "Trial & POC Conversion — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Trial & POC Conversion."
+        ],
+        "inputs": [
+          "Trial scorecard with adoption evidence, blockers, criteria status, and next step",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "trial_poc_conversion_worker_qa",
+        "name": "Trial & POC Conversion — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Trial & POC Conversion."
+        ],
+        "inputs": [
+          "Trial scorecard with adoption evidence, blockers, criteria status, and next step",
+          "Trial-to-paid conversion",
+          "time to decision"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -5936,6 +19808,108 @@ export const DIVISION_CATALOG = [
         "label": "Upsell Opportunity Intelligence — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "upsell_opportunity_intelligence_worker_intake",
+        "name": "Upsell Opportunity Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Upsell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Upsell Opportunity Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "upsell_opportunity_intelligence_worker_analysis",
+        "name": "Upsell Opportunity Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Upsell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Upsell opportunities with evidence, value hypothesis, customer fit, and recommendation",
+          "Qualified upsell pipeline",
+          "conversion"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "upsell_opportunity_intelligence_worker_workflow",
+        "name": "Upsell Opportunity Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Upsell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "Upsell opportunities with evidence, value hypothesis, customer fit, and recommendation",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "upsell_opportunity_intelligence_worker_qa",
+        "name": "Upsell Opportunity Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Upsell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "Upsell opportunities with evidence, value hypothesis, customer fit, and recommendation",
+          "Qualified upsell pipeline",
+          "conversion"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -5981,6 +19955,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "cross_sell_opportunity_intelligence_worker_intake",
+        "name": "Cross-Sell Opportunity Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Sell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Cross-Sell Opportunity Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cross_sell_opportunity_intelligence_worker_analysis",
+        "name": "Cross-Sell Opportunity Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Sell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Cross-sell map with unmet need, eligible service, rationale, risks, and next action",
+          "Qualified cross-sell opportunities",
+          "attach rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "cross_sell_opportunity_intelligence_worker_workflow",
+        "name": "Cross-Sell Opportunity Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Sell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "Cross-sell map with unmet need, eligible service, rationale, risks, and next action",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "cross_sell_opportunity_intelligence_worker_qa",
+        "name": "Cross-Sell Opportunity Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Cross-Sell Opportunity Intelligence."
+        ],
+        "inputs": [
+          "Cross-sell map with unmet need, eligible service, rationale, risks, and next action",
+          "Qualified cross-sell opportunities",
+          "attach rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6024,6 +20100,108 @@ export const DIVISION_CATALOG = [
         "label": "Renewal & Expansion Revenue — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "renewal_expansion_revenue_worker_intake",
+        "name": "Renewal & Expansion Revenue — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewal & Expansion Revenue."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Renewal & Expansion Revenue"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "renewal_expansion_revenue_worker_analysis",
+        "name": "Renewal & Expansion Revenue — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewal & Expansion Revenue."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Renewal calendar with risk, expansion hypotheses, notice periods, and decisions",
+          "Renewal rate",
+          "revenue retention"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "renewal_expansion_revenue_worker_workflow",
+        "name": "Renewal & Expansion Revenue — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewal & Expansion Revenue."
+        ],
+        "inputs": [
+          "Renewal calendar with risk, expansion hypotheses, notice periods, and decisions",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "renewal_expansion_revenue_worker_qa",
+        "name": "Renewal & Expansion Revenue — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Renewal & Expansion Revenue."
+        ],
+        "inputs": [
+          "Renewal calendar with risk, expansion hypotheses, notice periods, and decisions",
+          "Renewal rate",
+          "revenue retention"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -6069,6 +20247,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "customer_advocacy_referrals_worker_intake",
+        "name": "Customer Advocacy & Referrals — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Advocacy & Referrals."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Customer Advocacy & Referrals"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "customer_advocacy_referrals_worker_analysis",
+        "name": "Customer Advocacy & Referrals — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Advocacy & Referrals."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Advocacy shortlist with satisfaction evidence, permission, opportunity, and owner",
+          "Willing advocates",
+          "qualified referrals"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "customer_advocacy_referrals_worker_workflow",
+        "name": "Customer Advocacy & Referrals — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Advocacy & Referrals."
+        ],
+        "inputs": [
+          "Advocacy shortlist with satisfaction evidence, permission, opportunity, and owner",
+          "External outreach, submissions, pricing commitments, and account changes require Owner approval as applicable; honor consent, opt-out, platform terms, rate limits, and audit logs."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "customer_advocacy_referrals_worker_qa",
+        "name": "Customer Advocacy & Referrals — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Customer Advocacy & Referrals."
+        ],
+        "inputs": [
+          "Advocacy shortlist with satisfaction evidence, permission, opportunity, and owner",
+          "Willing advocates",
+          "qualified referrals"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6112,6 +20392,108 @@ export const DIVISION_CATALOG = [
         "label": "Sales Forecasting & Commitments — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "sales_forecasting_commitments_worker_intake",
+        "name": "Sales Forecasting & Commitments — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Forecasting & Commitments."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Forecasting & Commitments"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_forecasting_commitments_worker_analysis",
+        "name": "Sales Forecasting & Commitments — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Forecasting & Commitments."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Forecast by period and stage with assumptions, confidence range, slippage risk, and history",
+          "Forecast accuracy",
+          "slippage rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_forecasting_commitments_worker_workflow",
+        "name": "Sales Forecasting & Commitments — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Forecasting & Commitments."
+        ],
+        "inputs": [
+          "Forecast by period and stage with assumptions, confidence range, slippage risk, and history",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_forecasting_commitments_worker_qa",
+        "name": "Sales Forecasting & Commitments — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Forecasting & Commitments."
+        ],
+        "inputs": [
+          "Forecast by period and stage with assumptions, confidence range, slippage risk, and history",
+          "Forecast accuracy",
+          "slippage rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -6157,6 +20539,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "pipeline_hygiene_crm_quality_worker_intake",
+        "name": "Pipeline Hygiene & CRM Quality — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pipeline Hygiene & CRM Quality."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Pipeline Hygiene & CRM Quality"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "pipeline_hygiene_crm_quality_worker_analysis",
+        "name": "Pipeline Hygiene & CRM Quality — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pipeline Hygiene & CRM Quality."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "CRM hygiene queue with missing fields, duplicates, stale deals, and corrections",
+          "Complete-record rate",
+          "stale deals"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "pipeline_hygiene_crm_quality_worker_workflow",
+        "name": "Pipeline Hygiene & CRM Quality — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pipeline Hygiene & CRM Quality."
+        ],
+        "inputs": [
+          "CRM hygiene queue with missing fields, duplicates, stale deals, and corrections",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "pipeline_hygiene_crm_quality_worker_qa",
+        "name": "Pipeline Hygiene & CRM Quality — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pipeline Hygiene & CRM Quality."
+        ],
+        "inputs": [
+          "CRM hygiene queue with missing fields, duplicates, stale deals, and corrections",
+          "Complete-record rate",
+          "stale deals"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6200,6 +20684,108 @@ export const DIVISION_CATALOG = [
         "label": "Lead Routing & SLA Management — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "lead_routing_sla_management_worker_intake",
+        "name": "Lead Routing & SLA Management — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Routing & SLA Management."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Lead Routing & SLA Management"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_routing_sla_management_worker_analysis",
+        "name": "Lead Routing & SLA Management — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Routing & SLA Management."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Routing log with owner, rationale, deadline, escalation, and response timestamp",
+          "SLA compliance",
+          "first-response time"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "lead_routing_sla_management_worker_workflow",
+        "name": "Lead Routing & SLA Management — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Routing & SLA Management."
+        ],
+        "inputs": [
+          "Routing log with owner, rationale, deadline, escalation, and response timestamp",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "lead_routing_sla_management_worker_qa",
+        "name": "Lead Routing & SLA Management — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Lead Routing & SLA Management."
+        ],
+        "inputs": [
+          "Routing log with owner, rationale, deadline, escalation, and response timestamp",
+          "SLA compliance",
+          "first-response time"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -6245,6 +20831,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "territory_capacity_planning_worker_intake",
+        "name": "Territory & Capacity Planning — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Territory & Capacity Planning."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Territory & Capacity Planning"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "territory_capacity_planning_worker_analysis",
+        "name": "Territory & Capacity Planning — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Territory & Capacity Planning."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Territory plan with account allocation, workload, capacity gap, and scenarios",
+          "Territory coverage",
+          "workload balance"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "territory_capacity_planning_worker_workflow",
+        "name": "Territory & Capacity Planning — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Territory & Capacity Planning."
+        ],
+        "inputs": [
+          "Territory plan with account allocation, workload, capacity gap, and scenarios",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "territory_capacity_planning_worker_qa",
+        "name": "Territory & Capacity Planning — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Territory & Capacity Planning."
+        ],
+        "inputs": [
+          "Territory plan with account allocation, workload, capacity gap, and scenarios",
+          "Territory coverage",
+          "workload balance"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6288,6 +20976,108 @@ export const DIVISION_CATALOG = [
         "label": "Sales Performance Coaching — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "sales_performance_coaching_worker_intake",
+        "name": "Sales Performance Coaching — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Performance Coaching."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Performance Coaching"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_performance_coaching_worker_analysis",
+        "name": "Sales Performance Coaching — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Performance Coaching."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Coaching report with funnel bottleneck, evidence, practice focus, and metric",
+          "Stage conversion",
+          "baseline improvement"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_performance_coaching_worker_workflow",
+        "name": "Sales Performance Coaching — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Performance Coaching."
+        ],
+        "inputs": [
+          "Coaching report with funnel bottleneck, evidence, practice focus, and metric",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_performance_coaching_worker_qa",
+        "name": "Sales Performance Coaching — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Performance Coaching."
+        ],
+        "inputs": [
+          "Coaching report with funnel bottleneck, evidence, practice focus, and metric",
+          "Stage conversion",
+          "baseline improvement"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -6333,6 +21123,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "sales_representative_assistant_worker_intake",
+        "name": "Sales Representative Assistant — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Representative Assistant."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Representative Assistant"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_representative_assistant_worker_analysis",
+        "name": "Sales Representative Assistant — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Representative Assistant."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Daily work queue with next action, CRM context, due time, and policy reminders",
+          "Task completion",
+          "follow-up timeliness"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_representative_assistant_worker_workflow",
+        "name": "Sales Representative Assistant — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Representative Assistant."
+        ],
+        "inputs": [
+          "Daily work queue with next action, CRM context, due time, and policy reminders",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_representative_assistant_worker_qa",
+        "name": "Sales Representative Assistant — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Representative Assistant."
+        ],
+        "inputs": [
+          "Daily work queue with next action, CRM context, due time, and policy reminders",
+          "Task completion",
+          "follow-up timeliness"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6376,6 +21268,108 @@ export const DIVISION_CATALOG = [
         "label": "Sales Enablement Asset Intelligence — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "sales_enablement_asset_intelligence_worker_intake",
+        "name": "Sales Enablement Asset Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement Asset Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Sales Enablement Asset Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_enablement_asset_intelligence_worker_analysis",
+        "name": "Sales Enablement Asset Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement Asset Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Approved asset shortlist with rationale, version, permissions, and evidence gaps",
+          "Asset relevance",
+          "reuse rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "sales_enablement_asset_intelligence_worker_workflow",
+        "name": "Sales Enablement Asset Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement Asset Intelligence."
+        ],
+        "inputs": [
+          "Approved asset shortlist with rationale, version, permissions, and evidence gaps",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "sales_enablement_asset_intelligence_worker_qa",
+        "name": "Sales Enablement Asset Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Sales Enablement Asset Intelligence."
+        ],
+        "inputs": [
+          "Approved asset shortlist with rationale, version, permissions, and evidence gaps",
+          "Asset relevance",
+          "reuse rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   },
@@ -6421,6 +21415,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "competitor_deal_intelligence_worker_intake",
+        "name": "Competitor Deal Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Deal Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Competitor Deal Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "competitor_deal_intelligence_worker_analysis",
+        "name": "Competitor Deal Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Deal Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Competitor brief with sourced facts, win/loss signals, and recommendations",
+          "Evidence freshness",
+          "competitive win rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "competitor_deal_intelligence_worker_workflow",
+        "name": "Competitor Deal Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Deal Intelligence."
+        ],
+        "inputs": [
+          "Competitor brief with sourced facts, win/loss signals, and recommendations",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "competitor_deal_intelligence_worker_qa",
+        "name": "Competitor Deal Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Competitor Deal Intelligence."
+        ],
+        "inputs": [
+          "Competitor brief with sourced facts, win/loss signals, and recommendations",
+          "Evidence freshness",
+          "competitive win rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6465,6 +21561,108 @@ export const DIVISION_CATALOG = [
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
       }
+    ],
+    "workers": [
+      {
+        "key": "pricing_competitiveness_intelligence_worker_intake",
+        "name": "Pricing Competitiveness Intelligence — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing Competitiveness Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Pricing Competitiveness Intelligence"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "pricing_competitiveness_intelligence_worker_analysis",
+        "name": "Pricing Competitiveness Intelligence — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing Competitiveness Intelligence."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Pricing benchmark with source/date, comparable scope, confidence, and safe recommendation",
+          "Benchmark freshness",
+          "proposal win rate"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "pricing_competitiveness_intelligence_worker_workflow",
+        "name": "Pricing Competitiveness Intelligence — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing Competitiveness Intelligence."
+        ],
+        "inputs": [
+          "Pricing benchmark with source/date, comparable scope, confidence, and safe recommendation",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "pricing_competitiveness_intelligence_worker_qa",
+        "name": "Pricing Competitiveness Intelligence — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Pricing Competitiveness Intelligence."
+        ],
+        "inputs": [
+          "Pricing benchmark with source/date, comparable scope, confidence, and safe recommendation",
+          "Benchmark freshness",
+          "proposal win rate"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      }
     ]
   },
   {
@@ -6508,6 +21706,108 @@ export const DIVISION_CATALOG = [
         "label": "Revenue Attribution & Channel ROI — workflow and outcome tracking",
         "required": true,
         "notes": "Track status, score, evidence, SLA, owner, exceptions, timestamps, next action, and audit history; keep not_connected until tested."
+      }
+    ],
+    "workers": [
+      {
+        "key": "revenue_attribution_channel_roi_worker_intake",
+        "name": "Revenue Attribution & Channel ROI — Intake Agent",
+        "role": "Research & Intake",
+        "mission": "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+        "responsibilities": [
+          "Collect and validate authorized source inputs, preserve provenance, and flag missing or stale fields.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Attribution & Channel ROI."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Authorized source evidence for Revenue Attribution & Channel ROI"
+        ],
+        "outputs": [
+          "Validated input bundle with source evidence and missing-data flags."
+        ],
+        "kpis": [
+          "source validity",
+          "field completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "revenue_attribution_channel_roi_worker_analysis",
+        "name": "Revenue Attribution & Channel ROI — Analysis Agent",
+        "role": "Analysis & Prioritization",
+        "mission": "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+        "responsibilities": [
+          "Analyze inputs against the division mission, scoring criteria, expected value, urgency, and risk.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Attribution & Channel ROI."
+        ],
+        "inputs": [
+          "CRM and existing prospect/opportunity history",
+          "Channel report with sourced pipeline, revenue, cost assumptions, confidence, and recommendation",
+          "Attributed pipeline",
+          "channel ROI"
+        ],
+        "outputs": [
+          "Evidence-backed scorecard with priority, confidence, and recommended next action."
+        ],
+        "kpis": [
+          "scoring completeness",
+          "decision confidence"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
+      },
+      {
+        "key": "revenue_attribution_channel_roi_worker_workflow",
+        "name": "Revenue Attribution & Channel ROI — Workflow & Handoff Agent",
+        "role": "Workflow & Handoff",
+        "mission": "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+        "responsibilities": [
+          "Prepare the structured workflow task, handoff, or approval request; external actions require approval and a live executor.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Attribution & Channel ROI."
+        ],
+        "inputs": [
+          "Channel report with sourced pipeline, revenue, cost assumptions, confidence, and recommendation",
+          "Use evidence-backed analysis and authorized sources; record provenance, timestamps, confidence, exceptions, and recommended next action. External commitments require Owner approval."
+        ],
+        "outputs": [
+          "Structured task or handoff with owner, due time, approval requirement, and blocked reason if needed."
+        ],
+        "kpis": [
+          "handoff completeness",
+          "SLA readiness"
+        ],
+        "status": "planned",
+        "automation_level": "approval_gated",
+        "approval_required": true
+      },
+      {
+        "key": "revenue_attribution_channel_roi_worker_qa",
+        "name": "Revenue Attribution & Channel ROI — QA & Reporting Agent",
+        "role": "Quality & Reporting",
+        "mission": "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+        "responsibilities": [
+          "Validate output quality and policy compliance, log exceptions, and report the measurable outcome.",
+          "Apply the mission, inputs, outputs, KPIs, and approval policy specific to Revenue Attribution & Channel ROI."
+        ],
+        "inputs": [
+          "Channel report with sourced pipeline, revenue, cost assumptions, confidence, and recommendation",
+          "Attributed pipeline",
+          "channel ROI"
+        ],
+        "outputs": [
+          "Quality-checked result, exception log, KPI status, and next-step handoff.",
+          "Final handoff summary for the division and Owner Dashboard"
+        ],
+        "kpis": [
+          "quality pass rate",
+          "audit completeness"
+        ],
+        "status": "planned",
+        "automation_level": "assisted",
+        "approval_required": false
       }
     ]
   }

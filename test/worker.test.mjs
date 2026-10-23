@@ -191,6 +191,8 @@ test("division catalog defines the full 150-division AIGROWTH structure", () => 
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "data_integration_intelligence"));
   assert.ok(DIVISION_CATALOG.some((d) => d.slug === "website_system_monitoring"));
   assert.ok(DIVISION_CATALOG.every((d) => d.mission && d.responsibilities.length && d.inputs.length && d.outputs.length && d.kpis.length));
+  assert.ok(DIVISION_CATALOG.every((d) => d.workers.length === 4 && d.workers.every((w) => w.role && w.outputs.length && w.status === "planned")));
+  assert.equal(new Set(DIVISION_CATALOG.flatMap((d) => d.workers.map((w) => w.key))).size, 600);
 });
 
 test("manifest exposes all division contracts", () => {
@@ -303,6 +305,9 @@ test("GET divisions returns registry and integration readiness from D1", async (
   assert.equal(result.integrations.length, 310);
   assert.equal(result.summary.connected_integrations, 0);
   assert.equal(result.divisions[0].responsibilities.length > 0, true);
+  assert.equal(result.divisions[0].workers.length, 4);
+  assert.equal(result.divisions[0].worker_count, 4);
+  assert.equal(result.divisions[0].workers[0].status, "planned");
 });
 
 test("tracker source is served with JavaScript content type", async () => {

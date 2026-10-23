@@ -338,6 +338,7 @@ async function getDivisions(request, env, origin) {
       ).first()
     ]);
 
+    const workerProfiles = new Map((MANIFEST.divisions || []).map((item) => [item.slug, item.workers || []]));
     const divisions = (divisionRows.results || []).map((row) => ({
       slug: row.slug,
       name: row.name,
@@ -347,6 +348,8 @@ async function getDivisions(request, env, origin) {
       responsibilities: parseJsonColumn(row.responsibilities_json, []),
       inputs: parseJsonColumn(row.inputs_json, []),
       outputs: parseJsonColumn(row.outputs_json, []),
+      workers: workerProfiles.get(row.slug) || [],
+      worker_count: (workerProfiles.get(row.slug) || []).length,
       kpis: parseJsonColumn(row.kpis_json, []),
       automation_level: row.automation_level,
       approval_policy: row.approval_policy,
