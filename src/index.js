@@ -1,6 +1,7 @@
 import { TRACKER_JS } from "./tracker.js";
 import { MANIFEST } from "./modules.js";
 import { DASHBOARD_PANEL_JS } from "./dashboard-panel.js";
+import { DIVISIONS_PANEL_JS } from "./divisions-panel.js";
 
 const MAX_BODY_BYTES = 32 * 1024;
 const MAX_EVENTS_PER_REQUEST = 25;
@@ -29,7 +30,7 @@ function corsHeaders(origin, env) {
   const headers = new Headers({
     "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400"
   });
   if (origin && allowedOrigins(env).has(origin)) {
@@ -305,6 +306,151 @@ async function websiteAnalytics(request, env, origin) {
   }
 }
 
+
+function parseJsonColumn(value, fallback = []) {
+  try {
+    const parsed = JSON.parse(String(value || ""));
+    return parsed;
+  } catch {
+    return fallback;
+  }
+}
+
+async function getDivisions(request, env, origin) {
+  if (!env.DB) {
+    return jsonResponse({ ok: false, error: "d1_not_configured" }, 503, origin, env);
+  }
+  try {
+    const [divisionRows, integrationRows, taskSummary] = await Promise.all([
+      env.DB.prepare(
+        "SELECT d.*, " +
+        "(SELECT COUNT(*) FROM aga_division_tasks t WHERE t.division_slug=d.slug " +
+        "AND t.status IN ('awaiting_approval','queued','running')) AS open_tasks " +
+        "FROM aga_division_registry d ORDER BY d.sort_order ASC"
+      ).all(),
+      env.DB.prepare(
+        "SELECT id, division_slug, integration_key, label, required, status, notes, last_checked_at " +
+        "FROM aga_division_integrations ORDER BY division_slug, required DESC, label"
+      ).all(),
+      env.DB.prepare(
+        "SELECT COUNT(*) AS open_tasks FROM aga_division_tasks " +
+        "WHERE status IN ('awaiting_approval','queued','running')"
+      ).first()
+    ]);
+
+    const divisions = (divisionRows.results || []).map((row) => ({
+      slug: row.slug,
+      name: row.name,
+      sort_order: row.sort_order,
+      category: row.category,
+      mission: row.mission,
+      responsibilities: parseJsonColumn(row.responsibilities_json, []),
+      inputs: parseJsonColumn(row.inputs_json, []),
+      outputs: parseJsonColumn(row.outputs_json, []),
+      kpis: parseJsonColumn(row.kpis_json, []),
+      automation_level: row.automation_level,
+      approval_policy: row.approval_policy,
+      catalog_enabled: Boolean(row.catalog_enabled),
+      runtime_status: row.runtime_status,
+      open_tasks: Number(row.open_tasks || 0),
+      created_at: row.created_at,
+      updated_at: row.updated_at
+    }));
+    const integrations = (integrationRows.results || []).map((row) => ({
+      id: row.id,
+      division_slug: row.division_slug,
+      integration_key: row.integration_key,
+      label: row.label,
+      required: Number(row.required) === 1,
+      status: row.status,
+      notes: row.notes,
+      last_checked_at: row.last_checked_at
+    }));
+
+    return jsonResponse({
+      ok: true,
+      source: "cloudflare-d1",
+      generated_at: new Date().toISOString(),
+      summary: {
+        total_divisions: divisions.length,
+        connected_integrations: integrations.filter((item) => item.status === "connected" || item.status === "verified").length,
+        total_integrations: integrations.length,
+        open_tasks: Number(taskSummary?.open_tasks || 0),
+        operational_divisions: divisions.filter((item) => item.runtime_status === "active").length
+      },
+      divisions,
+      integrations
+    }, 200, origin, env);
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "division_registry_not_ready",
+      message: "Apply migration 0002_divisions_operations.sql and redeploy."
+    }, 503, origin, env);
+  }
+}
+
+async function createDivisionTask(request, env, origin, slug) {
+  if (!origin || !allowedOrigins(env).has(origin)) {
+    return jsonResponse({ ok: false, error: "origin_not_allowed" }, 403, origin, env);
+  }
+  const token = String(env.AGA_OWNER_API_TOKEN || "");
+  if (!token) {
+    return jsonResponse({ ok: false, error: "task_api_not_configured" }, 503, origin, env);
+  }
+  if (request.headers.get("authorization") !== "Bearer " + token) {
+    return jsonResponse({ ok: false, error: "unauthorized" }, 401, origin, env);
+  }
+  if (!env.DB) return jsonResponse({ ok: false, error: "d1_not_configured" }, 503, origin, env);
+
+  let input;
+  try {
+    input = await readJsonLimited(request);
+  } catch (error) {
+    return jsonResponse({ ok: false, error: error.message === "body_too_large" ? "body_too_large" : "invalid_json" },
+      error.message === "body_too_large" ? 413 : 400, origin, env);
+  }
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    return jsonResponse({ ok: false, error: "invalid_payload" }, 400, origin, env);
+  }
+  const title = clip(input.title, 160);
+  const description = clip(input.description, 1500);
+  const taskType = clip(input.task_type || "general", 40);
+  const priority = Math.max(1, Math.min(5, Math.floor(Number(input.priority) || 3)));
+  const requestedBy = clip(input.requested_by || "owner", 80);
+  const payload = input.payload && typeof input.payload === "object" && !Array.isArray(input.payload) ? input.payload : {};
+  if (!title) return jsonResponse({ ok: false, error: "title_required" }, 400, origin, env);
+  if (!/^[a-z0-9_-]{2,80}$/.test(slug)) return jsonResponse({ ok: false, error: "invalid_division_slug" }, 400, origin, env);
+
+  try {
+    const division = await env.DB.prepare(
+      "SELECT slug, runtime_status FROM aga_division_registry WHERE slug = ? AND catalog_enabled = 1"
+    ).bind(slug).first();
+    if (!division) return jsonResponse({ ok: false, error: "division_not_found" }, 404, origin, env);
+    const taskId = crypto.randomUUID();
+    const payloadText = JSON.stringify(payload);
+    if (new TextEncoder().encode(payloadText).byteLength > 12000) {
+      return jsonResponse({ ok: false, error: "payload_too_large" }, 413, origin, env);
+    }
+    await env.DB.prepare(
+      "INSERT INTO aga_division_tasks " +
+      "(task_id, division_slug, title, description, task_type, priority, status, approval_required, requested_by, input_json) " +
+      "VALUES (?, ?, ?, ?, ?, ?, 'awaiting_approval', 1, ?, ?)"
+    ).bind(taskId, slug, title, description, taskType, priority, requestedBy, payloadText).run();
+
+    return jsonResponse({
+      ok: true,
+      task_id: taskId,
+      division_slug: slug,
+      status: "awaiting_approval",
+      executed: false,
+      message: "Task tersimpan di antrean dan menunggu approval Owner. Eksekusi AI tidak dimulai sampai approval dan adapter integrasi tersedia."
+    }, 202, origin, env);
+  } catch {
+    return jsonResponse({ ok: false, error: "task_insert_failed" }, 503, origin, env);
+  }
+}
+
 async function handleCollect(request, env, origin) {
   if (!origin || !allowedOrigins(env).has(origin)) {
     return jsonResponse({ ok: false, error: "origin_not_allowed" }, 403, origin, env);
@@ -397,8 +543,37 @@ export default {
       return websiteAnalytics(request, env, origin);
     }
 
+    if (request.method === "GET" && url.pathname === "/api/divisions") {
+      return getDivisions(request, env, origin);
+    }
+
+    const divisionTaskMatch = url.pathname.match(/^\\/api\\/divisions\\/([a-z0-9_-]+)\\/tasks$/);
+    if (request.method === "POST" && divisionTaskMatch) {
+      return createDivisionTask(request, env, origin, divisionTaskMatch[1]);
+    }
+
     if (request.method === "GET" && url.pathname === "/dashboard-panel.js") {
-      return new Response(DASHBOARD_PANEL_JS, {
+      const loadDivisionPanel = String.raw`\n;(function () {
+        var dashboardScript = document.querySelector('script[src*="/dashboard-panel.js"]');
+        if (!dashboardScript) return;
+        var panelScript = document.createElement("script");
+        panelScript.defer = true;
+        panelScript.src = new URL("/divisions-panel.js", dashboardScript.src).toString();
+        document.head.appendChild(panelScript);
+      })();`;
+      return new Response(DASHBOARD_PANEL_JS + loadDivisionPanel, {
+        status: 200,
+        headers: {
+          ...Object.fromEntries(corsHeaders(origin, env)),
+          "Content-Type": "application/javascript; charset=utf-8",
+          "Cache-Control": "public, max-age=300",
+          "X-Content-Type-Options": "nosniff"
+        }
+      });
+    }
+
+    if (request.method === "GET" && url.pathname === "/divisions-panel.js") {
+      return new Response(DIVISIONS_PANEL_JS, {
         status: 200,
         headers: {
           ...Object.fromEntries(corsHeaders(origin, env)),
