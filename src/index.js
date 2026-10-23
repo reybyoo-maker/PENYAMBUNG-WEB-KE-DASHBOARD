@@ -529,7 +529,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: "aga-dashboard-bridge",
-        version: "1.2.0",
+        version: "1.3.0",
         ready: sharedD1Ready || forwardingReady,
         configuration: {
           storageMode: sharedD1Ready ? "shared_d1" : (databaseSchemaReady ? "partial_d1" : (forwardingReady ? "dashboard_forwarder" : "not_configured")),
