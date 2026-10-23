@@ -391,7 +391,7 @@ async function getDivisions(request, env, origin) {
 }
 
 async function createDivisionTask(request, env, origin, slug) {
-  if (!origin || !allowedOrigins(env).has(origin)) {
+  if (origin && !allowedOrigins(env).has(origin)) {
     return jsonResponse({ ok: false, error: "origin_not_allowed" }, 403, origin, env);
   }
   const token = String(env.AGA_OWNER_API_TOKEN || "");
