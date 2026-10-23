@@ -21,6 +21,8 @@ Registry berisi **150 divisi spesifik** dan **310 kebutuhan koneksi integrasi**.
 
 Semua divisi mempunyai mission, tanggung jawab, input/output, KPI, approval policy, automation level, dan kebutuhan integrasi. Migration 0002 membuat skema plus 11 divisi inti, migration 0003 menambahkan 89 divisi spesialis dan migration 0004 menambahkan 50 divisi fokus sales sehingga totalnya 150. Koneksi berstatus `not_connected` sampai provider dan aliran datanya benar-benar diuji.
 
+Setiap divisi juga memiliki **4 role AI worker yang direncanakan**: Research & Intake, Analysis & Prioritization, Workflow & Handoff, serta QA & Reporting. Totalnya 600 definisi role yang muncul melalui `/api/divisions` dan panel Owner. Status `planned` berarti role sudah didefinisikan, bukan agent aktif yang telah dieksekusi.
+
 **[Buka ringkasan 50 divisi sales tambahan](docs/50-SALES-DIVISIONS.md)** untuk setiap misi, tanggung jawab, KPI, output, dan kebutuhan konektor.
 
 ## Endpoint bridge

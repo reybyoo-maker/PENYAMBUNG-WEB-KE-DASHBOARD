@@ -16,7 +16,7 @@ Dokumen ini memisahkan fungsi yang sudah memiliki source code dari integrasi eks
 
 ## 2. Registry 150 divisi
 
-Migration 0002 mendaftarkan 11 divisi dasar, migration 0003 menambahkan 89 divisi spesialis, dan migration 0004 menambahkan 50 divisi tambahan yang fokus pada sales dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard. Rincian misi tiap divisi ada di [katalog 50 divisi sales tambahan](50-SALES-DIVISIONS.md).
+Migration 0002 mendaftarkan 11 divisi dasar, migration 0003 menambahkan 89 divisi spesialis, dan migration 0004 menambahkan 50 divisi tambahan yang fokus pada sales dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard. Rincian misi tiap divisi ada di [katalog 50 divisi sales tambahan](50-SALES-DIVISIONS.md). Setiap divisi juga memperoleh 4 role worker planned dari katalog kode: Research & Intake, Analysis & Prioritization, Workflow & Handoff, dan QA & Reporting (600 role untuk 150 divisi).
 
 | # | Divisi | Tugas inti |
 |---:|---|---|
@@ -60,4 +60,4 @@ Website analytics baru dinyatakan terhubung setelah:
 6. Dashboard menampilkan metrik analitik dan 150 kartu divisi.
 7. Data uji benar-benar muncul setelah kunjungan baru, tanpa merusak login, routing atau tema dashboard.
 
-Divisi baru dinyatakan operational setelah integrasi sumbernya dikonfigurasi, koneksi diuji, error logging aktif, dan jalur tugasnya memiliki adapter eksekusi serta approval policy yang benar.
+Role worker berstatus planned sampai eksekutor, sumber data, dan approval diuji. Divisi baru dinyatakan operational setelah integrasi sumbernya dikonfigurasi, koneksi diuji, error logging aktif, dan jalur tugasnya memiliki adapter eksekusi serta approval policy yang benar.

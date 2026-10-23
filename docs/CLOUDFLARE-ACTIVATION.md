@@ -10,7 +10,7 @@ Tujuan: sambungkan website, panel analitik, dan registry 150 divisi menggunakan 
 4. Workflow harus membuktikan /health menunjukkan ready=true dan storageMode=shared_d1. Endpoint /api/divisions harus mengembalikan 150 divisi dan tepat 310 catatan integrasi.
 5. Pada Worker website agencyai, tambahkan tracker hanya ke respons HTML halaman publik.
 6. Pada Worker dashboard aigrowth-owner-dashboard, tambahkan dashboard-panel.js hanya ke respons HTML dashboard setelah login. Script ini otomatis memuat panel divisi juga.
-7. Buka website, lakukan beberapa navigasi, lalu dashboard. Verifikasi page views, top pages, dan 150 kartu divisi tampil tanpa mengubah tema, login, atau API dashboard.
+7. Buka website, lakukan beberapa navigasi, lalu dashboard. Verifikasi page views, top pages, 150 kartu divisi, serta 4 role worker berstatus planned pada setiap divisi tampil tanpa mengubah tema, login, atau API dashboard.
 
 ## Script untuk dipasang
 
@@ -60,7 +60,7 @@ Panggil helper ini pada jalur respons HTML existing: tracker.js di website; dash
 
 ## Divisi dan status operasional
 
-Registry terdiri dari 150 divisi dan 310 kebutuhan koneksi integrasi yang tercatat. Status awal koneksi adalah not_connected; divisi ditampilkan sebagai SETUP NEEDED hingga konektor benar-benar disambungkan dan diverifikasi. Itu status yang jujur, bukan klaim bahwa semua AI agent sudah berjalan.
+Registry terdiri dari 150 divisi dan 310 kebutuhan koneksi integrasi yang tercatat. Status awal koneksi adalah not_connected; divisi ditampilkan sebagai SETUP NEEDED hingga konektor benar-benar disambungkan dan diverifikasi. Setiap divisi memiliki empat role worker yang didefinisikan di katalog dan disajikan API/panel sebagai planned; ini bukan bukti agent sudah aktif. Itu status yang jujur, bukan klaim bahwa semua AI agent sudah berjalan.
 
 Untuk mengaktifkan endpoint task queue, buat secret GitHub Actions bernama AGA_OWNER_API_TOKEN lalu jalankan ulang workflow. POST /api/divisions/:slug/tasks membuat task yang menunggu approval Owner. Endpoint ini sengaja tidak menjalankan AI/task secara otomatis. Eksekutor per divisi, sumber data, serta connector harus dibangun dan diuji terpisah sebelum pekerjaan otomatis dijalankan.
 
