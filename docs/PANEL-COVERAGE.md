@@ -16,7 +16,7 @@ Dokumen ini memisahkan fungsi yang sudah memiliki source code dari integrasi eks
 
 ## 2. Registry 100 divisi
 
-Migration 0002 mendaftarkan 11 divisi dasar dan migration 0003 menambahkan 89 divisi dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard.
+Migration 0002 mendaftarkan 11 divisi dasar dan migration 0003 menambahkan 89 divisi dengan misi, tanggung jawab, input/output, KPI, approval policy, automation level, dan dependency integrasi. GET /api/divisions menyajikan record D1 ini ke Owner Dashboard. Rincian misi tiap divisi ada di [katalog lengkap 100 divisi](100-DIVISIONS-CATALOG.md).
 
 | # | Divisi | Tugas inti |
 |---:|---|---|
