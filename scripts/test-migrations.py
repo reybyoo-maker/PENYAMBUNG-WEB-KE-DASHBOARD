@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate all repository SQL migrations with SQLite, mirroring D1's SQLite dialect."""
 from pathlib import Path
+import json
 import sqlite3
 
 root = Path(__file__).resolve().parent.parent
@@ -31,6 +32,33 @@ for table in ("website_analytics_events", "aga_division_registry", "aga_division
     exists = scalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=" + repr(table))
     if exists != 1:
         raise SystemExit(f"Expected table is missing: {table}")
+
+catalog_source = (root / "src" / "divisions.js").read_text(encoding="utf-8")
+catalog = json.loads(catalog_source.split("=", 1)[1].strip().removesuffix(";"))
+catalog_slugs = {item["slug"] for item in catalog}
+database_slugs = {row[0] for row in connection.execute("SELECT slug FROM aga_division_registry")}
+if catalog_slugs != database_slugs:
+    raise SystemExit(
+        "Expected catalog and D1 division slugs to match; "
+        f"missing in D1={sorted(catalog_slugs - database_slugs)[:10]}, "
+        f"unexpected in D1={sorted(database_slugs - catalog_slugs)[:10]}"
+    )
+
+catalog_integrations = {
+    (division["slug"], integration["key"])
+    for division in catalog
+    for integration in division["integrations"]
+}
+database_integrations = {
+    (row[0], row[1])
+    for row in connection.execute("SELECT division_slug, integration_key FROM aga_division_integrations")
+}
+if catalog_integrations != database_integrations:
+    raise SystemExit(
+        "Expected catalog and D1 integration keys to match; "
+        f"missing={sorted(catalog_integrations - database_integrations)[:10]}, "
+        f"unexpected={sorted(database_integrations - catalog_integrations)[:10]}"
+    )
 
 foreign_key_errors = connection.execute("PRAGMA foreign_key_check").fetchall()
 if foreign_key_errors:
