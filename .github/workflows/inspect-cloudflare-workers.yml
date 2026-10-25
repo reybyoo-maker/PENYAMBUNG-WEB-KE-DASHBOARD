@@ -45,14 +45,17 @@ jobs:
               if (cut < 0) continue;
               const headers = part.slice(0, cut);
               let body = part.slice(cut + 4).replace(/\r\n$/, "").replace(/\r\n--$/, "");
-              const disp = /content-disposition:[^\r\n]*name="([^"]+)"(?:;\s*filename="([^"]+)")?/i.exec(headers);
-              const name = disp?.[2] || disp?.[1] || "";
-              if (!name) continue;
-              if (name.toLowerCase() === "metadata") {
-                try { metadata = JSON.parse(body); } catch {}
-              } else {
-                modules.push({ name, size: Buffer.byteLength(body), source: body });
+              const formName = /content-disposition:[^\\r\\n]*name="([^"]+)"/i.exec(headers)?.[1] || "";
+              const filename = /filename="([^"]+)"/i.exec(headers)?.[1] || "";
+              const headerSummary = headers.replace(/\\r?\\n/g, " | ").slice(0, 220);
+              if (/metadata/i.test(formName) || /metadata/i.test(filename)) {
+                try { metadata = JSON.parse(body); }
+                catch { console.log("metadata_parse_failed; part_header=" + headerSummary + "; body_start=" + body.slice(0, 180)); }
+                continue;
               }
+              const name = filename || formName;
+              if (!name) continue;
+              modules.push({ name, size: Buffer.byteLength(body), source: body });
             }
             return { metadata, modules };
           }
