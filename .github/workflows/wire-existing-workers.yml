@@ -68,9 +68,9 @@ jobs:
             request(`${base}/${worker}/content/v2`),
             request(`${base}/${worker}/settings`)
           ]);
-          if (!verifySourceGet.response.ok) throw new Error("Could not download existing agencyai source (HTTP " + verifySourceGet.response.status + ").");
+          if (!sourceGet.response.ok) throw new Error("Could not download existing agencyai source (HTTP " + sourceGet.response.status + ").");
           if (!settingsGet.response.ok) throw new Error("Could not read agencyai settings (HTTP " + settingsGet.response.status + ").");
-          const modules = readModules(verifySourceGet.response.headers.get("content-type"), verifySourceGet.bytes);
+          const modules = readModules(sourceGet.response.headers.get("content-type"), sourceGet.bytes);
           const main = modules.find(m => m.filename === "index.js") || modules[0];
           if (!main) throw new Error("Could not identify existing agencyai entry module; refusing to replace it.");
           let source = main.source;
