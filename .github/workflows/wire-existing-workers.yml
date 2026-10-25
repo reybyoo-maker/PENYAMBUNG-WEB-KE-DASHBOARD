@@ -125,7 +125,7 @@ jobs:
           }
 
           const form = new FormData();
-          form.set("metadata", JSON.stringify(metadata));
+          form.set("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }), "metadata.json");
           form.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
           const uploaded = await api(`${base}/${worker}`, { method: "PUT", body: form });
           if (!uploaded.response.ok) {
