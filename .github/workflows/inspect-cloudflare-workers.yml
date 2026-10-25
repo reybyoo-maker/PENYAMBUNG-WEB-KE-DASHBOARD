@@ -119,7 +119,19 @@ jobs:
             if (versionsResponse.response.ok) {
               let versionPayload = {};
               try { versionPayload = JSON.parse(versionsResponse.data.toString("utf8")); } catch {}
-              const versions = Array.isArray(versionPayload.result) ? versionPayload.result : (Array.isArray(versionPayload.result?.result) ? versionPayload.result.result : []);
+              const vr = versionPayload.result;
+              const versions = Array.isArray(vr) ? vr : [
+                ...(Array.isArray(vr?.result) ? vr.result : []),
+                ...(Array.isArray(vr?.items) ? vr.items : []),
+                ...(Array.isArray(vr?.versions) ? vr.versions : []),
+                ...(Array.isArray(vr?.data) ? vr.data : [])
+              ];
+              console.log(JSON.stringify({
+                versions_result_type: Array.isArray(vr) ? "array" : typeof vr,
+                versions_result_keys: vr && typeof vr === "object" ? Object.keys(vr) : [],
+                version_count: versions.length,
+                sample_versions: versions.slice(0, 4).map(v=>({id:v.id || null, number:v.number || null, source:v.metadata?.source || v.source || null, created_on:v.metadata?.created_on || v.created_on || null, keys:Object.keys(v)}))
+              }, null, 2));
               const recent = versions.slice(0, 4);
               for (const version of recent) {
                 const id = version.id;
