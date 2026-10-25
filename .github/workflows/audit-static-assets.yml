@@ -43,7 +43,35 @@ jobs:
             }
           }
 
-          const assetPaths = [...refs.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+          const sm = await fetch(origin + "/sitemap.xml?__aga_probe=" + Date.now(), {cache:"no-store"});
+          const sitemap = await sm.text();
+          const routes = [...sitemap.matchAll(/<loc>(.*?)<\\/loc>/gi)].map(m=>m[1].trim()).map(v=>{try{return new URL(v).pathname}catch{return null}}).filter(Boolean).slice(0,12);
+          const routeProbes = [];
+          for (const route of routes) {
+            const candidates = [...new Set([
+              route,
+              route === "/" ? "/index.html" : (route.endsWith("/") ? route + "index.html" : route + ".html"),
+              route === "/" ? "/index.html" : (route.endsWith("/") ? route.slice(0,-1) + ".html" : route + "/index.html")
+            ])];
+            const results = [];
+            for (const candidate of candidates) {
+              try {
+                const response = await fetch(origin + candidate + "?__aga_probe=" + Date.now(), {redirect:"manual",cache:"no-store"});
+                const body = await response.text();
+                results.push({
+                  candidate,
+                  status:response.status,
+                  final_path:new URL(response.url).pathname,
+                  location:response.headers.get("location"),
+                  bytes:Buffer.byteLength(body),
+                  same_as_route: candidate === route ? null : body.length > 2000 && body.length === (await (await fetch(origin+route,{cache:"no-store"})).text()).length
+                });
+              } catch(e) { results.push({candidate,error:String(e).slice(0,100)}); }
+            }
+            routeProbes.push({route,candidates:results});
+          }
+
+                    const assetPaths = [...refs.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
           const commonPaths = [
             "/index.html","/favicon.ico","/favicon.svg","/robots.txt","/sitemap.xml",
             "/site.webmanifest","/manifest.json","/apple-touch-icon.png","/404.html"
@@ -73,6 +101,9 @@ jobs:
             html_head_present:/<head[\s>]/i.test(html),
             references_count:assetPaths.length,
             references:assetPaths,
+            sitemap_http:sm.status,
+            sitemap_routes:routes,
+            route_probes:routeProbes,
             common_paths:common,
             external_origins:externalOrigins,
             existing_tracker_script:html.includes("aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
