@@ -45,7 +45,7 @@ jobs:
 
           const sm = await fetch(origin + "/sitemap.xml?__aga_probe=" + Date.now(), {cache:"no-store"});
           const sitemap = await sm.text();
-          const routes = [...sitemap.matchAll(/<loc>(.*?)<\\/loc>/gi)].map(m=>m[1].trim()).map(v=>{try{return new URL(v).pathname}catch{return null}}).filter(Boolean).slice(0,12);
+          const routes = sitemap.split("<loc>").slice(1).map(part => part.split("</loc>")[0].trim()).map(v=>{try{return new URL(v).pathname}catch{return null}}).filter(Boolean).slice(0,12);
           const routeProbes = [];
           for (const route of routes) {
             const candidates = [...new Set([
@@ -64,14 +64,14 @@ jobs:
                   final_path:new URL(response.url).pathname,
                   location:response.headers.get("location"),
                   bytes:Buffer.byteLength(body),
-                  same_as_route: candidate === route ? null : body.length > 2000 && body.length === (await (await fetch(origin+route,{cache:"no-store"})).text()).length
+                  title:(body.match(/<title[^>]*>(.*?)<\/title>/is)?.[1] || "").slice(0,80)
                 });
               } catch(e) { results.push({candidate,error:String(e).slice(0,100)}); }
             }
             routeProbes.push({route,candidates:results});
           }
 
-                    const assetPaths = [...refs.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+          const assetPaths = [...refs.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
           const commonPaths = [
             "/index.html","/favicon.ico","/favicon.svg","/robots.txt","/sitemap.xml",
             "/site.webmanifest","/manifest.json","/apple-touch-icon.png","/404.html"
