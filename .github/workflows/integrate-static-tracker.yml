@@ -225,8 +225,8 @@ jobs:
             throw new Error("sitemap.xml has unexpected content-type: " + sitemapResult.type);
           }
           const sitemapText = sitemapResult.bytes.toString("utf8");
-          const sitemapLocations = [...sitemapText.matchAll(/<loc(?:\\s[^>]*)?>([\\s\\S]*?)<\\/loc>/gi)]
-            .map(match => match[1].replace(/<!\\[CDATA\\[|\\]\\]>/g, "").trim());
+          const sitemapLocations = [...sitemapText.matchAll(/<loc(?:\s[^>]*)?>([\s\S]*?)<\/loc>/gi)]
+            .map(match => match[1].replace(/<!\[CDATA\[|\]\]>/g, "").trim());
           const sitemapPaths = sitemapLocations
             .map(value => {
               try {
