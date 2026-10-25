@@ -70,11 +70,34 @@ jobs:
         run: |
           set -euo pipefail
           BASE="https://aga-dashboard-bridge.reybyoo.workers.dev"
-          HEALTH="$(curl --fail --silent --show-error "$BASE/health")"
+
+          fetch_with_retry() {
+            local url="$1"
+            local label="$2"
+            local body
+            local status="000"
+            body="$(mktemp)"
+            for attempt in {1..12}; do
+              status="$(curl --silent --show-error --output "$body" --write-out '%{http_code}' "$url" 2>/dev/null || true)"
+              if [ "$status" = "200" ]; then
+                cat "$body"
+                rm -f "$body"
+                return 0
+              fi
+              echo "::notice::$label endpoint is not ready yet (HTTP $status, attempt $attempt/12)." >&2
+              sleep 2
+            done
+            echo "::error::$label endpoint did not become ready after retries (HTTP $status)." >&2
+            cat "$body" >&2
+            rm -f "$body"
+            return 1
+          }
+
+          HEALTH="$(fetch_with_retry "$BASE/health" "Health")"
           echo "$HEALTH" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ready!==true || v.configuration?.storageMode!=="shared_d1") { console.error("Bridge not ready or not using shared D1:",v); process.exit(1); } console.log("Health verified: shared D1 is ready.");})'
-          ANALYTICS="$(curl --fail --silent --show-error "$BASE/api/website-analytics?days=7")"
+          ANALYTICS="$(fetch_with_retry "$BASE/api/website-analytics?days=7" "Analytics API")"
           echo "$ANALYTICS" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ok!==true || v.source!=="cloudflare-d1") { console.error("Analytics API verification failed:",v); process.exit(1); } console.log("Analytics API verified; page_views="+(v.summary?.page_views ?? 0));})'
-          DIVISIONS="$(curl --fail --silent --show-error "$BASE/api/divisions")"
+          DIVISIONS="$(fetch_with_retry "$BASE/api/divisions" "Divisions API")"
           echo "$DIVISIONS" | node -e 'let d="";process.stdin.on("data",x=>d+=x).on("end",()=>{const v=JSON.parse(d); if(v.ok!==true || v.divisions?.length!==150 || v.summary?.total_integrations!==310) { console.error("Division registry verification failed:",{divisions:v.divisions?.length,integrations:v.summary?.total_integrations,error:v.error}); process.exit(1); } console.log("Division registry verified: "+v.divisions.length+" divisions and "+v.summary.total_integrations+" integration records.");})'
       - name: Publish activation notes
         if: always()
