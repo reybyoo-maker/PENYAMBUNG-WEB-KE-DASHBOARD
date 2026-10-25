@@ -97,9 +97,20 @@ jobs:
             source = source.slice(0, appendStart) + newCalls + source.slice(appendEnd + 2);
           }
 
+          const originalStatusGuard = source;
+          source = source.replace(
+            /response\\.status\\s*>=\\s*200\\s*(?:\\|\\||&&)\\s*response\\.status\\s*>=\\s*300/g,
+            "response.status < 200 || response.status >= 300"
+          );
+          const statusGuardFixed = source !== originalStatusGuard;
+          if (!source.includes("response.status < 200 || response.status >= 300")) {
+            throw new Error("Could not verify the HTTP status guard; refusing to deploy.");
+          }
+
           if (!source.includes(trackerTag) || !source.includes(legacyTag) || !source.includes("env.ASSETS.fetch(request)") || !source.includes("new HTMLRewriter()")) {
             throw new Error("Source safety checks failed; refusing to deploy.");
           }
+          console.log("Validated script tags and HTTP status guard; status_guard_fixed=" + statusGuardFixed + ".");
 
           // Keep the existing static asset bundle, ASSETS binding, compatibility settings,
           // and all existing Worker settings. The one routing change makes HTMLRewriter run
