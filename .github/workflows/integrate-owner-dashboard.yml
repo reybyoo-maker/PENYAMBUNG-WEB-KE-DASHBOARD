@@ -140,7 +140,7 @@ jobs:
           const syntax = spawnSync(process.execPath, ["--check", tempPath], { encoding: "utf8" });
           if (syntax.status !== 0) throw new Error("Patched owner Worker failed syntax check: " + (syntax.stderr || syntax.stdout).slice(0, 1400));
 
-          const { mkdir, writeFile } = await import("node:fs/promises");
+          const { mkdir } = await import("node:fs/promises");
           const workDir = "/tmp/owner-dashboard-wrangler";
           await mkdir(workDir, { recursive: true });
           await writeFile(workDir + "/worker.js", source, "utf8");
@@ -164,7 +164,6 @@ jobs:
           await writeFile(workDir + "/wrangler.toml", wranglerConfig, "utf8");
 
           const oldVersions = new Set((versionsGet.data.result?.items || []).map(v => v.id).filter(Boolean));
-          const { spawnSync } = await import("node:child_process");
           const wranglerUpload = spawnSync("npx", [
             "--yes", "wrangler@4", "versions", "upload",
             "--config", workDir + "/wrangler.toml",
