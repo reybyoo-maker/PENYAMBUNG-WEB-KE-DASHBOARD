@@ -132,7 +132,26 @@ jobs:
             throw new Error("Cloudflare rejected agencyai update (HTTP " + uploaded.response.status + "): " + uploaded.bytes.toString("utf8").slice(0, 1000));
           }
           resultJson(uploaded.bytes, "agencyai update");
-          console.log("Deployed agencyai with preserved assets and run_worker_first=true.");
+
+          // A script upload can create a version separate from the traffic deployment.
+          // Explicitly move 100% traffic to the newest version so its asset routing config is active.
+          const versionsResponse = await api(`${base}/${worker}/versions`);
+          if (!versionsResponse.response.ok) throw new Error("Could not list agencyai versions (HTTP " + versionsResponse.response.status + ").");
+          const versionPayload = resultJson(versionsResponse.bytes, "List agencyai versions");
+          const versions = Array.isArray(versionPayload?.items) ? versionPayload.items : (Array.isArray(versionPayload) ? versionPayload : []);
+          if (!versions.length || !versions[0].id) throw new Error("No new agencyai version id was found after upload.");
+          const newest = versions[0];
+          const deploymentBody = JSON.stringify({
+            strategy: "percentage",
+            versions: [{ percentage: 100, version_id: newest.id }]
+          });
+          const deployed = await api(`${base}/${worker}/deployments`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: deploymentBody
+          });
+          resultJson(deployed.bytes, "Deploy agencyai version");
+          console.log("Activated agencyai version " + newest.id + " at 100% traffic with run_worker_first=true.");
 
           // Verify public responses after propagation. Query-string cache busters prevent
           // cached copies of the old HTML from being mistaken for the new Worker response.
