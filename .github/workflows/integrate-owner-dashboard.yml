@@ -91,8 +91,11 @@ jobs:
           const tick = String.fromCharCode(96);
           const htmlStart = source.indexOf("const HTML = " + tick);
           if (htmlStart < 0) throw new Error("Could not identify owner dashboard HTML template.");
-          const htmlEnd = source.indexOf(tick + ";\n\nfunction htmlResponse()", htmlStart);
-          if (htmlEnd < 0) throw new Error("Could not locate the end of the owner dashboard HTML template.");
+          const htmlResponseIndex = source.indexOf("function htmlResponse()", htmlStart);
+          const htmlEnd = htmlResponseIndex >= 0 ? source.lastIndexOf(tick, htmlResponseIndex) : -1;
+          if (htmlEnd <= htmlStart || source[htmlEnd + 1] !== ";") {
+            throw new Error("Could not locate the end of the owner dashboard HTML template.");
+          }
           let htmlTemplate = source.slice(htmlStart, htmlEnd);
           if (!htmlTemplate.includes("</head>")) throw new Error("Owner HTML template has no closing head tag.");
           if (!htmlTemplate.includes(dashboardScriptTag)) {
