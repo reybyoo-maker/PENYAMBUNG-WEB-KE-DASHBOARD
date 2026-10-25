@@ -1,0 +1,161 @@
+name: Wire AIGROWTH website tracker to existing Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/wire-existing-workers.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wire-website:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Patch only the website HTML script injection and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          if (!account || !token) throw new Error("Missing Cloudflare Actions secrets.");
+          const base = `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts`;
+          const auth = { Authorization: `Bearer ${token}` };
+
+          async function request(url, options = {}) {
+            const response = await fetch(url, { ...options, headers: { ...auth, ...(options.headers || {}) } });
+            const bytes = Buffer.from(await response.arrayBuffer());
+            return { response, bytes };
+          }
+
+          function readModules(contentType, buffer) {
+            const match = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
+            if (!match) throw new Error("Cloudflare content response was not multipart; refusing to patch.");
+            const boundary = match[1] || match[2];
+            const modules = [];
+            for (const part of buffer.toString("utf8").split("--" + boundary)) {
+              const cut = part.indexOf("\r\n\r\n");
+              if (cut < 0) continue;
+              const headers = part.slice(0, cut);
+              const body = part.slice(cut + 4).replace(/\r\n$/, "");
+              const filename = /filename="([^"]+)"/i.exec(headers)?.[1];
+              if (filename && filename.toLowerCase() !== "metadata" && !filename.toLowerCase().startsWith("metadata.")) {
+                modules.push({ filename, source: body });
+              }
+            }
+            return modules;
+          }
+
+          function resultJson(bytes, label) {
+            let data;
+            try { data = JSON.parse(bytes.toString("utf8")); }
+            catch { throw new Error(label + " returned a non-JSON response."); }
+            if (!data.success) {
+              const details = (data.errors || []).map(e => `${e.code || ""} ${e.message || ""}`).join("; ");
+              throw new Error(label + " failed: " + details.slice(0, 600));
+            }
+            return data.result;
+          }
+
+          const worker = "agencyai";
+          const [sourceGet, settingsGet] = await Promise.all([
+            request(`${base}/${worker}/content/v2`),
+            request(`${base}/${worker}/settings`)
+          ]);
+          if (!sourceGet.response.ok) throw new Error("Could not download existing agencyai source (HTTP " + sourceGet.response.status + ").");
+          if (!settingsGet.response.ok) throw new Error("Could not read agencyai settings (HTTP " + settingsGet.response.status + ").");
+          const modules = readModules(sourceGet.response.headers.get("content-type"), sourceGet.bytes);
+          const main = modules.find(m => m.filename === "index.js") || modules[0];
+          if (!main) throw new Error("Could not identify existing agencyai entry module; refusing to replace it.");
+          let source = main.source;
+          if (source.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js")) {
+            console.log("Website tracker script URL is already present in agencyai; no source edit required.");
+          } else {
+            const url = "aigrowth-owner-dashboard.reybyoo.workers.dev/t.js";
+            const urlIndex = source.indexOf(url);
+            if (urlIndex < 0) throw new Error("Expected legacy t.js injection was not found; refusing to change an unknown source version.");
+            const appendStart = source.lastIndexOf("head.append(", urlIndex);
+            const appendEndMark = source.indexOf(");", urlIndex);
+            if (appendStart < 0 || appendEndMark < 0 || appendEndMark - appendStart > 1500) {
+              throw new Error("Could not isolate the legacy head.append() call; refusing to patch.");
+            }
+            const oldCall = source.slice(appendStart, appendEndMark + 2);
+            if (!oldCall.includes(url) || !oldCall.includes("{ html: true }")) {
+              throw new Error("The legacy head.append() structure differed from the expected safe patch anchor.");
+            }
+            const newCalls = `head.append(
+                      '<script defer src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js" data-aigrowth-owner="1"></script>',
+                      { html: true }
+                    );
+                    head.append(
+                      '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"></script>',
+                      { html: true }
+                    );`;
+            source = source.slice(0, appendStart) + newCalls + source.slice(appendEndMark + 2);
+            if (!source.includes('src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"') ||
+                !source.includes('src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"')) {
+              throw new Error("Source validation failed before upload.");
+            }
+
+            const settingsBody = JSON.parse(settingsGet.bytes.toString("utf8"));
+            const settings = settingsBody.result || {};
+            const bindings = Array.isArray(settings.bindings) ? settings.bindings : [];
+            if (!bindings.some(b => b.name === "ASSETS" && b.type === "assets")) {
+              throw new Error("Existing ASSETS binding was not found in settings; refusing to deploy.");
+            }
+            const metadata = {
+              main_module: main.filename,
+              keep_assets: true,
+              bindings,
+              compatibility_date: settings.compatibility_date || "2025-01-01",
+              compatibility_flags: settings.compatibility_flags || [],
+              usage_model: settings.usage_model || "standard"
+            };
+            for (const key of ["placement", "tags", "tail_consumers", "logpush", "annotations"]) {
+              if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
+            }
+
+            const form = new FormData();
+            form.set("metadata", JSON.stringify(metadata));
+            form.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
+            const uploaded = await request(`${base}/${worker}`, { method: "PUT", body: form });
+            if (!uploaded.response.ok) {
+              throw new Error("Cloudflare rejected agencyai update (HTTP " + uploaded.response.status + "): " + uploaded.bytes.toString("utf8").slice(0, 700));
+            }
+            resultJson(uploaded.bytes, "agencyai update");
+            console.log("Uploaded the narrowly scoped agencyai script-injection fix. Preserved ASSETS binding and existing assets.");
+          }
+
+          const [liveSettings, publicSite, tracker, health] = await Promise.all([
+            request(`${base}/${worker}/settings`),
+            fetch("https://aigrowth.my.id/", { redirect: "follow" }),
+            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
+            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health")
+          ]);
+          const liveBody = await publicSite.text();
+          const settingsObj = liveSettings.response.ok ? JSON.parse(liveSettings.bytes.toString("utf8")).result || {} : {};
+          const assetPreserved = Array.isArray(settingsObj.bindings) && settingsObj.bindings.some(b => b.name === "ASSETS" && b.type === "assets");
+          const healthBody = await health.text();
+          if (!publicSite.ok) throw new Error("aigrowth.my.id failed live verification (HTTP " + publicSite.status + ").");
+          if (!liveSettings.response.ok || !assetPreserved) throw new Error("Live settings verification failed: ASSETS binding not confirmed.");
+          if (!tracker.ok) throw new Error("Bridge tracker endpoint failed live verification (HTTP " + tracker.status + ").");
+          if (!health.ok || !healthBody.includes('"ready":true')) throw new Error("Bridge health endpoint is not ready.");
+          const trackerInHtml = liveBody.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js");
+          if (!trackerInHtml) throw new Error("Website is live, but the tracker script is not visible in the returned HTML.");
+          console.log(JSON.stringify({
+            status: "success",
+            worker: worker,
+            website_http: publicSite.status,
+            tracker_http: tracker.status,
+            bridge_health_http: health.status,
+            assets_binding_preserved: assetPreserved,
+            tracker_script_found_in_live_html: trackerInHtml,
+            legacy_t_script_preserved: liveBody.includes("https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js")
+          }, null, 2));
+          NODE
