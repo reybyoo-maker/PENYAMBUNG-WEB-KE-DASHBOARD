@@ -53,13 +53,13 @@ jobs:
           D1_DATABASE_ID: ${{ steps.d1.outputs.database_id }}
         run: node scripts/prepare-wrangler-config.mjs
       - name: Apply analytics migration to existing D1
-        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --batch-size=25 --file=migrations/0001_website_analytics.sql --config=wrangler.deploy.toml
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0001_website_analytics.sql --config=wrangler.deploy.toml
       - name: Apply division registry migration to existing D1
-        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --batch-size=25 --file=migrations/0002_divisions_operations.sql --config=wrangler.deploy.toml
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0002_divisions_operations.sql --config=wrangler.deploy.toml
       - name: Apply base expansion to 100 divisions
-        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --batch-size=25 --file=migrations/0003_expand_divisions_to_100.sql --config=wrangler.deploy.toml
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0003_expand_divisions_to_100.sql --config=wrangler.deploy.toml
       - name: Apply 50 sales specialist divisions to D1
-        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --batch-size=25 --file=migrations/0004_add_50_sales_divisions.sql --config=wrangler.deploy.toml
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0004_add_50_sales_divisions.sql --config=wrangler.deploy.toml
       - name: Deploy bridge to Cloudflare
         run: npx wrangler@4 deploy --config=wrangler.deploy.toml
       - name: Configure optional Owner task API token
