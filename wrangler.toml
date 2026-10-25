@@ -4,7 +4,7 @@ compatibility_date = "2026-10-20"
 workers_dev = true
 
 [vars]
-ALLOWED_ORIGINS = "https://aigrowth.my.id,https://dashboard.aigrowth.my.id"
+ALLOWED_ORIGINS = "https://aigrowth.my.id,https://agencyai.reybyoo.workers.dev,https://agencyai-hq.reybyoo.workers.dev,https://dashboard.aigrowth.my.id,https://aigrowth-owner-dashboard.reybyoo.workers.dev"
 DASHBOARD_PAYLOAD_MODE = "records"
 
 [observability]
