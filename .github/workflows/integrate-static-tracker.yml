@@ -1,0 +1,540 @@
+name: Integrate AIGROWTH tracker into published static pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/integrate-static-tracker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Build complete asset manifest, publish tracker scripts, and verify live site
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import crypto from "node:crypto";
+
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          if (!account || !token) throw new Error("Cloudflare GitHub Actions secrets are missing.");
+
+          const origin = "https://aigrowth.my.id";
+          const apiBase = "https://api.cloudflare.com/client/v4/accounts/" + account;
+          const scriptBase = apiBase + "/workers/scripts/agencyai";
+          const apiHeaders = { Authorization: "Bearer " + token };
+          const bridge = "https://aga-dashboard-bridge.reybyoo.workers.dev";
+          const ownerScript = "https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js";
+          const trackerScript = bridge + "/tracker.js";
+
+          async function cfJson(path, options = {}, auth = apiHeaders) {
+            const response = await fetch(path.startsWith("http") ? path : apiBase + path, {
+              ...options,
+              headers: { ...auth, ...(options.headers || {}) }
+            });
+            const bytes = Buffer.from(await response.arrayBuffer());
+            let data = {};
+            try { data = JSON.parse(bytes.toString("utf8")); } catch {}
+            return { response, bytes, data };
+          }
+
+          async function publicRequest(path) {
+            const url = new URL(path, origin);
+            url.hash = "";
+            const response = await fetch(url.href, { redirect: "follow", cache: "no-store" });
+            const bytes = Buffer.from(await response.arrayBuffer());
+            return {
+              response,
+              bytes,
+              url: response.url,
+              type: (response.headers.get("content-type") || "").split(";")[0].trim().toLowerCase()
+            };
+          }
+
+          function md5(bytes) {
+            return crypto.createHash("md5").update(bytes).digest("hex");
+          }
+
+          function isPageRoute(pathname) {
+            const path = pathname || "/";
+            if (path.startsWith("/_next/") || path.startsWith("/api/") || path.startsWith("/_vercel/")) return false;
+            if (path === "/robots.txt" || path === "/sitemap.xml" || path === "/favicon.ico") return false;
+            const finalSegment = path.split("/").filter(Boolean).at(-1) || "";
+            return !finalSegment.includes(".");
+          }
+
+          function normalizeRoute(pathname) {
+            let path = pathname || "/";
+            if (path.endsWith(".html")) path = path.slice(0, -5) || "/";
+            if (path.length > 1) path = path.replace(/\/+$/, "");
+            return path || "/";
+          }
+
+          function assetPathForRoute(route) {
+            if (route === "/") return "/index.html";
+            if (route.endsWith("/")) return route + "index.html";
+            return route + ".html";
+          }
+
+          function mimeFromPath(path) {
+            const ext = path.toLowerCase().split("?")[0].split(".").pop();
+            const table = {
+              html:"text/html", js:"application/javascript", mjs:"application/javascript",
+              css:"text/css", json:"application/json", map:"application/json",
+              txt:"text/plain", xml:"application/xml", svg:"image/svg+xml",
+              png:"image/png", jpg:"image/jpeg", jpeg:"image/jpeg", webp:"image/webp",
+              gif:"image/gif", ico:"image/x-icon", avif:"image/avif",
+              woff:"font/woff", woff2:"font/woff2", ttf:"font/ttf", otf:"font/otf",
+              eot:"application/vnd.ms-fontobject", pdf:"application/pdf",
+              mp4:"video/mp4", webm:"video/webm", wasm:"application/wasm"
+            };
+            return table[ext] || "application/octet-stream";
+          }
+
+          function injectTracker(html, route) {
+            if (!/<head[\s>]/i.test(html) || !/<\/head\s*>/i.test(html)) {
+              throw new Error("HTML page lacks a normal head element: " + route);
+            }
+            let additions = "";
+            if (!html.includes(ownerScript)) {
+              additions += '<script defer src="' + ownerScript + '" data-aigrowth-owner="1"></script>\n';
+            }
+            if (!html.includes(trackerScript)) {
+              additions += '<script defer src="' + trackerScript + '"></script>\n';
+            }
+            if (!additions) return { html, changed: false };
+            return {
+              html: html.replace(/<\/head\s*>/i, additions + "</head>"),
+              changed: true
+            };
+          }
+
+          const assetMap = new Map();
+          const routeQueue = [];
+          const queuedRoutes = new Set();
+          const processedRoutes = new Set();
+          const assetQueue = [];
+          const queuedAssets = new Set();
+          const processedAssets = new Set();
+          const missingReferences = [];
+          const pagePaths = [];
+          const routeLimit = 300;
+          const assetLimit = 1500;
+
+          function queueRoute(pathname) {
+            const route = normalizeRoute(pathname);
+            if (!route || route.startsWith("/_next/") || route.startsWith("/api/") ||
+                route.startsWith("/_vercel/") || route === "/robots.txt" || route === "/sitemap.xml") return;
+            if (!isPageRoute(route) && route !== "/404") return;
+            if (!queuedRoutes.has(route) && !processedRoutes.has(route) && routeQueue.length < routeLimit) {
+              queuedRoutes.add(route);
+              routeQueue.push(route);
+            }
+          }
+
+          function queueAsset(pathname) {
+            const path = pathname || "";
+            if (!path.startsWith("/") || path.startsWith("//") || path === "/" ||
+                path.startsWith("/api/") || path.startsWith("/_vercel/")) return;
+            if (path.endsWith(".html")) {
+              queueRoute(path);
+              return;
+            }
+            if (isPageRoute(path)) {
+              queueRoute(path);
+              return;
+            }
+            if (!queuedAssets.has(path) && !processedAssets.has(path) && assetQueue.length < assetLimit) {
+              queuedAssets.add(path);
+              assetQueue.push(path);
+            }
+          }
+
+          function observeUrl(value, fromPath) {
+            if (!value || /^(?:data:|blob:|javascript:|mailto:|tel:|#)/i.test(value.trim())) return;
+            let url;
+            try { url = new URL(value.trim(), origin + fromPath); } catch { return; }
+            if (url.origin !== origin || url.protocol !== "https:") return;
+            const path = url.pathname;
+            if (!path || path === "/") {
+              queueRoute("/");
+              return;
+            }
+            if (path.endsWith(".html")) {
+              queueRoute(path);
+            } else if (isPageRoute(path)) {
+              queueRoute(path);
+            } else {
+              queueAsset(path);
+            }
+          }
+
+          function scanHtml(html, route) {
+            const attrRe = /\b(?:src|href|poster|data-src|data-href)\s*=\s*["']([^"']+)["']/gi;
+            for (const match of html.matchAll(attrRe)) observeUrl(match[1], route);
+
+            const srcsetRe = /\bsrcset\s*=\s*["']([^"']+)["']/gi;
+            for (const match of html.matchAll(srcsetRe)) {
+              for (const item of match[1].split(",")) {
+                const value = item.trim().split(/\s+/)[0];
+                if (value && !value.startsWith("data:")) observeUrl(value, route);
+              }
+            }
+
+            const metaImageRe = /<meta\b[^>]*(?:property|name)\s*=\s*["'](?:og:image|twitter:image)["'][^>]*content\s*=\s*["']([^"']+)["'][^>]*>/gi;
+            for (const match of html.matchAll(metaImageRe)) observeUrl(match[1], route);
+          }
+
+          function scanCss(css, pathname) {
+            const urlRe = /url\(\s*["']?([^)"']+)["']?\s*\)/gi;
+            for (const match of css.matchAll(urlRe)) observeUrl(match[1], pathname);
+            const importRe = /@import\s+(?:url\(\s*)?["']([^"']+)["']/gi;
+            for (const match of css.matchAll(importRe)) observeUrl(match[1], pathname);
+          }
+
+          function scanJs(js) {
+            const staticRe = /["']([^"']*\/_next\/static\/[^"']+\.(?:js|css|json|woff2?|ttf|png|svg|webp|jpe?g|gif|avif))(?:\?[^"']*)?["']/gi;
+            for (const match of js.matchAll(staticRe)) {
+              try {
+                const url = new URL(match[1], origin);
+                if (url.origin === origin) queueAsset(url.pathname);
+              } catch {}
+            }
+            const chunkRe = /["']((?:static\/)(?:chunks|css)\/[A-Za-z0-9_./-]+\.(?:js|css))["']/gi;
+            for (const match of js.matchAll(chunkRe)) {
+              const pathname = "/_next/" + match[1].replace(/^\/+/, "");
+              queueAsset(pathname);
+            }
+          }
+
+          const [sitemapResult, robotsResult] = await Promise.all([
+            publicRequest("/sitemap.xml"),
+            publicRequest("/robots.txt")
+          ]);
+          if (!sitemapResult.response.ok) throw new Error("Could not download sitemap.xml (HTTP " + sitemapResult.response.status + ").");
+          if (sitemapResult.type !== "application/xml" && sitemapResult.type !== "text/xml") {
+            throw new Error("sitemap.xml has unexpected content-type: " + sitemapResult.type);
+          }
+          const sitemapText = sitemapResult.bytes.toString("utf8");
+          const sitemapPaths = sitemapText.split("<loc>").slice(1)
+            .map(part => part.split("</loc>")[0].trim())
+            .map(value => {
+              try {
+                const url = new URL(value);
+                return url.origin === origin ? normalizeRoute(url.pathname) : null;
+              } catch { return null; }
+            })
+            .filter(Boolean);
+          queueRoute("/");
+          for (const route of sitemapPaths) queueRoute(route);
+          if (robotsResult.response.ok) {
+            assetMap.set("/robots.txt", { bytes: robotsResult.bytes, type: robotsResult.type || "text/plain" });
+          }
+          assetMap.set("/sitemap.xml", { bytes: sitemapResult.bytes, type: sitemapResult.type || "application/xml" });
+
+          console.log("Starting public page crawl. sitemap_routes=" + sitemapPaths.length);
+
+          while (routeQueue.length && processedRoutes.size < routeLimit) {
+            const route = routeQueue.shift();
+            queuedRoutes.delete(route);
+            if (processedRoutes.has(route)) continue;
+            processedRoutes.add(route);
+
+            let fetched;
+            try { fetched = await publicRequest(route); }
+            catch (error) {
+              if (sitemapPaths.includes(route)) throw new Error("Failed to fetch sitemap route " + route + ": " + String(error));
+              continue;
+            }
+            if (!fetched.response.ok || !fetched.type.includes("text/html") || fetched.bytes.length < 1000) {
+              if (sitemapPaths.includes(route)) {
+                throw new Error("Sitemap page is not healthy: " + route + " HTTP " + fetched.response.status + " type=" + fetched.type);
+              }
+              continue;
+            }
+
+            const originalHtml = fetched.bytes.toString("utf8");
+            const injection = injectTracker(originalHtml, route);
+            const htmlBytes = Buffer.from(injection.html, "utf8");
+            const assetPath = assetPathForRoute(route);
+            assetMap.set(assetPath, { bytes: htmlBytes, type: "text/html" });
+            pagePaths.push(route);
+            scanHtml(originalHtml, route);
+          }
+
+          // Keep a custom 404 document available for Workers static-assets not-found handling.
+          try {
+            const notFound = await publicRequest("/404");
+            if (notFound.response.ok && notFound.type.includes("text/html") && notFound.bytes.length > 1000) {
+              const body = notFound.bytes.toString("utf8");
+              const fixed = injectTracker(body, "/404").html;
+              assetMap.set("/404.html", { bytes: Buffer.from(fixed, "utf8"), type: "text/html" });
+            }
+          } catch {}
+
+          // Preserve every local asset referenced by discovered HTML and recursively referenced
+          // CSS/font/image assets. JS bundles are scanned for statically named Next.js chunks.
+          let assetProcessed = 0;
+          while (assetQueue.length && assetProcessed < assetLimit) {
+            const path = assetQueue.shift();
+            queuedAssets.delete(path);
+            if (processedAssets.has(path) || assetMap.has(path)) continue;
+            processedAssets.add(path);
+            assetProcessed++;
+
+            let fetched;
+            try { fetched = await publicRequest(path); }
+            catch (error) {
+              missingReferences.push({ path, reason: String(error).slice(0, 150) });
+              continue;
+            }
+            if (!fetched.response.ok || fetched.bytes.length === 0 || fetched.type.includes("text/html")) {
+              missingReferences.push({
+                path,
+                http: fetched.response.status,
+                type: fetched.type,
+                reason: "referenced asset did not return a non-empty static asset"
+              });
+              continue;
+            }
+
+            const type = fetched.type || mimeFromPath(path);
+            assetMap.set(path, { bytes: fetched.bytes, type });
+            if (type.includes("text/css") || path.toLowerCase().endsWith(".css")) {
+              scanCss(fetched.bytes.toString("utf8"), path);
+            } else if (type.includes("javascript") || type.includes("ecmascript") || path.toLowerCase().endsWith(".js") || path.toLowerCase().endsWith(".mjs")) {
+              scanJs(fetched.bytes.toString("utf8"));
+            }
+          }
+
+          if (!pagePaths.includes("/")) throw new Error("Homepage HTML was not included in the asset manifest.");
+          if (!pagePaths.every(route => assetMap.has(assetPathForRoute(route)))) {
+            throw new Error("One or more discovered HTML routes are missing their physical .html asset key.");
+          }
+
+          const manifest = {};
+          const hashToAsset = new Map();
+          let totalBytes = 0;
+          for (const [path, asset] of assetMap.entries()) {
+            if (!path.startsWith("/") || path.startsWith("//")) throw new Error("Invalid manifest path: " + path);
+            const hash = md5(asset.bytes);
+            manifest[path] = { hash, size: asset.bytes.length };
+            totalBytes += asset.bytes.length;
+            if (!hashToAsset.has(hash)) hashToAsset.set(hash, asset);
+          }
+
+          console.log(JSON.stringify({
+            crawl_summary: {
+              sitemap_routes: sitemapPaths.length,
+              html_pages_with_tracker: pagePaths.length,
+              asset_manifest_entries: Object.keys(manifest).length,
+              total_asset_bytes: totalBytes,
+              missing_optional_references: missingReferences.length,
+              missing_reference_samples: missingReferences.slice(0, 12),
+              sample_paths: Object.keys(manifest).slice(0, 25)
+            }
+          }, null, 2));
+
+          // Inspect existing Worker settings and source so the new asset version keeps
+          // the entry module, current ASSETS binding, compatibility settings, and logs.
+          const [settingsGet, sourceGet, deploymentsGet] = await Promise.all([
+            cfJson(scriptBase + "/settings"),
+            cfJson(scriptBase + "/content/v2"),
+            cfJson(scriptBase + "/deployments")
+          ]);
+          if (!settingsGet.response.ok || settingsGet.data.success !== true) throw new Error("Could not read agencyai Worker settings.");
+          if (!sourceGet.response.ok || !sourceGet.response.headers.get("content-type") && !sourceGet.bytes.length) {
+            throw new Error("Could not download the existing agencyai Worker module.");
+          }
+          const settings = settingsGet.data.result || {};
+          const bindings = Array.isArray(settings.bindings) ? settings.bindings : [];
+          if (!bindings.some(binding => binding.name === "ASSETS" && binding.type === "assets")) {
+            throw new Error("The existing ASSETS binding was not found; production Worker will not be replaced.");
+          }
+
+          function readModules(contentType, buffer) {
+            const match = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
+            if (!match) throw new Error("Could not decode the current Worker module response.");
+            const boundary = match[1] || match[2];
+            const modules = [];
+            for (const part of buffer.toString("utf8").split("--" + boundary)) {
+              const cut = part.indexOf("\r\n\r\n");
+              if (cut < 0) continue;
+              const headers = part.slice(0, cut);
+              const body = part.slice(cut + 4).replace(/\r\n$/, "").replace(/\r\n--$/, "");
+              const filename = /filename="([^"]+)"/i.exec(headers)?.[1];
+              if (filename && !/^metadata(?:\.|$)/i.test(filename)) modules.push({ filename, source: body });
+            }
+            return modules;
+          }
+
+          const module = readModules(sourceGet.response.headers.get("content-type"), sourceGet.bytes);
+          const main = module.find(item => item.filename === "index.js") || module[0];
+          if (!main) throw new Error("Could not identify the agencyai entry module.");
+          const source = main.source;
+          if (!source.includes("env.ASSETS.fetch(request)") ||
+              !source.includes("HTMLRewriter") ||
+              !source.includes(trackerScript)) {
+            throw new Error("The patched Worker entry module was not confirmed. Refusing to publish the asset version.");
+          }
+
+          let previousVersion = null;
+          if (deploymentsGet.response.ok && deploymentsGet.data.success) {
+            const deployments = deploymentsGet.data.result?.deployments || [];
+            const current = deployments.find(deployment => Array.isArray(deployment.versions) && deployment.versions.some(v => v.percentage > 0));
+            previousVersion = current?.versions?.find(v => v.percentage > 0)?.version_id || null;
+          }
+          if (!previousVersion) {
+            throw new Error("Could not identify the previous active deployment; no new deployment will be made.");
+          }
+
+          const session = await cfJson(scriptBase + "/assets-upload-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ manifest })
+          });
+          if (!session.response.ok || session.data.success !== true) {
+            throw new Error("Cloudflare rejected the complete static asset manifest: HTTP " + session.response.status + " " + JSON.stringify(session.data.errors || []).slice(0, 800));
+          }
+          const uploadToken = session.data.result?.jwt;
+          const buckets = session.data.result?.buckets || [];
+          if (!uploadToken) throw new Error("Cloudflare did not return an asset upload JWT.");
+
+          let completionJwt = buckets.length === 0 ? uploadToken : null;
+          console.log("Cloudflare upload session accepted. Changed asset batches=" + buckets.length);
+
+          for (let bucketIndex = 0; bucketIndex < buckets.length; bucketIndex++) {
+            const bucket = buckets[bucketIndex];
+            const form = new FormData();
+            for (const hash of bucket) {
+              const asset = hashToAsset.get(hash);
+              if (!asset) throw new Error("The upload session requested an unknown asset hash.");
+              const base64 = asset.bytes.toString("base64");
+              form.set(hash, new Blob([base64], { type: asset.type || "application/octet-stream" }), hash);
+            }
+            const upload = await fetch(apiBase + "/workers/assets/upload?base64=true", {
+              method: "POST",
+              headers: { Authorization: "Bearer " + uploadToken },
+              body: form
+            });
+            const uploadBytes = Buffer.from(await upload.arrayBuffer());
+            let uploadData = {};
+            try { uploadData = JSON.parse(uploadBytes.toString("utf8")); } catch {}
+            if (!upload.ok || uploadData.success !== true) {
+              throw new Error("Cloudflare asset batch " + (bucketIndex + 1) + " failed: HTTP " + upload.status + " " + JSON.stringify(uploadData.errors || []).slice(0, 900));
+            }
+            if (uploadData.result?.jwt) completionJwt = uploadData.result.jwt;
+            console.log("Uploaded asset batch " + (bucketIndex + 1) + "/" + buckets.length + " (" + bucket.length + " hashes).");
+          }
+          if (!completionJwt) throw new Error("No completion JWT was returned after uploading the static assets.");
+
+          const assetsConfig = {
+            jwt: completionJwt,
+            config: {
+              html_handling: "drop-trailing-slash",
+              not_found_handling: "404-page",
+              run_worker_first: false
+            }
+          };
+          const metadata = {
+            main_module: main.filename,
+            assets: assetsConfig,
+            bindings,
+            compatibility_date: settings.compatibility_date || "2025-01-01",
+            compatibility_flags: settings.compatibility_flags || [],
+            usage_model: settings.usage_model || "standard"
+          };
+          for (const key of ["placement", "tags", "tail_consumers", "logpush", "annotations"]) {
+            if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
+          }
+
+          const uploadForm = new FormData();
+          uploadForm.set("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }), "metadata.json");
+          uploadForm.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
+          const versionUpload = await cfJson(scriptBase, { method: "PUT", body: uploadForm });
+          if (!versionUpload.response.ok || versionUpload.data.success !== true) {
+            throw new Error("Cloudflare rejected the Worker version upload: HTTP " + versionUpload.response.status + " " + JSON.stringify(versionUpload.data.errors || []).slice(0, 1200));
+          }
+          const newVersionId = versionUpload.data.result?.id ||
+            versionUpload.data.result?.version_id ||
+            versionUpload.data.result?.versions?.[0]?.id;
+          if (!newVersionId) throw new Error("Cloudflare accepted the upload but returned no version id.");
+
+          const deploymentForm = JSON.stringify({
+            strategy: "percentage",
+            versions: [{ percentage: 100, version_id: newVersionId }]
+          });
+          const deployed = await cfJson(scriptBase + "/deployments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: deploymentForm
+          });
+          if (!deployed.response.ok || deployed.data.success !== true) {
+            throw new Error("Could not activate the new asset version: HTTP " + deployed.response.status + " " + JSON.stringify(deployed.data.errors || []).slice(0, 900));
+          }
+
+          console.log("New agencyai version activated. Starting live verification.");
+
+          try {
+            const healthResponse = await fetch(bridge + "/health", { cache: "no-store" });
+            const healthText = await healthResponse.text();
+            const trackerResponse = await fetch(trackerScript, { cache: "no-store" });
+            if (!healthResponse.ok || !healthText.includes('"ready":true')) throw new Error("Bridge health check failed (HTTP " + healthResponse.status + ").");
+            if (!trackerResponse.ok) throw new Error("Tracker JavaScript failed to load (HTTP " + trackerResponse.status + ").");
+
+            const verificationRoutes = [...new Set(["/", "/jasa", "/social", "/shop", ...pagePaths.slice(0, 20)])];
+            const results = [];
+            for (const route of verificationRoutes) {
+              const page = await publicRequest(route);
+              const html = page.bytes.toString("utf8");
+              const ok = page.response.status === 200 &&
+                page.type.includes("text/html") &&
+                html.includes(trackerScript) &&
+                html.includes(ownerScript);
+              results.push({
+                route,
+                http: page.response.status,
+                type: page.type,
+                bytes: page.bytes.length,
+                tracker_script_present: html.includes(trackerScript),
+                owner_script_present: html.includes(ownerScript),
+                ok
+              });
+              if (!ok) throw new Error("Live page verification failed for " + route + " HTTP " + page.response.status + " tracker=" + html.includes(trackerScript));
+            }
+            console.log(JSON.stringify({
+              status: "success",
+              worker: "agencyai",
+              active_version: newVersionId,
+              previous_version: previousVersion,
+              tracker_endpoint_http: trackerResponse.status,
+              bridge_health_http: healthResponse.status,
+              pages_with_tracker: pagePaths.length,
+              asset_manifest_entries: Object.keys(manifest).length,
+              total_asset_bytes: totalBytes,
+              verified_pages: results
+            }, null, 2));
+          } catch (verificationError) {
+            console.error("Live verification failed after deployment: " + String(verificationError));
+            // Restore the previous 100% version if new-page checks fail.
+            const rollback = await cfJson(scriptBase + "/deployments", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                strategy: "percentage",
+                versions: [{ percentage: 100, version_id: previousVersion }]
+              })
+            });
+            console.error("Rollback to previous version " + previousVersion + " HTTP " + rollback.response.status + ".");
+            throw verificationError;
+          }
+          NODE
