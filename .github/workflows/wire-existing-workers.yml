@@ -132,22 +132,44 @@ jobs:
             console.log("Uploaded the narrowly scoped agencyai script-injection fix. Preserved ASSETS binding and existing assets.");
           }
 
-          const [liveSettings, publicSite, tracker, health] = await Promise.all([
+          const [liveSettings, tracker, health] = await Promise.all([
             request(`${base}/${worker}/settings`),
-            fetch("https://aigrowth.my.id/", { redirect: "follow" }),
-            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
-            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health")
+            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js", { cache: "no-store" }),
+            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health", { cache: "no-store" })
           ]);
-          const liveBody = await publicSite.text();
           const settingsObj = liveSettings.response.ok ? JSON.parse(liveSettings.bytes.toString("utf8")).result || {} : {};
           const assetPreserved = Array.isArray(settingsObj.bindings) && settingsObj.bindings.some(b => b.name === "ASSETS" && b.type === "assets");
           const healthBody = await health.text();
-          if (!publicSite.ok) throw new Error("aigrowth.my.id failed live verification (HTTP " + publicSite.status + ").");
           if (!liveSettings.response.ok || !assetPreserved) throw new Error("Live settings verification failed: ASSETS binding not confirmed.");
           if (!tracker.ok) throw new Error("Bridge tracker endpoint failed live verification (HTTP " + tracker.status + ").");
           if (!health.ok || !healthBody.includes('"ready":true')) throw new Error("Bridge health endpoint is not ready.");
-          const trackerInHtml = liveBody.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js");
-          if (!trackerInHtml) throw new Error("Website is live, but the tracker script is not visible in the returned HTML.");
+
+          let publicSite;
+          let liveBody = "";
+          let trackerInHtml = false;
+          for (let attempt = 1; attempt <= 12; attempt++) {
+            publicSite = await fetch("https://aigrowth.my.id/", { redirect: "follow", cache: "no-store" });
+            liveBody = await publicSite.text();
+            trackerInHtml = liveBody.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js");
+            if (publicSite.ok && trackerInHtml) break;
+            console.log(`Waiting for live site update: HTTP ${publicSite.status}; tracker_found=${trackerInHtml}; attempt ${attempt}/12`);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+          if (!publicSite.ok) throw new Error("aigrowth.my.id failed live verification (HTTP " + publicSite.status + ").");
+          if (!trackerInHtml) {
+            const headStart = liveBody.toLowerCase().indexOf("<head");
+            const headEnd = liveBody.toLowerCase().indexOf("</head>");
+            const head = headStart >= 0 && headEnd > headStart ? liveBody.slice(headStart, headEnd + 7) : "";
+            console.log(JSON.stringify({
+              website_http: publicSite.status,
+              content_type: publicSite.headers.get("content-type"),
+              html_bytes: Buffer.byteLength(liveBody),
+              head_present: Boolean(head),
+              old_t_script_visible: liveBody.includes("aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"),
+              bridge_tracker_visible: trackerInHtml
+            }, null, 2));
+            throw new Error("Website and bridge are live, but tracker script was not found in raw site HTML after retries.");
+          }
           console.log(JSON.stringify({
             status: "success",
             worker: worker,
