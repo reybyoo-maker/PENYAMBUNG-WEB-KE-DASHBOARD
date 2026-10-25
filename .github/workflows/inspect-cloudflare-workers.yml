@@ -1,0 +1,112 @@
+name: Inspect Cloudflare Worker configuration (read-only)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-cloudflare-workers.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Inspect existing Worker content and settings without printing secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          if (!account || !token) throw new Error("Missing Cloudflare Actions secrets.");
+          const api = `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts`;
+
+          async function get(path) {
+            const response = await fetch(path, { headers: { Authorization: `Bearer ${token}` } });
+            const data = await response.arrayBuffer();
+            return { response, data: Buffer.from(data) };
+          }
+
+          function parseMultipart(contentType, buffer) {
+            const match = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
+            if (!match) return { metadata: null, modules: [], rawText: buffer.toString("utf8") };
+            const boundary = match[1] || match[2];
+            const raw = buffer.toString("utf8");
+            const parts = raw.split("--" + boundary);
+            let metadata = null;
+            const modules = [];
+            for (const part of parts) {
+              const cut = part.indexOf("\r\n\r\n");
+              if (cut < 0) continue;
+              const headers = part.slice(0, cut);
+              let body = part.slice(cut + 4).replace(/\r\n$/, "").replace(/\r\n--$/, "");
+              const disp = /content-disposition:[^\r\n]*name="([^"]+)"(?:;\s*filename="([^"]+)")?/i.exec(headers);
+              const name = disp?.[2] || disp?.[1] || "";
+              if (!name) continue;
+              if (name.toLowerCase() === "metadata") {
+                try { metadata = JSON.parse(body); } catch {}
+              } else {
+                modules.push({ name, size: Buffer.byteLength(body), source: body });
+              }
+            }
+            return { metadata, modules };
+          }
+
+          for (const worker of ["agencyai", "aigrowth-owner-dashboard"]) {
+            console.log(`--- Worker ${worker} ---`);
+            const [content, settings] = await Promise.all([
+              get(`${api}/${worker}/content/v2`),
+              get(`${api}/${worker}/script-settings`)
+            ]);
+            console.log(`content_http=${content.response.status} content_type=${content.response.headers.get("content-type") || "unknown"} bytes=${content.data.length}`);
+            if (!content.response.ok) {
+              console.log("content_error=" + content.data.toString("utf8").slice(0, 500).replace(/[\r\n]+/g, " "));
+            }
+            const parsed = parseMultipart(content.response.headers.get("content-type"), content.data);
+            let meta = parsed.metadata || {};
+            let source = parsed.modules.map(x => x.source).join("\n");
+            if (!source && parsed.rawText) source = parsed.rawText;
+            console.log(JSON.stringify({
+              metadata: {
+                main_module: meta.main_module || null,
+                compatibility_date: meta.compatibility_date || null,
+                compatibility_flags: meta.compatibility_flags || [],
+                keep_assets: meta.keep_assets ?? null,
+                binding_names_types: Array.isArray(meta.bindings) ? meta.bindings.map(b => ({name:b.name, type:b.type})) : null,
+                module_names: parsed.modules.map(x=>({name:x.name,size:x.size}))
+              },
+              source_signatures: {
+                assets_fetch: (source.match(/ASSETS\.fetch/g)||[]).length,
+                html_rewriter: (source.match(/HTMLRewriter/g)||[]).length,
+                old_owner_script_url: source.includes("aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"),
+                old_script_markup: /<script[^>]+t\.js/i.test(source),
+                bridge_tracker_url: source.includes("aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
+                dash_password_reference: source.includes("DASH_PASSWORD"),
+                ingest_token_reference: source.includes("INGEST_TOKEN"),
+                d1_binding_reference: source.includes("env.DB")
+              }
+            }, null, 2));
+            console.log(`settings_http=${settings.response.status}`);
+            if (settings.response.ok) {
+              let data;
+              try { data = JSON.parse(settings.data.toString("utf8")); } catch { data = {}; }
+              const result = data?.result || {};
+              const vars = result?.bindings || result?.default_environment?.bindings || result?.env?.bindings || [];
+              console.log(JSON.stringify({
+                settings_keys: Object.keys(result),
+                bindings_names_types: Array.isArray(vars) ? vars.map(b=>({name:b.name,type:b.type})) : null,
+                compatibility_date: result.compatibility_date || null,
+                compatibility_flags: result.compatibility_flags || [],
+                usage_model: result.usage_model || null,
+                last_deployed_from: result.last_deployed_from || null
+              }, null, 2));
+            } else {
+              console.log("settings_error=" + settings.data.toString("utf8").slice(0, 500).replace(/[\r\n]+/g, " "));
+            }
+          }
+          NODE
