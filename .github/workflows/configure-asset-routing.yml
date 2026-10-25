@@ -1,0 +1,112 @@
+name: Configure AIGROWTH asset routing (API verification)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/configure-asset-routing.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Configure Worker-first asset routing via Cloudflare settings API
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          if (!account || !token) throw new Error("Missing Cloudflare Actions secrets.");
+          const base = `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/agencyai`;
+          const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+
+          async function call(url, options = {}) {
+            const response = await fetch(url, { ...options, headers: { ...headers, ...(options.headers || {}) } });
+            const text = await response.text();
+            let data;
+            try { data = JSON.parse(text); } catch { data = { raw: text.slice(0, 1200) }; }
+            return { response, data };
+          }
+
+          const before = await call(base + "/settings");
+          if (!before.response.ok || before.data.success !== true) {
+            throw new Error("Could not read current Worker settings; status " + before.response.status);
+          }
+          const previous = before.data.result || {};
+          const oldBindings = Array.isArray(previous.bindings) ? previous.bindings.map(b => ({ name: b.name, type: b.type })) : [];
+          if (!oldBindings.some(b => b.name === "ASSETS" && b.type === "assets")) {
+            throw new Error("ASSETS binding is not present; no change made.");
+          }
+
+          // This is a partial settings patch: only the desired asset routing option is sent.
+          // It intentionally does not resend or replace the existing bindings, secrets, or limits.
+          const patch = await call(base + "/settings", {
+            method: "PATCH",
+            body: JSON.stringify({
+              settings: {
+                assets: {
+                  config: { run_worker_first: true }
+                }
+              }
+            })
+          });
+          console.log(JSON.stringify({
+            patch_http: patch.response.status,
+            patch_success: patch.data.success ?? null,
+            patch_errors: (patch.data.errors || []).map(e => ({ code: e.code, message: e.message })),
+            patch_result_keys: patch.data.result && typeof patch.data.result === "object" ? Object.keys(patch.data.result) : [],
+            patch_result_assets: patch.data.result?.assets || null
+          }, null, 2));
+          if (!patch.response.ok || patch.data.success !== true) {
+            throw new Error("Cloudflare settings API rejected the asset routing patch; no subsequent changes attempted.");
+          }
+
+          const after = await call(base + "/settings");
+          if (!after.response.ok || after.data.success !== true) throw new Error("Could not re-read Worker settings after patch.");
+          const finalSettings = after.data.result || {};
+          const finalAssets = finalSettings.assets || finalSettings.assets_config || null;
+
+          const versionsResponse = await call(base + "/versions");
+          let newest = null;
+          if (versionsResponse.response.ok && versionsResponse.data.success) {
+            const items = versionsResponse.data.result?.items || [];
+            newest = items[0] || null;
+          }
+
+          let versionDetail = null;
+          if (newest?.id) {
+            const detail = await call(base + "/versions/" + newest.id);
+            if (detail.response.ok && detail.data.success) {
+              const d = detail.data.result || {};
+              versionDetail = {
+                id: d.id || newest.id,
+                number: d.number || newest.number || null,
+                metadata_assets: d.metadata?.assets || null,
+                resources_assets: d.resources?.assets || null,
+                detail_keys: Object.keys(d),
+                resource_keys: Object.keys(d.resources || {})
+              };
+            }
+          }
+
+          const site = await fetch("https://aigrowth.my.id/?__aga_settings_verify=" + Date.now(), { cache: "no-store", redirect: "follow" });
+          const html = await site.text();
+          const hasTracker = html.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js");
+          console.log(JSON.stringify({
+            status: patch.data.success === true ? "patch_accepted" : "unknown",
+            active_settings_keys: Object.keys(finalSettings),
+            assets_binding_preserved: Array.isArray(finalSettings.bindings) && finalSettings.bindings.some(b => b.name === "ASSETS" && b.type === "assets"),
+            final_assets_config: finalAssets,
+            newest_version: versionDetail,
+            website_http: site.status,
+            tracker_tag_visible_in_public_html: hasTracker
+          }, null, 2));
+          NODE
