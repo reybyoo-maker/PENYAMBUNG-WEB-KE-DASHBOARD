@@ -17,7 +17,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
-      - name: Patch only the website HTML script injection and verify
+      - name: Enable Worker-first asset routing, deploy tracker injection, and verify
         shell: bash
         run: |
           set -euo pipefail
@@ -28,7 +28,7 @@ jobs:
           const base = `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts`;
           const auth = { Authorization: `Bearer ${token}` };
 
-          async function request(url, options = {}) {
+          async function api(url, options = {}) {
             const response = await fetch(url, { ...options, headers: { ...auth, ...(options.headers || {}) } });
             const bytes = Buffer.from(await response.arrayBuffer());
             return { response, bytes };
@@ -36,18 +36,16 @@ jobs:
 
           function readModules(contentType, buffer) {
             const match = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
-            if (!match) throw new Error("Cloudflare content response was not multipart; refusing to patch.");
+            if (!match) throw new Error("Cloudflare source response was not multipart; refusing to patch.");
             const boundary = match[1] || match[2];
             const modules = [];
             for (const part of buffer.toString("utf8").split("--" + boundary)) {
               const cut = part.indexOf("\r\n\r\n");
               if (cut < 0) continue;
               const headers = part.slice(0, cut);
-              const body = part.slice(cut + 4).replace(/\r\n$/, "");
+              const body = part.slice(cut + 4).replace(/\r\n$/, "").replace(/\r\n--$/, "");
               const filename = /filename="([^"]+)"/i.exec(headers)?.[1];
-              if (filename && filename.toLowerCase() !== "metadata" && !filename.toLowerCase().startsWith("metadata.")) {
-                modules.push({ filename, source: body });
-              }
+              if (filename && !/^metadata(?:\.|$)/i.test(filename)) modules.push({ filename, source: body });
             }
             return modules;
           }
@@ -58,134 +56,134 @@ jobs:
             catch { throw new Error(label + " returned a non-JSON response."); }
             if (!data.success) {
               const details = (data.errors || []).map(e => `${e.code || ""} ${e.message || ""}`).join("; ");
-              throw new Error(label + " failed: " + details.slice(0, 600));
+              throw new Error(label + " failed: " + details.slice(0, 800));
             }
             return data.result;
           }
 
           const worker = "agencyai";
           const [sourceGet, settingsGet] = await Promise.all([
-            request(`${base}/${worker}/content/v2`),
-            request(`${base}/${worker}/settings`)
+            api(`${base}/${worker}/content/v2`),
+            api(`${base}/${worker}/settings`)
           ]);
           if (!sourceGet.response.ok) throw new Error("Could not download existing agencyai source (HTTP " + sourceGet.response.status + ").");
           if (!settingsGet.response.ok) throw new Error("Could not read agencyai settings (HTTP " + settingsGet.response.status + ").");
+
           const modules = readModules(sourceGet.response.headers.get("content-type"), sourceGet.bytes);
           const main = modules.find(m => m.filename === "index.js") || modules[0];
-          if (!main) throw new Error("Could not identify existing agencyai entry module; refusing to replace it.");
+          if (!main) throw new Error("Could not identify the current agencyai entry module.");
           let source = main.source;
-          if (source.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js")) {
-            console.log("Website tracker script URL is already present in agencyai; no source edit required.");
-          } else {
+
+          const trackerTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"></script>';
+          const legacyTag = '<script defer src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js" data-aigrowth-owner="1"></script>';
+          if (!source.includes(trackerTag)) {
             const url = "aigrowth-owner-dashboard.reybyoo.workers.dev/t.js";
             const urlIndex = source.indexOf(url);
-            if (urlIndex < 0) throw new Error("Expected legacy t.js injection was not found; refusing to change an unknown source version.");
             const appendStart = source.lastIndexOf("head.append(", urlIndex);
-            const appendEndMark = source.indexOf(");", urlIndex);
-            if (appendStart < 0 || appendEndMark < 0 || appendEndMark - appendStart > 1500) {
-              throw new Error("Could not isolate the legacy head.append() call; refusing to patch.");
+            const appendEnd = source.indexOf(");", urlIndex);
+            if (urlIndex < 0 || appendStart < 0 || appendEnd < 0 || appendEnd - appendStart > 1500) {
+              throw new Error("The legacy script injection differs from expected source; refusing to alter an unknown Worker.");
             }
-            const oldCall = source.slice(appendStart, appendEndMark + 2);
-            if (!oldCall.includes(url) || !oldCall.includes("{ html: true }")) {
-              throw new Error("The legacy head.append() structure differed from the expected safe patch anchor.");
-            }
+            const oldCall = source.slice(appendStart, appendEnd + 2);
+            if (!oldCall.includes("{ html: true }")) throw new Error("Legacy HTMLRewriter injection anchor was not validated.");
             const newCalls = `head.append(
-                      '<script defer src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js" data-aigrowth-owner="1"></script>',
+                      '${legacyTag}',
                       { html: true }
                     );
                     head.append(
-                      '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"></script>',
+                      '${trackerTag}',
                       { html: true }
                     );`;
-            source = source.slice(0, appendStart) + newCalls + source.slice(appendEndMark + 2);
-            if (!source.includes('src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"') ||
-                !source.includes('src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"')) {
-              throw new Error("Source validation failed before upload.");
-            }
-
-            const settingsBody = JSON.parse(settingsGet.bytes.toString("utf8"));
-            const settings = settingsBody.result || {};
-            const bindings = Array.isArray(settings.bindings) ? settings.bindings : [];
-            if (!bindings.some(b => b.name === "ASSETS" && b.type === "assets")) {
-              throw new Error("Existing ASSETS binding was not found in settings; refusing to deploy.");
-            }
-            const metadata = {
-              main_module: main.filename,
-              keep_assets: true,
-              bindings,
-              compatibility_date: settings.compatibility_date || "2025-01-01",
-              compatibility_flags: settings.compatibility_flags || [],
-              usage_model: settings.usage_model || "standard"
-            };
-            for (const key of ["placement", "tags", "tail_consumers", "logpush", "annotations"]) {
-              if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
-            }
-
-            const form = new FormData();
-            form.set("metadata", JSON.stringify(metadata));
-            form.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
-            const uploaded = await request(`${base}/${worker}`, { method: "PUT", body: form });
-            if (!uploaded.response.ok) {
-              throw new Error("Cloudflare rejected agencyai update (HTTP " + uploaded.response.status + "): " + uploaded.bytes.toString("utf8").slice(0, 700));
-            }
-            resultJson(uploaded.bytes, "agencyai update");
-            console.log("Uploaded the narrowly scoped agencyai script-injection fix. Preserved ASSETS binding and existing assets.");
+            source = source.slice(0, appendStart) + newCalls + source.slice(appendEnd + 2);
           }
 
-          const [liveSettings, tracker, health, verifySourceGet, deploymentsGet, ...siteResponses] = await Promise.all([
-            request(`${base}/${worker}/settings`),
-            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js", { cache: "no-store" }),
-            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health", { cache: "no-store" }),
-            request(`${base}/${worker}/content/v2`),
-            request(`${base}/${worker}/deployments`),
-            fetch("https://aigrowth.my.id/", { redirect: "follow", cache: "no-store" }),
-            fetch("https://agencyai.reybyoo.workers.dev/", { redirect: "follow", cache: "no-store" })
-          ]);
-          const settingsObj = liveSettings.response.ok ? JSON.parse(liveSettings.bytes.toString("utf8")).result || {} : {};
-          const assetPreserved = Array.isArray(settingsObj.bindings) && settingsObj.bindings.some(b => b.name === "ASSETS" && b.type === "assets");
-          const healthBody = await health.text();
-          if (!liveSettings.response.ok || !assetPreserved) throw new Error("Live settings verification failed: ASSETS binding not confirmed.");
-          if (!tracker.ok) throw new Error("Bridge tracker endpoint failed live verification (HTTP " + tracker.status + ").");
-          if (!health.ok || !healthBody.includes('"ready":true')) throw new Error("Bridge health endpoint is not ready.");
-          if (!verifySourceGet.response.ok) throw new Error("Could not verify current deployed Worker source (HTTP " + verifySourceGet.response.status + ").");
-
-          const contentModules = readModules(verifySourceGet.response.headers.get("content-type"), verifySourceGet.bytes);
-          const deployedSource = contentModules.map(m => m.source).join("\n");
-          const sourceHasTracker = deployedSource.includes('src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"');
-          const sourceHasLegacyTag = deployedSource.includes('src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"');
-
-          const hostChecks = [];
-          for (let i = 0; i < siteResponses.length; i++) {
-            const response = siteResponses[i];
-            const body = await response.text();
-            hostChecks.push({
-              host: i === 0 ? "aigrowth.my.id" : "agencyai.reybyoo.workers.dev",
-              http: response.status,
-              content_type: response.headers.get("content-type"),
-              html_bytes: Buffer.byteLength(body),
-              head_present: /<head\\b/i.test(body),
-              tracker_found_in_raw_html: body.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
-              legacy_t_script_found_in_raw_html: body.includes("https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js")
-            });
+          if (!source.includes(trackerTag) || !source.includes(legacyTag) || !source.includes("env.ASSETS.fetch(request)") || !source.includes("new HTMLRewriter()")) {
+            throw new Error("Source safety checks failed; refusing to deploy.");
           }
-          let deploymentSummary = null;
-          if (deploymentsGet.response.ok) {
-            try {
-              const dr = JSON.parse(deploymentsGet.bytes.toString("utf8")).result;
-              const items = Array.isArray(dr?.deployments) ? dr.deployments : (Array.isArray(dr) ? dr : []);
-              deploymentSummary = items.slice(0, 3).map(d => ({ id: d.id || null, created_on: d.created_on || null, latest_version_id: d.latest_version?.id || d.versions?.[0]?.id || null }));
-            } catch {}
+
+          // Keep the existing static asset bundle, ASSETS binding, compatibility settings,
+          // and all existing Worker settings. The one routing change makes HTMLRewriter run
+          // before static asset files are served, which is required for script injection.
+          const settingsPayload = JSON.parse(settingsGet.bytes.toString("utf8"));
+          const settings = settingsPayload.result || {};
+          const bindings = Array.isArray(settings.bindings) ? settings.bindings : [];
+          if (!bindings.some(b => b.name === "ASSETS" && b.type === "assets")) {
+            throw new Error("Existing ASSETS binding is missing; no deployment was attempted.");
           }
+
+          const metadata = {
+            main_module: main.filename,
+            keep_assets: true,
+            assets: { config: { run_worker_first: true } },
+            bindings,
+            compatibility_date: settings.compatibility_date || "2025-01-01",
+            compatibility_flags: settings.compatibility_flags || [],
+            usage_model: settings.usage_model || "standard"
+          };
+          for (const key of ["placement", "tags", "tail_consumers", "logpush", "annotations"]) {
+            if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
+          }
+
+          const form = new FormData();
+          form.set("metadata", JSON.stringify(metadata));
+          form.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
+          const uploaded = await api(`${base}/${worker}`, { method: "PUT", body: form });
+          if (!uploaded.response.ok) {
+            throw new Error("Cloudflare rejected agencyai update (HTTP " + uploaded.response.status + "): " + uploaded.bytes.toString("utf8").slice(0, 1000));
+          }
+          resultJson(uploaded.bytes, "agencyai update");
+          console.log("Deployed agencyai with preserved assets and run_worker_first=true.");
+
+          // Verify public responses after propagation. Query-string cache busters prevent
+          // cached copies of the old HTML from being mistaken for the new Worker response.
+          const trackerResponse = await fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js", { cache: "no-store" });
+          const healthResponse = await fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health", { cache: "no-store" });
+          const healthText = await healthResponse.text();
+          if (!trackerResponse.ok) throw new Error("Tracker endpoint failed (HTTP " + trackerResponse.status + ").");
+          if (!healthResponse.ok || !healthText.includes('"ready":true')) throw new Error("Bridge health endpoint is not ready.");
+
+          let hostResults = [];
+          for (let attempt = 1; attempt <= 15; attempt++) {
+            hostResults = [];
+            for (const host of ["https://aigrowth.my.id/", "https://agencyai.reybyoo.workers.dev/"]) {
+              const response = await fetch(host + (host.includes("?") ? "&" : "?") + "__aga_verify=" + Date.now() + "-" + attempt, { redirect: "follow", cache: "no-store" });
+              const body = await response.text();
+              hostResults.push({
+                host: new URL(host).hostname,
+                http: response.status,
+                content_type: response.headers.get("content-type"),
+                bytes: Buffer.byteLength(body),
+                tracker_found: body.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
+                legacy_script_found: body.includes("https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js")
+              });
+            }
+            if (hostResults.every(r => r.http === 200 && r.tracker_found)) break;
+            console.log("Waiting for Worker-first asset routing propagation, attempt " + attempt + "/15");
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+
+          if (!hostResults.every(r => r.http === 200 && r.tracker_found)) {
+            console.log(JSON.stringify({
+              host_results: hostResults,
+              tracker_http: trackerResponse.status,
+              health_http: healthResponse.status,
+              assets_binding_preserved: true
+            }, null, 2));
+            throw new Error("Live HTML has not confirmed tracker injection yet; inspect Worker asset-routing configuration.");
+          }
+
+          const verifySettings = await api(`${base}/${worker}/settings`);
+          if (!verifySettings.response.ok) throw new Error("Could not verify deployed Worker settings.");
+          const finalSettings = JSON.parse(verifySettings.bytes.toString("utf8")).result || {};
+          const finalAssetsBinding = Array.isArray(finalSettings.bindings) && finalSettings.bindings.some(b => b.name === "ASSETS" && b.type === "assets");
+          if (!finalAssetsBinding) throw new Error("ASSETS binding is missing after deployment.");
           console.log(JSON.stringify({
-            status: "diagnostic_complete",
-            worker: worker,
-            tracker_endpoint_http: tracker.status,
-            bridge_health_http: health.status,
-            assets_binding_preserved: assetPreserved,
-            source_has_tracker_script_tag: sourceHasTracker,
-            source_has_legacy_t_script_tag: sourceHasLegacyTag,
-            host_checks: hostChecks,
-            recent_deployments: deploymentSummary
+            status: "success",
+            worker,
+            run_worker_first: true,
+            assets_binding_preserved: finalAssetsBinding,
+            tracker_endpoint_http: trackerResponse.status,
+            bridge_health_http: healthResponse.status,
+            live_website_checks: hostResults
           }, null, 2));
-          NODE
           NODE
