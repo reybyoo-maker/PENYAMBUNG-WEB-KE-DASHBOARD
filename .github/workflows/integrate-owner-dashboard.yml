@@ -1,0 +1,264 @@
+name: Integrate analytics and division panels into owner dashboard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/integrate-owner-dashboard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrate-owner:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Patch owner dashboard HTML and CSP; preserve login, secrets, and D1
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          if (!account || !token) throw new Error("Missing Cloudflare Actions credentials.");
+
+          const worker = "aigrowth-owner-dashboard";
+          const api = "https://api.cloudflare.com/client/v4/accounts/" + account + "/workers/scripts";
+          const base = api + "/" + worker;
+          const auth = { Authorization: "Bearer " + token };
+
+          async function request(url, options = {}) {
+            const response = await fetch(url, { ...options, headers: { ...auth, ...(options.headers || {}) } });
+            const bytes = Buffer.from(await response.arrayBuffer());
+            let data = {};
+            try { data = JSON.parse(bytes.toString("utf8")); } catch {}
+            return { response, bytes, data };
+          }
+
+          function parseModules(contentType, buffer) {
+            const match = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
+            if (!match) throw new Error("Cloudflare source is not multipart; refusing to change the owner Worker.");
+            const boundary = match[1] || match[2];
+            const modules = [];
+            for (const part of buffer.toString("utf8").split("--" + boundary)) {
+              const cut = part.indexOf("\r\n\r\n");
+              if (cut < 0) continue;
+              const headers = part.slice(0, cut);
+              const body = part.slice(cut + 4).replace(/\r\n$/, "").replace(/\r\n--$/, "");
+              const filename = /filename="([^"]+)"/i.exec(headers)?.[1];
+              if (filename && !/^metadata(?:\.|$)/i.test(filename)) modules.push({ filename, source: body });
+            }
+            return modules;
+          }
+
+          function requireSuccess(data, response, label) {
+            if (!response.ok || data?.success !== true) {
+              const errors = (data?.errors || []).map(e => ({ code: e.code, message: e.message }));
+              throw new Error(label + " failed with HTTP " + response.status + ": " + JSON.stringify(errors).slice(0, 900));
+            }
+          }
+
+          const [settingsGet, sourceGet, versionsGet, deploymentsGet] = await Promise.all([
+            request(base + "/settings"),
+            request(base + "/content/v2"),
+            request(base + "/versions"),
+            request(base + "/deployments")
+          ]);
+          requireSuccess(settingsGet.data, settingsGet.response, "Read owner settings");
+          if (!sourceGet.response.ok) throw new Error("Could not download current owner Worker source (HTTP " + sourceGet.response.status + ").");
+          requireSuccess(versionsGet.data, versionsGet.response, "List owner versions");
+          requireSuccess(deploymentsGet.data, deploymentsGet.response, "List owner deployments");
+
+          const settings = settingsGet.data.result || {};
+          const bindings = Array.isArray(settings.bindings) ? settings.bindings : [];
+          const hasDashboardPassword = bindings.some(b => b.name === "DASHBOARD_PASSWORD" && b.type === "secret_text");
+          const hasIngestToken = bindings.some(b => b.name === "INGEST_TOKEN" && b.type === "secret_text");
+          const d1 = bindings.find(b => b.name === "DB" && b.type === "d1");
+          if (!hasDashboardPassword || !hasIngestToken || !d1) {
+            throw new Error("Expected DASHBOARD_PASSWORD, INGEST_TOKEN, and DB bindings are not all present. No update attempted.");
+          }
+
+          const modules = parseModules(sourceGet.response.headers.get("content-type"), sourceGet.bytes);
+          const main = modules.find(m => m.filename === "worker.js") || modules[0];
+          if (!main) throw new Error("Could not identify owner Worker entry module.");
+          let source = main.source;
+
+          const dashboardScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"></script>';
+          const tick = String.fromCharCode(96);
+          const htmlStart = source.indexOf("const HTML = " + tick);
+          if (htmlStart < 0) throw new Error("Could not identify owner dashboard HTML template.");
+          const htmlEnd = source.indexOf(tick + ";\n\nfunction htmlResponse()", htmlStart);
+          if (htmlEnd < 0) throw new Error("Could not locate the end of the owner dashboard HTML template.");
+          let htmlTemplate = source.slice(htmlStart, htmlEnd);
+          if (!htmlTemplate.includes("</head>")) throw new Error("Owner HTML template has no closing head tag.");
+          if (!htmlTemplate.includes(dashboardScriptTag)) {
+            htmlTemplate = htmlTemplate.replace("</head>", dashboardScriptTag + "\n</head>");
+            source = source.slice(0, htmlStart) + htmlTemplate + source.slice(htmlEnd);
+          }
+
+          const cspPattern = /"Content-Security-Policy":\s*"default-src 'self';\s*style-src 'self' 'unsafe-inline' https:\/\/fonts\.googleapis\.com;\s*font-src https:\/\/fonts\.gstatic\.com;\s*script-src 'self' 'unsafe-inline';\s*connect-src 'self';\s*img-src 'self' data:;\s*base-uri 'none';\s*frame-ancestors 'none'"/;
+          const replacementCsp = '"Content-Security-Policy": "default-src \'self\'; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src \'self\' \'unsafe-inline\' https://aga-dashboard-bridge.reybyoo.workers.dev; connect-src \'self\' https://aga-dashboard-bridge.reybyoo.workers.dev; img-src \'self\' data:; base-uri \'none\'; frame-ancestors \'none\'"';
+          if (cspPattern.test(source)) {
+            source = source.replace(cspPattern, replacementCsp);
+          } else if (
+            source.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js") &&
+            source.includes("script-src 'self' 'unsafe-inline' https://aga-dashboard-bridge.reybyoo.workers.dev") &&
+            source.includes("connect-src 'self' https://aga-dashboard-bridge.reybyoo.workers.dev")
+          ) {
+            console.log("Dashboard script and CSP are already present in owner source.");
+          } else {
+            throw new Error("Existing dashboard CSP was not recognized; no owner Worker update attempted.");
+          }
+
+          if (!source.includes(dashboardScriptTag) ||
+              !source.includes("script-src 'self' 'unsafe-inline' https://aga-dashboard-bridge.reybyoo.workers.dev") ||
+              !source.includes("connect-src 'self' https://aga-dashboard-bridge.reybyoo.workers.dev") ||
+              !source.includes('id="loginForm"') ||
+              !source.includes('id="dashboardView"') ||
+              !source.includes("env.DASHBOARD_PASSWORD") ||
+              !source.includes("env.INGEST_TOKEN") ||
+              !source.includes("env.DB")) {
+            throw new Error("Pre-upload source validation failed; owner Worker was not changed.");
+          }
+
+          const currentDeployments = deploymentsGet.data.result?.deployments || [];
+          const activeDeployment = currentDeployments.find(d => Array.isArray(d.versions) && d.versions.some(v => Number(v.percentage) > 0));
+          const previousVersion = activeDeployment?.versions?.find(v => Number(v.percentage) > 0)?.version_id;
+          if (!previousVersion) throw new Error("Could not determine currently active owner Worker version; no update attempted.");
+
+          const { writeFile } = await import("node:fs/promises");
+          const { spawnSync } = await import("node:child_process");
+          const tempPath = "/tmp/owner-worker-check.mjs";
+          await writeFile(tempPath, source, "utf8");
+          const syntax = spawnSync(process.execPath, ["--check", tempPath], { encoding: "utf8" });
+          if (syntax.status !== 0) throw new Error("Patched owner Worker failed syntax check: " + (syntax.stderr || syntax.stdout).slice(0, 1400));
+
+          const metadata = {
+            main_module: main.filename,
+            bindings,
+            compatibility_date: settings.compatibility_date || "2026-10-20",
+            compatibility_flags: settings.compatibility_flags || [],
+            usage_model: settings.usage_model || "standard"
+          };
+          for (const key of ["placement", "tags", "tail_consumers", "logpush", "annotations"]) {
+            if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
+          }
+
+          const oldVersions = new Set((versionsGet.data.result?.items || []).map(v => v.id).filter(Boolean));
+          const form = new FormData();
+          form.set("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }), "metadata.json");
+          form.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
+          const upload = await request(base, { method: "PUT", body: form });
+          requireSuccess(upload.data, upload.response, "Upload owner Worker version");
+
+          let newVersion = null;
+          for (let attempt = 1; attempt <= 12; attempt++) {
+            const versions = await request(base + "/versions");
+            if (versions.response.ok && versions.data.success === true) {
+              newVersion = (versions.data.result?.items || []).find(v => v.id && !oldVersions.has(v.id)) || null;
+              if (newVersion) break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 500));
+          }
+          if (!newVersion?.id) throw new Error("Owner Worker upload succeeded but no new version appeared in the versions API.");
+
+          const deploy = await request(base + "/deployments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ strategy: "percentage", versions: [{ percentage: 100, version_id: newVersion.id }] })
+          });
+          requireSuccess(deploy.data, deploy.response, "Activate owner dashboard version");
+          console.log("Owner dashboard version " + newVersion.id + " is active. Verifying login markup and integration.");
+
+          try {
+            const bridgeBase = "https://aga-dashboard-bridge.reybyoo.workers.dev";
+            const ownerUrls = [
+              "https://dashboard.aigrowth.my.id/?__aga_owner_verify=" + Date.now(),
+              "https://aigrowth-owner-dashboard.reybyoo.workers.dev/?__aga_owner_verify=" + Date.now()
+            ];
+            const [bridgeHealth, analyticsScript, analyticsApi, divisionsApi, ...ownerResponses] = await Promise.all([
+              fetch(bridgeBase + "/health", { cache: "no-store" }),
+              fetch(bridgeBase + "/dashboard-panel.js", { cache: "no-store" }),
+              fetch(bridgeBase + "/api/website-analytics?days=30", {
+                headers: { Origin: "https://dashboard.aigrowth.my.id", Accept: "application/json" }, cache: "no-store"
+              }),
+              fetch(bridgeBase + "/api/divisions", {
+                headers: { Origin: "https://dashboard.aigrowth.my.id", Accept: "application/json" }, cache: "no-store"
+              }),
+              ...ownerUrls.map(url => fetch(url, { redirect: "follow", cache: "no-store" }))
+            ]);
+
+            const healthText = await bridgeHealth.text();
+            const analyticsScriptText = await analyticsScript.text();
+            const analyticsApiText = await analyticsApi.text();
+            const divisionsApiText = await divisionsApi.text();
+            const ownerChecks = [];
+            for (let i = 0; i < ownerResponses.length; i++) {
+              const response = ownerResponses[i];
+              const html = await response.text();
+              const csp = response.headers.get("content-security-policy") || "";
+              ownerChecks.push({
+                host: new URL(ownerUrls[i]).hostname,
+                http: response.status,
+                login_form_present: html.includes('id="loginForm"') && html.includes('id="loginView"'),
+                dashboard_panel_script_present: html.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"),
+                csp_allows_bridge: csp.includes("script-src") &&
+                  csp.includes("connect-src") &&
+                  csp.includes("https://aga-dashboard-bridge.reybyoo.workers.dev")
+              });
+            }
+
+            const settingsAfter = await request(base + "/settings");
+            requireSuccess(settingsAfter.data, settingsAfter.response, "Verify owner Worker settings");
+            const finalBindings = settingsAfter.data.result?.bindings || [];
+            const preserved = {
+              dashboard_password_secret: finalBindings.some(b => b.name === "DASHBOARD_PASSWORD" && b.type === "secret_text"),
+              ingest_token_secret: finalBindings.some(b => b.name === "INGEST_TOKEN" && b.type === "secret_text"),
+              d1_binding: finalBindings.some(b => b.name === "DB" && b.type === "d1")
+            };
+            const apiCorsAnalytics = analyticsApi.headers.get("access-control-allow-origin") === "https://dashboard.aigrowth.my.id";
+            const apiCorsDivisions = divisionsApi.headers.get("access-control-allow-origin") === "https://dashboard.aigrowth.my.id";
+            let analyticsData = {};
+            let divisionsData = {};
+            try { analyticsData = JSON.parse(analyticsApiText); } catch {}
+            try { divisionsData = JSON.parse(divisionsApiText); } catch {}
+
+            const success =
+              bridgeHealth.ok && healthText.includes('"ready":true') &&
+              analyticsScript.ok && analyticsScriptText.includes("Live Website Analytics") &&
+              analyticsApi.ok && analyticsData.ok === true && apiCorsAnalytics &&
+              divisionsApi.ok && divisionsData.ok === true && apiCorsDivisions &&
+              ownerChecks.every(c => c.http === 200 && c.login_form_present && c.dashboard_panel_script_present && c.csp_allows_bridge) &&
+              Object.values(preserved).every(Boolean);
+
+            console.log(JSON.stringify({
+              status: success ? "success" : "verification_failed",
+              worker,
+              active_version: newVersion.id,
+              previous_version: previousVersion,
+              bridge_health_http: bridgeHealth.status,
+              analytics_script_http: analyticsScript.status,
+              analytics_api_http: analyticsApi.status,
+              analytics_api_cors_allowed: apiCorsAnalytics,
+              divisions_api_http: divisionsApi.status,
+              divisions_api_cors_allowed: apiCorsDivisions,
+              division_count: divisionsData.divisions?.length ?? null,
+              integration_records: divisionsData.summary?.total_integrations ?? null,
+              preserved_bindings: preserved,
+              owner_host_checks: ownerChecks
+            }, null, 2));
+            if (!success) throw new Error("Owner dashboard integration checks failed; the previous Worker version will be restored.");
+          } catch (error) {
+            const rollback = await request(base + "/deployments", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ strategy: "percentage", versions: [{ percentage: 100, version_id: previousVersion }] })
+            });
+            console.error("Verification failed: " + String(error) + ". Rollback HTTP " + rollback.response.status + ".");
+            throw error;
+          }
+          NODE
