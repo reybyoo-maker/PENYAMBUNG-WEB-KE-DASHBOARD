@@ -140,26 +140,49 @@ jobs:
           const syntax = spawnSync(process.execPath, ["--check", tempPath], { encoding: "utf8" });
           if (syntax.status !== 0) throw new Error("Patched owner Worker failed syntax check: " + (syntax.stderr || syntax.stdout).slice(0, 1400));
 
-          const metadata = {
-            main_module: main.filename,
-            bindings,
-            compatibility_date: settings.compatibility_date || "2026-10-20",
-            compatibility_flags: settings.compatibility_flags || [],
-            usage_model: settings.usage_model || "standard"
-          };
-          for (const key of ["placement", "tags", "tail_consumers", "logpush", "annotations"]) {
-            if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
-          }
+          const { mkdir, writeFile } = await import("node:fs/promises");
+          const workDir = "/tmp/owner-dashboard-wrangler";
+          await mkdir(workDir, { recursive: true });
+          await writeFile(workDir + "/worker.js", source, "utf8");
+          const wranglerConfig = [
+            'name = "aigrowth-owner-dashboard"',
+            'main = "worker.js"',
+            'account_id = "' + account + '"',
+            'compatibility_date = "' + (settings.compatibility_date || "2026-10-20") + '"',
+            'compatibility_flags = ' + JSON.stringify(settings.compatibility_flags || []),
+            'usage_model = "standard"',
+            '',
+            '[secrets]',
+            'required = ["DASHBOARD_PASSWORD", "INGEST_TOKEN"]',
+            '',
+            '[[d1_databases]]',
+            'binding = "DB"',
+            'database_name = "aigrowth-core-db"',
+            'database_id = "75a89d50-9efc-487f-bcd6-abe0bdde7c71"',
+            ''
+          ].join("\n");
+          await writeFile(workDir + "/wrangler.toml", wranglerConfig, "utf8");
 
           const oldVersions = new Set((versionsGet.data.result?.items || []).map(v => v.id).filter(Boolean));
-          const form = new FormData();
-          form.set("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }), "metadata.json");
-          form.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
-          const upload = await request(base, { method: "PUT", body: form });
-          requireSuccess(upload.data, upload.response, "Upload owner Worker version");
+          const { spawnSync } = await import("node:child_process");
+          const wranglerUpload = spawnSync("npx", [
+            "--yes", "wrangler@4", "versions", "upload",
+            "--config", workDir + "/wrangler.toml",
+            "--message", "Add AIGROWTH website analytics and division panels"
+          ], {
+            cwd: workDir,
+            encoding: "utf8",
+            env: process.env,
+            maxBuffer: 12 * 1024 * 1024
+          });
+          const uploadOutput = String(wranglerUpload.stdout || "") + "\n" + String(wranglerUpload.stderr || "");
+          console.log(uploadOutput.split("\n").slice(-35).join("\n"));
+          if (wranglerUpload.status !== 0) {
+            throw new Error("Wrangler versions upload failed (exit " + wranglerUpload.status + "). Secrets were not re-created or overwritten.");
+          }
 
           let newVersion = null;
-          for (let attempt = 1; attempt <= 12; attempt++) {
+          for (let attempt = 1; attempt <= 16; attempt++) {
             const versions = await request(base + "/versions");
             if (versions.response.ok && versions.data.success === true) {
               newVersion = (versions.data.result?.items || []).find(v => v.id && !oldVersions.has(v.id)) || null;
@@ -167,7 +190,7 @@ jobs:
             }
             await new Promise(resolve => setTimeout(resolve, 500));
           }
-          if (!newVersion?.id) throw new Error("Owner Worker upload succeeded but no new version appeared in the versions API.");
+          if (!newVersion?.id) throw new Error("Wrangler uploaded the owner version but the Cloudflare versions API did not return a new version ID.");
 
           const deploy = await request(base + "/deployments", {
             method: "POST",
