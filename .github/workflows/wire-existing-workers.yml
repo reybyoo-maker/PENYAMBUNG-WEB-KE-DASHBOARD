@@ -97,14 +97,29 @@ jobs:
             source = source.slice(0, appendStart) + newCalls + source.slice(appendEnd + 2);
           }
 
-          const originalStatusGuard = source;
-          source = source.replace(
-            /response\.status\s*>=\s*200\s*(?:\|\||&&)\s*response\.status\s*>=\s*300/g,
-            "response.status < 200 || response.status >= 300"
-          );
-          const statusGuardFixed = source !== originalStatusGuard;
-          if (!source.includes("response.status < 200 || response.status >= 300")) {
-            throw new Error("Could not verify the HTTP status guard; refusing to deploy.");
+          const methodGuardIndex = source.indexOf("request.method");
+          const guardStart = source.lastIndexOf("if (", methodGuardIndex);
+          const returnIndex = source.indexOf("return response;", methodGuardIndex);
+          const guardEnd = returnIndex >= 0 ? source.indexOf("}", returnIndex) : -1;
+          if (methodGuardIndex < 0 || guardStart < 0 || returnIndex < 0 || guardEnd < 0 || guardEnd - guardStart > 1500) {
+            throw new Error("Could not isolate the existing HTML response guard safely.");
+          }
+          const oldGuard = source.slice(guardStart, guardEnd + 1);
+          if (!oldGuard.includes("text\\/html") && !oldGuard.includes("text\\\\/html") && !oldGuard.includes("text/html")) {
+            throw new Error("The response guard does not match the expected HTML handler; no deployment was attempted.");
+          }
+          const newGuard = `if (
+                  request.method !== "GET" ||
+                  response.status < 200 ||
+                  response.status >= 300 ||
+                  !/text\\/html/i.test(type)
+                ) {
+                  return response;
+                }`;
+          source = source.slice(0, guardStart) + newGuard + source.slice(guardEnd + 1);
+          const statusGuardFixed = oldGuard !== newGuard;
+          if (!source.includes("response.status < 200") || !source.includes("response.status >= 300")) {
+            throw new Error("Corrected HTTP status guard failed source validation.");
           }
 
           if (!source.includes(trackerTag) || !source.includes(legacyTag) || !source.includes("env.ASSETS.fetch(request)") || !source.includes("new HTMLRewriter()")) {
