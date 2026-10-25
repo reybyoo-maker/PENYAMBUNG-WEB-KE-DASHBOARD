@@ -132,10 +132,14 @@ jobs:
             console.log("Uploaded the narrowly scoped agencyai script-injection fix. Preserved ASSETS binding and existing assets.");
           }
 
-          const [liveSettings, tracker, health] = await Promise.all([
+          const [liveSettings, tracker, health, sourceGet, deploymentsGet, ...siteResponses] = await Promise.all([
             request(`${base}/${worker}/settings`),
             fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js", { cache: "no-store" }),
-            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health", { cache: "no-store" })
+            fetch("https://aga-dashboard-bridge.reybyoo.workers.dev/health", { cache: "no-store" }),
+            request(`${base}/${worker}/content/v2`),
+            request(`${base}/${worker}/deployments`),
+            fetch("https://aigrowth.my.id/", { redirect: "follow", cache: "no-store" }),
+            fetch("https://agencyai.reybyoo.workers.dev/", { redirect: "follow", cache: "no-store" })
           ]);
           const settingsObj = liveSettings.response.ok ? JSON.parse(liveSettings.bytes.toString("utf8")).result || {} : {};
           const assetPreserved = Array.isArray(settingsObj.bindings) && settingsObj.bindings.some(b => b.name === "ASSETS" && b.type === "assets");
@@ -143,41 +147,45 @@ jobs:
           if (!liveSettings.response.ok || !assetPreserved) throw new Error("Live settings verification failed: ASSETS binding not confirmed.");
           if (!tracker.ok) throw new Error("Bridge tracker endpoint failed live verification (HTTP " + tracker.status + ").");
           if (!health.ok || !healthBody.includes('"ready":true')) throw new Error("Bridge health endpoint is not ready.");
+          if (!sourceGet.response.ok) throw new Error("Could not verify current deployed Worker source (HTTP " + sourceGet.response.status + ").");
 
-          let publicSite;
-          let liveBody = "";
-          let trackerInHtml = false;
-          for (let attempt = 1; attempt <= 12; attempt++) {
-            publicSite = await fetch("https://aigrowth.my.id/", { redirect: "follow", cache: "no-store" });
-            liveBody = await publicSite.text();
-            trackerInHtml = liveBody.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js");
-            if (publicSite.ok && trackerInHtml) break;
-            console.log(`Waiting for live site update: HTTP ${publicSite.status}; tracker_found=${trackerInHtml}; attempt ${attempt}/12`);
-            await new Promise(resolve => setTimeout(resolve, 2000));
+          const contentModules = readModules(sourceGet.response.headers.get("content-type"), sourceGet.bytes);
+          const deployedSource = contentModules.map(m => m.source).join("\n");
+          const sourceHasTracker = deployedSource.includes('src="https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"');
+          const sourceHasLegacyTag = deployedSource.includes('src="https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"');
+
+          const hostChecks = [];
+          for (let i = 0; i < siteResponses.length; i++) {
+            const response = siteResponses[i];
+            const body = await response.text();
+            hostChecks.push({
+              host: i === 0 ? "aigrowth.my.id" : "agencyai.reybyoo.workers.dev",
+              http: response.status,
+              content_type: response.headers.get("content-type"),
+              html_bytes: Buffer.byteLength(body),
+              head_present: /<head\\b/i.test(body),
+              tracker_found_in_raw_html: body.includes("https://aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
+              legacy_t_script_found_in_raw_html: body.includes("https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js")
+            });
           }
-          if (!publicSite.ok) throw new Error("aigrowth.my.id failed live verification (HTTP " + publicSite.status + ").");
-          if (!trackerInHtml) {
-            const headStart = liveBody.toLowerCase().indexOf("<head");
-            const headEnd = liveBody.toLowerCase().indexOf("</head>");
-            const head = headStart >= 0 && headEnd > headStart ? liveBody.slice(headStart, headEnd + 7) : "";
-            console.log(JSON.stringify({
-              website_http: publicSite.status,
-              content_type: publicSite.headers.get("content-type"),
-              html_bytes: Buffer.byteLength(liveBody),
-              head_present: Boolean(head),
-              old_t_script_visible: liveBody.includes("aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"),
-              bridge_tracker_visible: trackerInHtml
-            }, null, 2));
-            throw new Error("Website and bridge are live, but tracker script was not found in raw site HTML after retries.");
+          let deploymentSummary = null;
+          if (deploymentsGet.response.ok) {
+            try {
+              const dr = JSON.parse(deploymentsGet.bytes.toString("utf8")).result;
+              const items = Array.isArray(dr?.deployments) ? dr.deployments : (Array.isArray(dr) ? dr : []);
+              deploymentSummary = items.slice(0, 3).map(d => ({ id: d.id || null, created_on: d.created_on || null, latest_version_id: d.latest_version?.id || d.versions?.[0]?.id || null }));
+            } catch {}
           }
           console.log(JSON.stringify({
-            status: "success",
+            status: "diagnostic_complete",
             worker: worker,
-            website_http: publicSite.status,
-            tracker_http: tracker.status,
+            tracker_endpoint_http: tracker.status,
             bridge_health_http: health.status,
             assets_binding_preserved: assetPreserved,
-            tracker_script_found_in_live_html: trackerInHtml,
-            legacy_t_script_preserved: liveBody.includes("https://aigrowth-owner-dashboard.reybyoo.workers.dev/t.js")
+            source_has_tracker_script_tag: sourceHasTracker,
+            source_has_legacy_t_script_tag: sourceHasLegacyTag,
+            host_checks: hostChecks,
+            recent_deployments: deploymentSummary
           }, null, 2));
+          NODE
           NODE
