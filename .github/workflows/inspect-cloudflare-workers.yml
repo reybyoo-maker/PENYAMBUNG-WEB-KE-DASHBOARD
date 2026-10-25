@@ -114,7 +114,24 @@ jobs:
               console.log("settings_error=" + settings.data.toString("utf8").slice(0, 500).replace(/[\r\n]+/g, " "));
             }
 
-            const versionsResponse = await get(`${api}/${worker}/versions`);
+            const deploymentsResponse = await get(`${api}/${worker}/deployments`);
+            console.log(`deployments_http=${deploymentsResponse.response.status}`);
+            if (deploymentsResponse.response.ok) {
+              let dp = {};
+              try { dp = JSON.parse(deploymentsResponse.data.toString("utf8")); } catch {}
+              const depItems = Array.isArray(dp.result?.deployments) ? dp.result.deployments : [];
+              console.log(JSON.stringify({
+                active_deployment_candidates: depItems.slice(0, 4).map(d=>({
+                  id:d.id || null,
+                  created_on:d.created_on || null,
+                  source:d.source || null,
+                  strategy:d.strategy || null,
+                  versions:Array.isArray(d.versions) ? d.versions.map(v=>({version_id:v.version_id,percentage:v.percentage})) : []
+                }))
+              }, null, 2));
+            }
+
+                        const versionsResponse = await get(`${api}/${worker}/versions`);
             console.log(`versions_http=${versionsResponse.response.status}`);
             if (versionsResponse.response.ok) {
               let versionPayload = {};
@@ -153,13 +170,16 @@ jobs:
                   created_on: md.created_on || version.metadata?.created_on || null,
                   source: md.source || version.metadata?.source || null,
                   metadata_keys: Object.keys(md),
+                  detail_keys: Object.keys(detail),
                   resource_keys: Object.keys(resources),
-                  binding_names_types: binds.map(b=>({name:b.name,type:b.type})),
+                  bindings: binds.map(b=>({name:b.name,type:b.type, id:b.id || null, keep_vars: b.keep_vars ?? null})),
                   runtime: {
                     compatibility_date: resources.script_runtime?.compatibility_date || null,
                     compatibility_flags: resources.script_runtime?.compatibility_flags || []
                   },
-                  assets_metadata: md.assets ? {keys:Object.keys(md.assets),config:md.assets.config || null,keep_assets:md.assets.keep_assets ?? null} : null
+                  metadata_assets: md.assets || null,
+                  resources_assets: resources.assets || null,
+                  full_assets_config: detail.assets || null
                 }, null, 2));
               }
             }
