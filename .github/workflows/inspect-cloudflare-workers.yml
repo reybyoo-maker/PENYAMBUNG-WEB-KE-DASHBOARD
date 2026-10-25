@@ -89,10 +89,33 @@ jobs:
                 old_owner_script_url: source.includes("aigrowth-owner-dashboard.reybyoo.workers.dev/t.js"),
                 old_script_markup: /<script[^>]+t\.js/i.test(source),
                 bridge_tracker_url: source.includes("aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
-                dash_password_reference: source.includes("DASH_PASSWORD"),
+                dash_password_reference: source.includes("DASHBOARD_PASSWORD"),
                 ingest_token_reference: source.includes("INGEST_TOKEN"),
                 d1_binding_reference: source.includes("env.DB")
-              }
+              },
+              dashboard_response_structure: worker === "aigrowth-owner-dashboard" ? (() => {
+                const specs = [
+                  ["entrypoint", /export default\s*\{/gi],
+                  ["fetch_handler", /(?:async\s+)?fetch\s*\(\s*request/gi],
+                  ["html_content_type", /text\/html/gi],
+                  ["response_constructor", /new Response\s*\(/gi],
+                  ["response_with_html", /Response\s*\(\s*(?:html|page|document|markup|body)/gi],
+                  ["login_route", /(?:LOGIN|login|sign-in|signin)/gi],
+                  ["dashboard_html_marker", /<html|<head|<body|renderDashboard|dashboardHtml/gi]
+                ];
+                const output = {};
+                for (const [label, pattern] of specs) {
+                  const hits = [...source.matchAll(pattern)].slice(0, 8).map(m => {
+                    const start = Math.max(0, m.index - 260);
+                    const end = Math.min(source.length, m.index + 520);
+                    return source.slice(start, end)
+                      .replace(/(DASHBOARD_PASSWORD|INGEST_TOKEN)(\s*[:=]\s*)[^,;\n]+/g, "$1$2[REDACTED]")
+                      .replace(/Bearer\s+[A-Za-z0-9._-]{20,}/g, "Bearer [REDACTED]");
+                  });
+                  output[label] = { count: [...source.matchAll(pattern)].length, snippets: hits };
+                }
+                return output;
+              })() : undefined
             }, null, 2));
             console.log(`settings_http=${settings.response.status}`);
             if (settings.response.ok) {
