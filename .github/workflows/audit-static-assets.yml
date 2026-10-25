@@ -1,0 +1,81 @@
+name: Audit AIGROWTH static asset manifest (read-only)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/audit-static-assets.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect HTML and public asset references without editing production
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const origin = "https://aigrowth.my.id";
+          const res = await fetch(origin + "/?__aga_asset_audit=" + Date.now(), { cache: "no-store" });
+          const html = await res.text();
+          if (!res.ok) throw new Error("Public website returned HTTP " + res.status);
+          const refs = new Map();
+          const patterns = [
+            /(?:src|href|poster|data-src|data-href)\\s*=\\s*["']([^"'#]+)["']/gi,
+            /srcset\\s*=\\s*["']([^"']+)["']/gi
+          ];
+          for (const re of patterns) {
+            for (const m of html.matchAll(re)) {
+              const value = m[1].trim();
+              const candidates = re.source.startsWith("srcset") ? value.split(",").map(v=>v.trim().split(/\\s+/)[0]) : [value];
+              for (const candidate of candidates) {
+                try {
+                  const url = new URL(candidate, origin);
+                  if (url.origin !== origin || url.protocol !== "https:") continue;
+                  if (url.pathname === "/" || /\\.(?:html?)$/i.test(url.pathname)) {
+                    refs.set(url.pathname, (refs.get(url.pathname) || 0) + 1);
+                  } else {
+                    refs.set(url.pathname, (refs.get(url.pathname) || 0) + 1);
+                  }
+                } catch {}
+              }
+            }
+          }
+          const assetPaths = [...refs.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+          const commonPaths = [
+            "/index.html","/favicon.ico","/favicon.svg","/robots.txt","/sitemap.xml",
+            "/site.webmanifest","/manifest.json","/apple-touch-icon.png","/404.html"
+          ];
+          const common = [];
+          for (const path of commonPaths) {
+            try {
+              const r = await fetch(origin + path + "?__aga_asset_audit=" + Date.now(), { method: "GET", redirect: "follow", cache:"no-store" });
+              const body = await r.arrayBuffer();
+              common.push({path, status:r.status, final_path:new URL(r.url).pathname, type:r.headers.get("content-type"), bytes:body.byteLength});
+            } catch (e) {
+              common.push({path, error:String(e).slice(0,120)});
+            }
+          }
+          const externalRefs = [...html.matchAll(/(?:src|href|poster)\\s*=\\s*["']([^"'#]+)["']/gi)]
+            .map(m=>m[1]).filter(v=>/^https?:/i.test(v) && !v.startsWith(origin))
+            .map(v=>{ try { return new URL(v).origin; } catch { return ""; } })
+            .filter(Boolean);
+          const externalOrigins = [...new Set(externalRefs)].sort();
+          console.log(JSON.stringify({
+            website_http:res.status,
+            content_type:res.headers.get("content-type"),
+            html_bytes:Buffer.byteLength(html),
+            html_title:(/<title[^>]*>([\\s\\S]*?)<\\/title>/i.exec(html)?.[1] || "").slice(0,160),
+            html_head_present:/<head[\\s>]/i.test(html),
+            references_count:assetPaths.length,
+            references:assetPaths,
+            common_paths:common,
+            external_origins:externalOrigins,
+            existing_tracker_script:html.includes("aga-dashboard-bridge.reybyoo.workers.dev/tracker.js"),
+            existing_legacy_script:html.includes("aigrowth-owner-dashboard.reybyoo.workers.dev/t.js")
+          }, null, 2));
+          NODE
