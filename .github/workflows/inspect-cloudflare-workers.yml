@@ -64,7 +64,7 @@ jobs:
             console.log(`--- Worker ${worker} ---`);
             const [content, settings] = await Promise.all([
               get(`${api}/${worker}/content/v2`),
-              get(`${api}/${worker}/script-settings`)
+              get(`${api}/${worker}/settings`)
             ]);
             console.log(`content_http=${content.response.status} content_type=${content.response.headers.get("content-type") || "unknown"} bytes=${content.data.length}`);
             if (!content.response.ok) {
