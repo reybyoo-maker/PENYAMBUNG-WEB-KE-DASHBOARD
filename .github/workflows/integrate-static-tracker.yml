@@ -225,8 +225,9 @@ jobs:
             throw new Error("sitemap.xml has unexpected content-type: " + sitemapResult.type);
           }
           const sitemapText = sitemapResult.bytes.toString("utf8");
-          const sitemapPaths = sitemapText.split("<loc>").slice(1)
-            .map(part => part.split("</loc>")[0].trim())
+          const sitemapLocations = [...sitemapText.matchAll(/<loc(?:\\s[^>]*)?>([\\s\\S]*?)<\\/loc>/gi)]
+            .map(match => match[1].replace(/<!\\[CDATA\\[|\\]\\]>/g, "").trim());
+          const sitemapPaths = sitemapLocations
             .map(value => {
               try {
                 const url = new URL(value);
@@ -457,17 +458,36 @@ jobs:
             if (settings[key] !== undefined && settings[key] !== null) metadata[key] = settings[key];
           }
 
-          const uploadForm = new FormData();
+          const versionsBeforeUpload = await cfJson(scriptBase + "/versions");
+          if (!versionsBeforeUpload.response.ok || versionsBeforeUpload.data.success !== true) {
+            throw new Error("Could not list current Worker versions before upload.");
+          }
+          const versionsBeforeItems = versionsBeforeUpload.data.result?.items || [];
+          const priorVersionIds = new Set(versionsBeforeItems.map(version => version.id).filter(Boolean));
+
+                    const uploadForm = new FormData();
           uploadForm.set("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }), "metadata.json");
           uploadForm.set(main.filename, new Blob([source], { type: "application/javascript+module" }), main.filename);
           const versionUpload = await cfJson(scriptBase, { method: "PUT", body: uploadForm });
           if (!versionUpload.response.ok || versionUpload.data.success !== true) {
             throw new Error("Cloudflare rejected the Worker version upload: HTTP " + versionUpload.response.status + " " + JSON.stringify(versionUpload.data.errors || []).slice(0, 1200));
           }
-          const newVersionId = versionUpload.data.result?.id ||
-            versionUpload.data.result?.version_id ||
-            versionUpload.data.result?.versions?.[0]?.id;
-          if (!newVersionId) throw new Error("Cloudflare accepted the upload but returned no version id.");
+          let newVersion = null;
+          for (let attempt = 1; attempt <= 10; attempt++) {
+            const afterUploadVersions = await cfJson(scriptBase + "/versions");
+            if (afterUploadVersions.response.ok && afterUploadVersions.data.success === true) {
+              const items = afterUploadVersions.data.result?.items || [];
+              newVersion = items.find(version => version.id && !priorVersionIds.has(version.id)) || null;
+              if (newVersion) break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 750));
+          }
+          const newVersionId = newVersion?.id;
+          if (!newVersionId) {
+            throw new Error("Cloudflare accepted the upload but no new Worker version appeared in the versions API. Upload result keys: " +
+              Object.keys(versionUpload.data.result || {}).join(","));
+          }
+          console.log("Created new Worker version " + newVersionId + " (number " + (newVersion.number || "n/a") + ").");
 
           const deploymentForm = JSON.stringify({
             strategy: "percentage",
