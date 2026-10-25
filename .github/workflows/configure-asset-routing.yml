@@ -26,7 +26,7 @@ jobs:
           const token = process.env.CLOUDFLARE_API_TOKEN;
           if (!account || !token) throw new Error("Missing Cloudflare Actions secrets.");
           const base = `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/agencyai`;
-          const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+          const headers = { Authorization: `Bearer ${token}` };
 
           async function call(url, options = {}) {
             const response = await fetch(url, { ...options, headers: { ...headers, ...(options.headers || {}) } });
@@ -48,15 +48,17 @@ jobs:
 
           // This is a partial settings patch: only the desired asset routing option is sent.
           // It intentionally does not resend or replace the existing bindings, secrets, or limits.
+          const settingsForm = new FormData();
+          settingsForm.set(
+            "settings",
+            new Blob([JSON.stringify({
+              assets: { config: { run_worker_first: true } }
+            })], { type: "application/json" }),
+            "settings.json"
+          );
           const patch = await call(base + "/settings", {
             method: "PATCH",
-            body: JSON.stringify({
-              settings: {
-                assets: {
-                  config: { run_worker_first: true }
-                }
-              }
-            })
+            body: settingsForm
           });
           console.log(JSON.stringify({
             patch_http: patch.response.status,
