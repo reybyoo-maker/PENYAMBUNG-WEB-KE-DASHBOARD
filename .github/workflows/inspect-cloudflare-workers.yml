@@ -106,10 +106,50 @@ jobs:
                 compatibility_date: result.compatibility_date || null,
                 compatibility_flags: result.compatibility_flags || [],
                 usage_model: result.usage_model || null,
+                assets_metadata_present: Boolean(result.assets),
+                assets_metadata_keys: result.assets ? Object.keys(result.assets) : [],
                 last_deployed_from: result.last_deployed_from || null
               }, null, 2));
             } else {
               console.log("settings_error=" + settings.data.toString("utf8").slice(0, 500).replace(/[\r\n]+/g, " "));
+            }
+
+            const versionsResponse = await get(`${api}/${worker}/versions`);
+            console.log(`versions_http=${versionsResponse.response.status}`);
+            if (versionsResponse.response.ok) {
+              let versionPayload = {};
+              try { versionPayload = JSON.parse(versionsResponse.data.toString("utf8")); } catch {}
+              const versions = Array.isArray(versionPayload.result) ? versionPayload.result : (Array.isArray(versionPayload.result?.result) ? versionPayload.result.result : []);
+              const recent = versions.slice(0, 4);
+              for (const version of recent) {
+                const id = version.id;
+                if (!id) continue;
+                const detailResponse = await get(`${api}/${worker}/versions/${id}`);
+                if (!detailResponse.response.ok) {
+                  console.log(JSON.stringify({version_id:id, detail_http:detailResponse.response.status}));
+                  continue;
+                }
+                let detailPayload = {};
+                try { detailPayload = JSON.parse(detailResponse.data.toString("utf8")); } catch {}
+                const detail = detailPayload.result || {};
+                const resources = detail.resources || {};
+                const md = detail.metadata || {};
+                const binds = Array.isArray(resources.bindings) ? resources.bindings : [];
+                console.log(JSON.stringify({
+                  version_id: id,
+                  number: detail.number || version.number || null,
+                  created_on: md.created_on || version.metadata?.created_on || null,
+                  source: md.source || version.metadata?.source || null,
+                  metadata_keys: Object.keys(md),
+                  resource_keys: Object.keys(resources),
+                  binding_names_types: binds.map(b=>({name:b.name,type:b.type})),
+                  runtime: {
+                    compatibility_date: resources.script_runtime?.compatibility_date || null,
+                    compatibility_flags: resources.script_runtime?.compatibility_flags || []
+                  },
+                  assets_metadata: md.assets ? {keys:Object.keys(md.assets),config:md.assets.config || null,keep_assets:md.assets.keep_assets ?? null} : null
+                }, null, 2));
+              }
             }
           }
           NODE
