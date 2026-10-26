@@ -103,21 +103,7 @@ jobs:
 
           const dashboardScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"></script>';
           const setupScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/division-setup-panel.js"></script>';
-          const htmlResponseStart = source.indexOf("function htmlResponse()");
-          if (htmlResponseStart < 0) throw new Error("Could not identify owner htmlResponse function.");
-          const sourceBeforeResponse = source.slice(0, htmlResponseStart);
-          const responseFunction = source.slice(htmlResponseStart);
-          const htmlReturnPattern = /return new Response\(\s*HTML\s*,\s*\{/;
-          if (!htmlReturnPattern.test(responseFunction)) {
-            throw new Error("Could not identify HTML response constructor; source was not changed.");
-          }
-          const injectedHTMLLines = [
-            `const bridgedHTML = HTML.includes(${JSON.stringify(dashboardScriptTag)}) ? HTML : HTML.replace("</head>", ${JSON.stringify(dashboardScriptTag + "\n</head>")});`,
-            `    const setupHTML = bridgedHTML.includes(${JSON.stringify(setupScriptTag)}) ? bridgedHTML : bridgedHTML.replace("</head>", ${JSON.stringify(setupScriptTag + "\n</head>")});`,
-            "    return new Response(setupHTML, {"
-          ].join("\n");
-          const patchedResponse = responseFunction.replace(htmlReturnPattern, injectedHTMLLines);
-          source = sourceBeforeResponse + patchedResponse;
+
 
           const rootRoute = 'if (url.pathname === "/" && request.method === "GET") return htmlResponse();';
           if (!source.includes(rootRoute)) {
