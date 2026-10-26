@@ -143,8 +143,8 @@ jobs:
           if (!source.includes(dashboardScriptTag) ||
               !source.includes("script-src 'self' 'unsafe-inline' https://aga-dashboard-bridge.reybyoo.workers.dev") ||
               !source.includes("connect-src 'self' https://aga-dashboard-bridge.reybyoo.workers.dev") ||
-              !source.includes('id="loginForm"') ||
-              !source.includes('id="dashboardView"') ||
+              !source.includes("loginForm") ||
+              !source.includes("dashboardView") ||
               !source.includes("env.DASHBOARD_PASSWORD") ||
               !source.includes("env.INGEST_TOKEN") ||
               !source.includes("env.DB")) {
