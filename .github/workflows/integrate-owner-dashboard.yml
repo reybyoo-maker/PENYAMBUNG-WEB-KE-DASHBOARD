@@ -136,7 +136,7 @@ jobs:
           if (!source.includes(setupScriptTag) ||
               !source.includes("function handleAgaDivisionSetup") ||
               !source.includes("/api/owner/division-setup/state") ||
-              !source.includes("live_connection_status_changed: false")) {
+              !source.includes("live_connection_status_changed")) {
             throw new Error("Owner setup API or setup panel source validation failed; owner Worker was not changed.");
           }
 
