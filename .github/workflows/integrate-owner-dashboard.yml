@@ -105,34 +105,28 @@ jobs:
           const setupScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/division-setup-panel.js"></script>';
 
 
-          const routeSnippetsBeforePatch = [...source.matchAll(/.{0,100}htmlResponse\\(\\).{0,120}/g)].slice(0, 10).map(m => m[0].replace(/[\\r\\n]+/g, " "));
-          console.log("Owner HTML response routes:", JSON.stringify(routeSnippetsBeforePatch));
-          const rootRoute = 'if (url.pathname === "/" && request.method === "GET") return htmlResponse();';
-          if (!source.includes(rootRoute)) {
-            throw new Error("Could not identify owner root route; setup script injection was not attempted.");
-          }
-          const rootReplacement = [
-            'if (url.pathname === "/" && request.method === "GET") {',
-            '  const ownerHtmlResponse = await htmlResponse();',
-            '  const ownerHtml = await ownerHtmlResponse.text();',
-            '  const setupTag = ' + JSON.stringify(setupScriptTag) + ';',
-            '  const outputHtml = ownerHtml.includes(setupTag) ? ownerHtml : ownerHtml.replace("</head>", ' + JSON.stringify(setupScriptTag + "\n</head>") + ');',
-            '  const responseHeaders = new Headers(ownerHtmlResponse.headers);',
-            '  responseHeaders.delete("content-length");',
-            '  responseHeaders.delete("etag");',
-            '  return new Response(outputHtml, { status: ownerHtmlResponse.status, statusText: ownerHtmlResponse.statusText, headers: responseHeaders });',
-            '}'
+          const originalHtmlResponseSignature = "function htmlResponse()";
+          const htmlResponseSignatureCount = source.split(originalHtmlResponseSignature).length - 1;
+          if (htmlResponseSignatureCount !== 1) throw new Error("Expected one owner htmlResponse function; refusing setup injection.");
+          source = source.replace(originalHtmlResponseSignature, "function htmlResponseOriginal()");
+          const originalSignature = "function htmlResponseOriginal()";
+          const originalSignatureIndex = source.indexOf(originalSignature);
+          if (originalSignatureIndex < 0) throw new Error("Could not retain original owner HTML response handler.");
+          const setupResponseWrapper = [
+            "async function htmlResponse() {",
+            "  const originalResponse = htmlResponseOriginal();",
+            "  const originalHtml = await originalResponse.text();",
+            "  const setupTag = " + JSON.stringify(setupScriptTag) + ";",
+            `  const outputHtml = originalHtml.includes(setupTag) ? originalHtml : originalHtml.replace("</head>", ${JSON.stringify(setupScriptTag + "\n</head>")});`,
+            "  const responseHeaders = new Headers(originalResponse.headers);",
+            "  responseHeaders.delete(\"content-length\");",
+            "  responseHeaders.delete(\"etag\");",
+            "  return new Response(outputHtml, { status: originalResponse.status, statusText: originalResponse.statusText, headers: responseHeaders });",
+            "}",
+            ""
           ].join("\n");
-          source = source.replace(rootRoute, rootReplacement);
-          const routeSnippets = [...source.matchAll(/.{0,80}htmlResponse\\(\\).{0,100}/g)].slice(0, 8).map(m => m[0].replace(/[\\r\\n]+/g, " "));
-          console.log("Owner setup patch diagnostics:", JSON.stringify({
-            injected_root_handler: source.includes("const outputHtml = ownerHtml.includes"),
-            setup_url_in_source: source.includes("division-setup-panel.js"),
-            html_response_function_count: (source.match(/function htmlResponse\\(\\)/g) || []).length,
-            html_response_call_count: (source.match(/htmlResponse\\(\\)/g) || []).length,
-            route_snippets: routeSnippets
-          }));
-
+          source = source.slice(0, originalSignatureIndex) + setupResponseWrapper + source.slice(originalSignatureIndex);
+          console.log("Owner HTML response wrapper:", JSON.stringify({ originalHandlerKept: source.includes("function htmlResponseOriginal()"), wrapperAdded: source.includes("async function htmlResponse()"), setupPanelPathIncluded: source.includes("division-setup-panel.js") }));
           const cspPattern = /"Content-Security-Policy":\s*"default-src 'self';\s*style-src 'self' 'unsafe-inline' https:\/\/fonts\.googleapis\.com;\s*font-src https:\/\/fonts\.gstatic\.com;\s*script-src 'self' 'unsafe-inline';\s*connect-src 'self';\s*img-src 'self' data:;\s*base-uri 'none';\s*frame-ancestors 'none'"/;
           const replacementCsp = '"Content-Security-Policy": "default-src \'self\'; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src \'self\' \'unsafe-inline\' https://aga-dashboard-bridge.reybyoo.workers.dev; connect-src \'self\' https://aga-dashboard-bridge.reybyoo.workers.dev; img-src \'self\' data:; base-uri \'none\'; frame-ancestors \'none\'"';
           if (cspPattern.test(source)) {
