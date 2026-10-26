@@ -18,5 +18,5 @@ if (!DIVISIONS_PANEL_JS.includes('typeof value === "number"')) throw new Error("
 if (DIVISIONS_PANEL_JS.includes("Number(value || 0).toLocaleString()")) throw new Error("NaN-prone metric formatting still present");
 if (DIVISIONS_PANEL_JS.includes("function openDrawer(") || DIVISIONS_PANEL_JS.includes("#aga-division-detail-overlay")) throw new Error("Legacy detail overlay was not removed");
 if (!DIVISIONS_PANEL_JS.includes("Runtime Supervisor")) throw new Error("Runtime Supervisor view missing");
-if (!DIVISIONS_PANEL_JS.includes("supervisor_enabled")) throw new Error("Runtime audit API contract missing");
+if (!DIVISIONS_PANEL_JS.includes("audit.supervisor_enabled")) throw new Error("Runtime audit API contract missing");
 console.log("Division workspace, runtime supervisor, connector readiness, output evidence and numeric-metric checks passed.");
