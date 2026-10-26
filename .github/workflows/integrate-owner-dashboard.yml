@@ -119,6 +119,24 @@ jobs:
           const patchedResponse = responseFunction.replace(htmlReturnPattern, injectedHTMLLines);
           source = sourceBeforeResponse + patchedResponse;
 
+          const rootRoute = 'if (url.pathname === "/" && request.method === "GET") return htmlResponse();';
+          if (!source.includes(rootRoute)) {
+            throw new Error("Could not identify owner root route; setup script injection was not attempted.");
+          }
+          const rootReplacement = [
+            'if (url.pathname === "/" && request.method === "GET") {',
+            '  const ownerHtmlResponse = await htmlResponse();',
+            '  const ownerHtml = await ownerHtmlResponse.text();',
+            '  const setupTag = ' + JSON.stringify(setupScriptTag) + ';',
+            '  const outputHtml = ownerHtml.includes(setupTag) ? ownerHtml : ownerHtml.replace("</head>", ' + JSON.stringify(setupScriptTag + "\\n</head>") + ');',
+            '  const responseHeaders = new Headers(ownerHtmlResponse.headers);',
+            '  responseHeaders.delete("content-length");',
+            '  responseHeaders.delete("etag");',
+            '  return new Response(outputHtml, { status: ownerHtmlResponse.status, statusText: ownerHtmlResponse.statusText, headers: responseHeaders });',
+            '}'
+          ].join("\\n");
+          source = source.replace(rootRoute, rootReplacement);
+
           const cspPattern = /"Content-Security-Policy":\s*"default-src 'self';\s*style-src 'self' 'unsafe-inline' https:\/\/fonts\.googleapis\.com;\s*font-src https:\/\/fonts\.gstatic\.com;\s*script-src 'self' 'unsafe-inline';\s*connect-src 'self';\s*img-src 'self' data:;\s*base-uri 'none';\s*frame-ancestors 'none'"/;
           const replacementCsp = '"Content-Security-Policy": "default-src \'self\'; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src \'self\' \'unsafe-inline\' https://aga-dashboard-bridge.reybyoo.workers.dev; connect-src \'self\' https://aga-dashboard-bridge.reybyoo.workers.dev; img-src \'self\' data:; base-uri \'none\'; frame-ancestors \'none\'"';
           if (cspPattern.test(source)) {
