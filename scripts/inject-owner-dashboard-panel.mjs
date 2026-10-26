@@ -125,8 +125,8 @@ function patchHtmlTemplate(source) {
   if (headCloseAt < 0) throw new Error("Closing HTML head tag not found after the real opening head. No change made.");
 
   const head = html.slice(openHead.index, headCloseAt + 7);
-  const existingScriptTags = head.match(/<script\\b[^>]*>/gi) || [];
-  const alreadyLoaded = existingScriptTags.some((tag) => tag.includes(PANEL_URL) && /\\bsrc\\s*=/i.test(tag));
+  const existingScriptTags = head.match(/<script\b[^>]*>/gi) || [];
+  const alreadyLoaded = existingScriptTags.some((tag) => tag.includes(PANEL_URL) && /\bsrc\s*=/i.test(tag));
   if (alreadyLoaded) {
     return { source, changed: false, message: "Bridge panel script element already exists inside the HTML head." };
   }
@@ -139,8 +139,8 @@ function patchHtmlTemplate(source) {
   const verifiedOpen = patched.indexOf("<head", marker.index);
   const verifiedClose = patched.indexOf("</head>", verifiedOpen);
   const verifiedHead = verifiedOpen >= 0 && verifiedClose >= 0 ? patched.slice(verifiedOpen, verifiedClose + 7) : "";
-  const verifiedTags = verifiedHead.match(/<script\\b[^>]*>/gi) || [];
-  const hasScriptTag = verifiedTags.some((tag) => tag.includes(PANEL_URL) && /\\bsrc\\s*=/i.test(tag));
+  const verifiedTags = verifiedHead.match(/<script\b[^>]*>/gi) || [];
+  const hasScriptTag = verifiedTags.some((tag) => tag.includes(PANEL_URL) && /\bsrc\s*=/i.test(tag));
   if (!hasScriptTag) {
     throw new Error("Post-patch validation failed: actual script src tag is not inside the HTML head. Source was not uploaded.");
   }
