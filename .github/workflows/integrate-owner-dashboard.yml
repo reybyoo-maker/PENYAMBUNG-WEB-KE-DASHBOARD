@@ -103,24 +103,20 @@ jobs:
 
           const dashboardScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"></script>';
           const setupScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/division-setup-panel.js"></script>';
-          const tick = String.fromCharCode(96);
-          const htmlAssignment = /const\s+HTML\s*=\s*\x60/.exec(source);
-          const htmlStart = htmlAssignment ? htmlAssignment.index : -1;
-          if (htmlStart < 0) throw new Error("Could not identify owner dashboard HTML template. Source modules: " + modules.map(m => m.filename).join(", "));
-          const htmlResponseIndex = source.indexOf("function htmlResponse()", htmlStart);
-          const htmlEnd = htmlResponseIndex >= 0 ? source.lastIndexOf(tick, htmlResponseIndex) : -1;
-          if (htmlEnd <= htmlStart || source[htmlEnd + 1] !== ";") {
-            throw new Error("Could not locate the end of the owner dashboard HTML template.");
+          const htmlResponseStart = source.indexOf("function htmlResponse()");
+          if (htmlResponseStart < 0) throw new Error("Could not identify owner htmlResponse function.");
+          const sourceBeforeResponse = source.slice(0, htmlResponseStart);
+          const responseFunction = source.slice(htmlResponseStart);
+          const htmlReturnPattern = /return new Response\\(\\s*HTML\\s*,\\s*\\{/;
+          if (!htmlReturnPattern.test(responseFunction)) {
+            throw new Error("Could not identify HTML response constructor; source was not changed.");
           }
-          let htmlTemplate = source.slice(htmlStart, htmlEnd);
-          if (!htmlTemplate.includes("</head>")) throw new Error("Owner HTML template has no closing head tag.");
-          if (!htmlTemplate.includes(dashboardScriptTag)) {
-            htmlTemplate = htmlTemplate.replace("</head>", dashboardScriptTag + "\n</head>");
-          }
-          if (!htmlTemplate.includes(setupScriptTag)) {
-            htmlTemplate = htmlTemplate.replace("</head>", setupScriptTag + "\n</head>");
-          }
-          source = source.slice(0, htmlStart) + htmlTemplate + source.slice(htmlEnd);
+          const injectedHTMLLines =
+            "const bridgedHTML = HTML.includes(" + JSON.stringify(dashboardScriptTag) + ") ? HTML : HTML.replace(\\"</head>\\", " + JSON.stringify(dashboardScriptTag + "\\n</head>") + ");\\n" +
+            "    const setupHTML = bridgedHTML.includes(" + JSON.stringify(setupScriptTag) + ") ? bridgedHTML : bridgedHTML.replace(\\"</head>\\", " + JSON.stringify(setupScriptTag + "\\n</head>") + ");\\n" +
+            "    return new Response(setupHTML, {";
+          const patchedResponse = responseFunction.replace(htmlReturnPattern, injectedHTMLLines);
+          source = sourceBeforeResponse + patchedResponse;
 
           const cspPattern = /"Content-Security-Policy":\s*"default-src 'self';\s*style-src 'self' 'unsafe-inline' https:\/\/fonts\.googleapis\.com;\s*font-src https:\/\/fonts\.gstatic\.com;\s*script-src 'self' 'unsafe-inline';\s*connect-src 'self';\s*img-src 'self' data:;\s*base-uri 'none';\s*frame-ancestors 'none'"/;
           const replacementCsp = '"Content-Security-Policy": "default-src \'self\'; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src \'self\' \'unsafe-inline\' https://aga-dashboard-bridge.reybyoo.workers.dev; connect-src \'self\' https://aga-dashboard-bridge.reybyoo.workers.dev; img-src \'self\' data:; base-uri \'none\'; frame-ancestors \'none\'"';
