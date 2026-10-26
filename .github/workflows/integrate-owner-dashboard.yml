@@ -112,10 +112,10 @@ jobs:
             throw new Error("Could not identify HTML response constructor; source was not changed.");
           }
           const injectedHTMLLines = [
-            `const bridgedHTML = HTML.includes(${JSON.stringify(dashboardScriptTag)}) ? HTML : HTML.replace("</head>", ${JSON.stringify(dashboardScriptTag + "\\n</head>")});`,
-            `    const setupHTML = bridgedHTML.includes(${JSON.stringify(setupScriptTag)}) ? bridgedHTML : bridgedHTML.replace("</head>", ${JSON.stringify(setupScriptTag + "\\n</head>")});`,
+            `const bridgedHTML = HTML.includes(${JSON.stringify(dashboardScriptTag)}) ? HTML : HTML.replace("</head>", ${JSON.stringify(dashboardScriptTag + "\n</head>")});`,
+            `    const setupHTML = bridgedHTML.includes(${JSON.stringify(setupScriptTag)}) ? bridgedHTML : bridgedHTML.replace("</head>", ${JSON.stringify(setupScriptTag + "\n</head>")});`,
             "    return new Response(setupHTML, {"
-          ].join("\\n");
+          ].join("\n");
           const patchedResponse = responseFunction.replace(htmlReturnPattern, injectedHTMLLines);
           source = sourceBeforeResponse + patchedResponse;
 
