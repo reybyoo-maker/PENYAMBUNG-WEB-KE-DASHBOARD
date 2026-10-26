@@ -319,6 +319,7 @@ test("GET divisions returns registry and integration readiness from D1", async (
   assert.equal(result.divisions[0].workers.length, 4);
   assert.equal(result.divisions[0].worker_count, 4);
   assert.equal(result.divisions[0].workers[0].status, "planned");
+  assert.deepEqual(result.divisions[0].operations, { completed: 0, failed: 0, open: 0, total: 0, last_activity: null });
 });
 
 test("tracker source is served with JavaScript content type", async () => {

@@ -11,4 +11,10 @@ if (!DIVISIONS_PANEL_JS.includes("function findNativeSidebar()")) throw new Erro
 if (!DIVISIONS_PANEL_JS.includes('sidebar.dataset.agaPlacement = "safe-flow-fallback"')) throw new Error("Safe flow fallback missing");
 if (DIVISIONS_PANEL_JS.includes('sidebar.style.position = "fixed"')) throw new Error("Fixed sidebar overlay regression detected");
 if (DIVISIONS_PANEL_JS.includes('shell.classList.add("aga-shell-with-sidebar")')) throw new Error("Forced shell grid regression detected");
-console.log("Division sidebar/workspace syntax, restoration and no-overlap layout checks passed.");
+if (!DIVISIONS_PANEL_JS.includes("function renderDivisionWorkspace()")) throw new Error("Per-division workspace missing");
+if (!DIVISIONS_PANEL_JS.includes("function renderIntegrationWorkspace()")) throw new Error("Integration detail workspace missing");
+if (!DIVISIONS_PANEL_JS.includes("Required connector coverage")) throw new Error("Per-division readiness metrics missing");
+if (!DIVISIONS_PANEL_JS.includes('typeof value === "number"')) throw new Error("Metric formatting regression guard missing");
+if (DIVISIONS_PANEL_JS.includes("Number(value || 0).toLocaleString()")) throw new Error("NaN-prone metric formatting still present");
+if (DIVISIONS_PANEL_JS.includes('document.body.appendChild(overlay)')) throw new Error("Modal overlay regression detected");
+console.log("Division workspace, connector readiness, output evidence, numeric metrics and no-modal layout checks passed.");

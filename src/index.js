@@ -357,7 +357,7 @@ async function getDivisions(request, env, origin) {
     const dayStart = new Date();
     dayStart.setUTCHours(0, 0, 0, 0);
     const dayStartIso = dayStart.toISOString();
-    const [divisionRows, integrationRows, taskSummary, latestResearchRows, researchDaily, executorState] = await Promise.all([
+    const [divisionRows, integrationRows, operationRows, taskSummary, latestResearchRows, researchDaily, executorState] = await Promise.all([
       env.DB.prepare(
         "SELECT d.*, " +
         "COALESCE((SELECT s.setup_stage FROM aga_division_setup s WHERE s.division_slug=d.slug), 'not_started') AS setup_stage, " +
@@ -368,6 +368,14 @@ async function getDivisions(request, env, origin) {
       env.DB.prepare(
         "SELECT id, division_slug, integration_key, label, required, status, notes, last_checked_at " +
         "FROM aga_division_integrations ORDER BY division_slug, required DESC, label"
+      ).all(),
+      env.DB.prepare(
+        "SELECT division_slug, " +
+        "SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) AS completed, " +
+        "SUM(CASE WHEN status='failed' THEN 1 ELSE 0 END) AS failed, " +
+        "SUM(CASE WHEN status IN ('awaiting_approval','queued','running') THEN 1 ELSE 0 END) AS open, " +
+        "COUNT(*) AS total, MAX(COALESCE(completed_at, updated_at, created_at)) AS last_activity " +
+        "FROM aga_division_tasks WHERE COALESCE(task_type,'general') <> 'public_research' GROUP BY division_slug"
       ).all(),
       env.DB.prepare(
         "SELECT COUNT(*) AS open_tasks FROM aga_division_tasks " +
@@ -394,6 +402,13 @@ async function getDivisions(request, env, origin) {
     ]);
 
     const latestResearchByDivision = new Map((latestResearchRows.results || []).map((row) => [row.division_slug, publicResearchView(row)]));
+    const operationsByDivision = new Map((operationRows.results || []).map((row) => [row.division_slug, {
+      completed: Number(row.completed || 0),
+      failed: Number(row.failed || 0),
+      open: Number(row.open || 0),
+      total: Number(row.total || 0),
+      last_activity: row.last_activity || null
+    }]));
     const workerProfiles = new Map((MANIFEST.divisions || []).map((item) => [item.slug, item.workers || []]));
     const divisions = (divisionRows.results || []).map((row) => ({
       slug: row.slug,
@@ -413,6 +428,7 @@ async function getDivisions(request, env, origin) {
       runtime_status: row.runtime_status,
       setup_stage: row.setup_stage || "not_started",
       open_tasks: Number(row.open_tasks || 0),
+      operations: operationsByDivision.get(row.slug) || { completed: 0, failed: 0, open: 0, total: 0, last_activity: null },
       latest_public_research: latestResearchByDivision.get(row.slug) || null,
       created_at: row.created_at,
       updated_at: row.updated_at
