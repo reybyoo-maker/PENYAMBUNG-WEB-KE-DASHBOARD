@@ -70,6 +70,9 @@ if division_setup_rows != divisions:
     raise SystemExit(f"Expected one setup record per division ({divisions}), found {division_setup_rows}")
 if integration_setup_rows != integrations:
     raise SystemExit(f"Expected one setup record per integration ({integrations}), found {integration_setup_rows}")
+division_setup_in_progress = scalar("SELECT COUNT(*) FROM aga_division_setup WHERE setup_stage='in_progress'")
+if division_setup_in_progress != divisions:
+    raise SystemExit(f"Expected an initialized setup stage for every division ({divisions}), found {division_setup_in_progress} in progress")
 blank_integration_setup = scalar("SELECT COUNT(*) FROM aga_division_integration_setup WHERE setup_stage='not_started' AND documentation_url='' AND credential_refs_json='[]' AND owner_notes=''")
 if blank_integration_setup:
     raise SystemExit(f"Expected setup defaults for every integration; {blank_integration_setup} remain blank")

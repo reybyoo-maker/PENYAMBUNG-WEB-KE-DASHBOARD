@@ -325,6 +325,7 @@ async function getDivisions(request, env, origin) {
     const [divisionRows, integrationRows, taskSummary] = await Promise.all([
       env.DB.prepare(
         "SELECT d.*, " +
+        "COALESCE((SELECT s.setup_stage FROM aga_division_setup s WHERE s.division_slug=d.slug), 'not_started') AS setup_stage, " +
         "(SELECT COUNT(*) FROM aga_division_tasks t WHERE t.division_slug=d.slug " +
         "AND t.status IN ('awaiting_approval','queued','running')) AS open_tasks " +
         "FROM aga_division_registry d ORDER BY d.sort_order ASC"
@@ -356,6 +357,7 @@ async function getDivisions(request, env, origin) {
       approval_policy: row.approval_policy,
       catalog_enabled: Boolean(row.catalog_enabled),
       runtime_status: row.runtime_status,
+      setup_stage: row.setup_stage || "not_started",
       open_tasks: Number(row.open_tasks || 0),
       created_at: row.created_at,
       updated_at: row.updated_at
