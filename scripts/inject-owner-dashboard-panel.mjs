@@ -118,33 +118,76 @@ function patchHtmlTemplate(source) {
   const closeAt = findTemplateClose(source, openAt);
   if (closeAt < 0) throw new Error("HTML template boundaries are not valid. No change made.");
 
-  const html = source.slice(openAt + 1, closeAt);
+  let html = source.slice(openAt + 1, closeAt);
+  const changes = [];
+
+  function findPasswordInput(value) {
+    const matches = Array.from(value.matchAll(/<input\b[^>]*>/gi));
+    return matches.find((match) => {
+      const tag = match[0];
+      return /\bid\s*=\s*(["'])password\1/i.test(tag) ||
+        /\bname\s*=\s*(["'])password\1/i.test(tag);
+    }) || null;
+  }
+  function setAttribute(tag, name, value) {
+    const pattern = new RegExp("\\b" + name + "\\s*=\\s*(?:\"[^\"]*\"|'[^']*'|[^\\s>]+)", "i");
+    if (pattern.test(tag)) return tag.replace(pattern, name + "=\"" + value + "\"");
+    return tag.replace(/\s*\/?>$/, (ending) => " " + name + "=\"" + value + "\"" + ending);
+  }
+
+  const passwordMatch = findPasswordInput(html);
+  if (!passwordMatch) {
+    throw new Error("The existing Owner password input could not be identified safely. No change made.");
+  }
+  let safePasswordTag = passwordMatch[0];
+  safePasswordTag = setAttribute(safePasswordTag, "type", "password");
+  safePasswordTag = setAttribute(safePasswordTag, "autocomplete", "current-password");
+  if (safePasswordTag !== passwordMatch[0]) {
+    html = html.slice(0, passwordMatch.index) + safePasswordTag +
+      html.slice(passwordMatch.index + passwordMatch[0].length);
+    changes.push("masked the existing Owner password field");
+  }
+
   const openHead = /<head\b[^>]*>/i.exec(html);
   if (!openHead) throw new Error("Opening HTML head tag not found inside the real template. No change made.");
   const headCloseAt = html.toLowerCase().indexOf("</head>", openHead.index + openHead[0].length);
   if (headCloseAt < 0) throw new Error("Closing HTML head tag not found after the real opening head. No change made.");
 
-  const head = html.slice(openHead.index, headCloseAt + 7);
+  let head = html.slice(openHead.index, headCloseAt + 7);
   const existingScriptTags = head.match(/<script\b[^>]*>/gi) || [];
   const alreadyLoaded = existingScriptTags.some((tag) => tag.includes(PANEL_URL) && /\bsrc\s*=/i.test(tag));
-  if (alreadyLoaded) {
-    return { source, changed: false, message: "Bridge panel script element already exists inside the HTML head." };
+  if (!alreadyLoaded) {
+    const insertAt = openHead.index + openHead[0].length;
+    const tag = "\n<script defer src=\"" + PANEL_URL + "\"></script>\n";
+    html = html.slice(0, insertAt) + tag + html.slice(insertAt);
+    changes.push("attached one deferred bridge panel script to the HTML head");
   }
 
-  const insertAt = openAt + 1 + openHead.index + openHead[0].length;
-  const tag = "\n<script defer src=\"" + PANEL_URL + "\"></script>\n";
-  const patched = source.slice(0, insertAt) + tag + source.slice(insertAt);
+  const verifiedPasswordMatch = findPasswordInput(html);
+  if (!verifiedPasswordMatch ||
+      !/\btype\s*=\s*(["'])password\1/i.test(verifiedPasswordMatch[0]) ||
+      !/\bautocomplete\s*=\s*(["'])current-password\1/i.test(verifiedPasswordMatch[0])) {
+    throw new Error("Post-patch validation failed: password field is not masked with current-password autocomplete. Source was not uploaded.");
+  }
 
-  const marker = /\b(?:var|let|const)\s+HTML\s*=\s*/.exec(patched);
-  const verifiedOpen = patched.indexOf("<head", marker.index);
-  const verifiedClose = patched.indexOf("</head>", verifiedOpen);
-  const verifiedHead = verifiedOpen >= 0 && verifiedClose >= 0 ? patched.slice(verifiedOpen, verifiedClose + 7) : "";
+  const verifiedOpenHead = /<head\b[^>]*>/i.exec(html);
+  const verifiedHeadCloseAt = verifiedOpenHead
+    ? html.toLowerCase().indexOf("</head>", verifiedOpenHead.index + verifiedOpenHead[0].length)
+    : -1;
+  const verifiedHead = verifiedOpenHead && verifiedHeadCloseAt >= 0
+    ? html.slice(verifiedOpenHead.index, verifiedHeadCloseAt + 7)
+    : "";
   const verifiedTags = verifiedHead.match(/<script\b[^>]*>/gi) || [];
   const hasScriptTag = verifiedTags.some((tag) => tag.includes(PANEL_URL) && /\bsrc\s*=/i.test(tag));
   if (!hasScriptTag) {
-    throw new Error("Post-patch validation failed: actual script src tag is not inside the HTML head. Source was not uploaded.");
+    throw new Error("Post-patch validation failed: bridge script src is not inside the actual HTML head. Source was not uploaded.");
   }
-  return { source: patched, changed: true, message: "Added one deferred bridge panel script to the existing HTML head." };
+
+  if (!changes.length) {
+    return { source, changed: false, message: "Owner password masking and bridge script placement are already correct." };
+  }
+  const patchedSource = source.slice(0, openAt + 1) + html + source.slice(closeAt);
+  return { source: patchedSource, changed: true, message: "Applied safe Owner login and dashboard panel repairs: " + changes.join("; ") + "." };
 }
 
 async function readSource() {
@@ -189,18 +232,29 @@ async function verifyLiveHtml() {
     "https://dashboard.aigrowth.my.id/"
   ];
   for (const url of urls) {
-    const response = await fetch(url, {
+    const checkUrl = new URL(url);
+    checkUrl.searchParams.set("_aga_verify", Date.now().toString());
+    const response = await fetch(checkUrl.toString(), {
       headers: { Accept: "text/html" },
       cache: "no-store"
     });
     if (!response.ok) throw new Error("Live Owner Dashboard verification returned HTTP " + response.status + " for " + url);
     const html = await response.text();
+    const inputs = Array.from(html.matchAll(/<input\b[^>]*>/gi));
+    const passwordInput = inputs.find((match) =>
+      /\bid\s*=\s*(["'])password\1/i.test(match[0]) ||
+      /\bname\s*=\s*(["'])password\1/i.test(match[0])
+    );
+    const passwordMasked = Boolean(passwordInput &&
+      /\btype\s*=\s*(["'])password\1/i.test(passwordInput[0]) &&
+      /\bautocomplete\s*=\s*(["'])current-password\1/i.test(passwordInput[0]));
+    if (!passwordMasked) throw new Error("Live Owner Dashboard password field is not masked (type=password, autocomplete=current-password) on " + url + ".");
     const headStart = html.search(/<head\b[^>]*>/i);
     const headClose = headStart >= 0 ? html.toLowerCase().indexOf("</head>", headStart) : -1;
     const head = headStart >= 0 && headClose >= 0 ? html.slice(headStart, headClose + 7) : "";
     const tags = head.match(/<script\b[^>]*>/gi) || [];
     const present = tags.some((tag) => tag.includes(PANEL_URL) && /\bsrc\s*=/i.test(tag));
-    console.log("Live HTML check " + url + ": script_tag=" + present + ", html_bytes=" + html.length);
+    console.log("Live HTML check " + url + ": script_tag=" + present + ", password_masked=" + passwordMasked + ", html_bytes=" + html.length);
     if (!present) throw new Error("Live HTML does not include the bridge script in <head> for " + url + ".");
   }
 }
@@ -224,7 +278,7 @@ async function main() {
   const check = patchHtmlTemplate(after.source);
   if (check.changed) throw new Error("Post-upload Worker source did not preserve the bridge script inside the head.");
   await verifyLiveHtml();
-  console.log("Owner Dashboard panel injection succeeded and verified. Only HTML script content changed; existing bindings, secrets, cron and deployment settings were not intentionally modified.");
+  console.log("Owner Dashboard repairs succeeded and verified. Only the existing HTML password attributes and bridge script tag changed; Worker bindings, secrets, cron and deployment settings were not intentionally modified.");
 }
 
 main().catch((error) => {
