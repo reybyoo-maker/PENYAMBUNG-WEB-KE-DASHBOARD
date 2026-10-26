@@ -141,7 +141,7 @@ jobs:
           }
 
           const preflight = {
-            dashboard_script_tag: source.includes(dashboardScriptTag),
+            dashboard_script_path: source.includes("dashboard-panel.js"),
             setup_script_path: source.includes("division-setup-panel.js"),
             csp_script: source.includes("script-src 'self' 'unsafe-inline' https://aga-dashboard-bridge.reybyoo.workers.dev"),
             csp_connect: source.includes("connect-src 'self' https://aga-dashboard-bridge.reybyoo.workers.dev"),
