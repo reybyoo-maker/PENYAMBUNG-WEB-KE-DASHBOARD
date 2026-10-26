@@ -2,6 +2,7 @@ import { TRACKER_JS } from "./tracker.js";
 import { MANIFEST } from "./modules.js";
 import { DASHBOARD_PANEL_JS } from "./dashboard-panel.js";
 import { DIVISIONS_PANEL_JS } from "./divisions-panel.js";
+import { DIVISION_SETUP_PANEL_JS } from "./division-setup-panel.js";
 
 const MAX_BODY_BYTES = 32 * 1024;
 const MAX_EVENTS_PER_REQUEST = 25;
@@ -587,6 +588,18 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/divisions-panel.js") {
       return new Response(DIVISIONS_PANEL_JS, {
+        status: 200,
+        headers: {
+          ...Object.fromEntries(corsHeaders(origin, env)),
+          "Content-Type": "application/javascript; charset=utf-8",
+          "Cache-Control": "public, max-age=300",
+          "X-Content-Type-Options": "nosniff"
+        }
+      });
+    }
+
+    if (request.method === "GET" && url.pathname === "/division-setup-panel.js") {
+      return new Response(DIVISION_SETUP_PANEL_JS, {
         status: 200,
         headers: {
           ...Object.fromEntries(corsHeaders(origin, env)),

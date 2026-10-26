@@ -105,7 +105,8 @@ export const MANIFEST = {
     { method: "GET", path: "/api/divisions", purpose: "Read all 150 configured divisions, required integrations and task counts" },
     { method: "POST", path: "/api/divisions/:slug/tasks", purpose: "Create an owner-authenticated task waiting for approval" },
     { method: "GET", path: "/dashboard-panel.js", purpose: "Live website analytics and division panel loader for the Owner Dashboard" },
-    { method: "GET", path: "/divisions-panel.js", purpose: "Render all AIGROWTH divisions and integration readiness" }
+    { method: "GET", path: "/divisions-panel.js", purpose: "Render all AIGROWTH divisions and integration readiness" },
+    { method: "GET", path: "/division-setup-panel.js", purpose: "Owner-authenticated division and integration setup manager" }
   ],
   websiteTrackingFeatures: WEBSITE_TRACKING_FEATURES,
   divisions: DIVISION_CATALOG,

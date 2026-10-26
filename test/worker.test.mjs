@@ -45,6 +45,15 @@ test("manifest lists website analytics features and non-website panels honestly"
   assert.ok(MANIFEST.dashboardPanels.some((panel) => panel.id === "crm_leads" && panel.status === "external_source_required"));
 });
 
+test("division setup panel endpoint serves the owner setup manager", async () => {
+  const response = await worker.fetch(new Request("https://bridge.test/division-setup-panel.js"), configuredEnv);
+  const body = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(body, /Division & Integration Setup/);
+  assert.match(body, /api\\/owner\\/division-setup/);
+  assert.match(body, /Unlock setup/);
+});
+
 test("collect rejects requests from origins outside the allowlist", async () => {
   const response = await worker.fetch(new Request("https://bridge.test/collect", {
     method: "POST",

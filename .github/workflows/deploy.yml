@@ -65,6 +65,8 @@ jobs:
       - name: Configure optional Owner task API token
         if: ${{ env.AGA_OWNER_API_TOKEN != '' }}
         run: printf '%s' "$AGA_OWNER_API_TOKEN" | npx wrangler@4 secret put AGA_OWNER_API_TOKEN --name aga-dashboard-bridge
+      - name: Apply division setup center migration
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0005_division_setup_center.sql --config=wrangler.deploy.toml
       - name: Verify deployed Worker and D1 schema
         shell: bash
         run: |

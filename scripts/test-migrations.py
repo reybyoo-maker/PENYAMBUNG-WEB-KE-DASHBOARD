@@ -28,7 +28,7 @@ if divisions != 150:
     raise SystemExit(f"Expected 150 divisions, found {divisions}")
 if integrations != 310:
     raise SystemExit(f"Expected 310 integration definitions, found {integrations}")
-for table in ("website_analytics_events", "aga_division_registry", "aga_division_integrations", "aga_division_tasks"):
+for table in ("website_analytics_events", "aga_division_registry", "aga_division_integrations", "aga_division_tasks", "aga_division_setup", "aga_division_integration_setup"):
     exists = scalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=" + repr(table))
     if exists != 1:
         raise SystemExit(f"Expected table is missing: {table}")
@@ -64,4 +64,10 @@ foreign_key_errors = connection.execute("PRAGMA foreign_key_check").fetchall()
 if foreign_key_errors:
     raise SystemExit(f"Foreign-key validation failed: {foreign_key_errors}")
 
-print(f"Validated {len(migration_files)} migrations; {divisions} divisions; {integrations} integration records; task and analytics schemas present.")
+division_setup_rows = scalar("SELECT COUNT(*) FROM aga_division_setup")
+integration_setup_rows = scalar("SELECT COUNT(*) FROM aga_division_integration_setup")
+if division_setup_rows != divisions:
+    raise SystemExit(f"Expected one setup record per division ({divisions}), found {division_setup_rows}")
+if integration_setup_rows != integrations:
+    raise SystemExit(f"Expected one setup record per integration ({integrations}), found {integration_setup_rows}")
+print(f"Validated {len(migration_files)} migrations; {divisions} divisions; {integrations} integrations; {division_setup_rows} division setup rows; {integration_setup_rows} integration setup rows; schema and foreign keys present.")
