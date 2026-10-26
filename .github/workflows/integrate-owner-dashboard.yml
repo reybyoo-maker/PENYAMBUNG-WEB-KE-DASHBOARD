@@ -104,8 +104,9 @@ jobs:
           const dashboardScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/dashboard-panel.js"></script>';
           const setupScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/division-setup-panel.js"></script>';
           const tick = String.fromCharCode(96);
-          const htmlStart = source.indexOf("const HTML = " + tick);
-          if (htmlStart < 0) throw new Error("Could not identify owner dashboard HTML template.");
+          const htmlAssignment = /const\\s+HTML\\s*=\\s*\\x60/.exec(source);
+          const htmlStart = htmlAssignment ? htmlAssignment.index : -1;
+          if (htmlStart < 0) throw new Error("Could not identify owner dashboard HTML template. Source modules: " + modules.map(m => m.filename).join(", "));
           const htmlResponseIndex = source.indexOf("function htmlResponse()", htmlStart);
           const htmlEnd = htmlResponseIndex >= 0 ? source.lastIndexOf(tick, htmlResponseIndex) : -1;
           if (htmlEnd <= htmlStart || source[htmlEnd + 1] !== ";") {
