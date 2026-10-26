@@ -75,6 +75,8 @@ jobs:
         run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0006_setup_baseline_defaults.sql --config=wrangler.deploy.toml
       - name: Initialize setup status for all registered divisions
         run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0007_initialize_division_setup_states.sql --config=wrangler.deploy.toml
+      - name: Attach bridge panel to existing Owner Dashboard
+        run: node scripts/inject-owner-dashboard-panel.mjs
       - name: Verify deployed Worker and D1 schema
         shell: bash
         run: |
