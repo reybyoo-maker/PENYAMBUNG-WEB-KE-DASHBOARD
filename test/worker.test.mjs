@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import worker from "../src/index.js";
 import { MANIFEST } from "../src/modules.js";
 import { DIVISION_CATALOG } from "../src/divisions.js";
+import { DIVISION_SETUP_PANEL_JS } from "../src/division-setup-panel.js";
 
 const origin = "https://aigrowth.my.id";
 const configuredEnv = {
@@ -50,8 +51,9 @@ test("division setup panel endpoint serves the owner setup manager", async () =>
   const body = await response.text();
   assert.equal(response.status, 200);
   assert.match(body, /Division & Integration Setup/);
-  assert.match(body, /api\\/owner\\/division-setup/);
+  assert.ok(body.includes("/api/owner/division-setup"));
   assert.match(body, /Unlock setup/);
+  assert.doesNotThrow(() => new Function(DIVISION_SETUP_PANEL_JS));
 });
 
 test("collect rejects requests from origins outside the allowlist", async () => {
