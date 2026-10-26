@@ -122,6 +122,14 @@ jobs:
             '}'
           ].join("\n");
           source = source.replace(rootRoute, rootReplacement);
+          const routeSnippets = [...source.matchAll(/.{0,80}htmlResponse\\(\\).{0,100}/g)].slice(0, 8).map(m => m[0].replace(/[\\r\\n]+/g, " "));
+          console.log("Owner setup patch diagnostics:", JSON.stringify({
+            injected_root_handler: source.includes("const outputHtml = ownerHtml.includes"),
+            setup_url_in_source: source.includes("division-setup-panel.js"),
+            html_response_function_count: (source.match(/function htmlResponse\\(\\)/g) || []).length,
+            html_response_call_count: (source.match(/htmlResponse\\(\\)/g) || []).length,
+            route_snippets: routeSnippets
+          }));
 
           const cspPattern = /"Content-Security-Policy":\s*"default-src 'self';\s*style-src 'self' 'unsafe-inline' https:\/\/fonts\.googleapis\.com;\s*font-src https:\/\/fonts\.gstatic\.com;\s*script-src 'self' 'unsafe-inline';\s*connect-src 'self';\s*img-src 'self' data:;\s*base-uri 'none';\s*frame-ancestors 'none'"/;
           const replacementCsp = '"Content-Security-Policy": "default-src \'self\'; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src \'self\' \'unsafe-inline\' https://aga-dashboard-bridge.reybyoo.workers.dev; connect-src \'self\' https://aga-dashboard-bridge.reybyoo.workers.dev; img-src \'self\' data:; base-uri \'none\'; frame-ancestors \'none\'"';
