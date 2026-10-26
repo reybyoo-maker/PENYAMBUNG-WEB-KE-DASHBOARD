@@ -35,6 +35,8 @@ jobs:
         run: npm test
       - name: Run SQL migration validation
         run: python3 scripts/test-migrations.py
+      - name: Check Owner panel injector syntax
+        run: node --check scripts/inject-owner-dashboard-panel.mjs
       - name: Validate Cloudflare credentials
         run: |
           set -euo pipefail

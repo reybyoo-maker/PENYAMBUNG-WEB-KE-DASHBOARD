@@ -37,7 +37,7 @@ function extractSource(raw, contentType, headers) {
   if (/multipart\//i.test(contentType)) {
     const boundaryMatch = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType);
     if (!boundaryMatch) throw new Error("Cloudflare returned multipart content without a boundary. No change made.");
-    const boundary = boundaryMatch[1] || boundaryMatch[2];
+    const boundary = (boundaryMatch[1] || boundaryMatch[2]).trim();
     for (const chunk of raw.split("--" + boundary)) {
       const part = chunk.replace(/^\r?\n/, "");
       const split = part.indexOf("\r\n\r\n");
@@ -58,6 +58,20 @@ function extractSource(raw, contentType, headers) {
       const namedPart = mainHeader || bodyHeader || sourcePart.filename || sourcePart.name || "worker.js";
       return { source: sourcePart.body, filename: namedPart, module: Boolean(mainHeader) };
     }
+    const diagnostics = parts.map((p) => ({
+      name: p.name,
+      filename: p.filename,
+      contentType: (/content-type:\s*([^\r\n]+)/i.exec(p.headers) || [])[1] || "",
+      bytes: p.body.length,
+      hasHtmlMarker: p.body.includes("var HTML"),
+      hasFetchHandler: p.body.includes("self.addEventListener") || p.body.includes("export default"),
+      beginning: p.body.slice(0, 80).replace(/[\r\n\t]/g, " ")
+    }));
+    console.error("Safe multipart diagnostics:", JSON.stringify({
+      contentType: contentType,
+      bodyBytes: raw.length,
+      parts: diagnostics
+    }));
     throw new Error("Could not identify the existing Worker source in Cloudflare multipart content. No change made.");
   }
 
