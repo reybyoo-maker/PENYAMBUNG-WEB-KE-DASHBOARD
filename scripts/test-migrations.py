@@ -70,4 +70,10 @@ if division_setup_rows != divisions:
     raise SystemExit(f"Expected one setup record per division ({divisions}), found {division_setup_rows}")
 if integration_setup_rows != integrations:
     raise SystemExit(f"Expected one setup record per integration ({integrations}), found {integration_setup_rows}")
-print(f"Validated {len(migration_files)} migrations; {divisions} divisions; {integrations} integrations; {division_setup_rows} division setup rows; {integration_setup_rows} integration setup rows; schema and foreign keys present.")
+blank_integration_setup = scalar("SELECT COUNT(*) FROM aga_division_integration_setup WHERE setup_stage='not_started' AND documentation_url='' AND credential_refs_json='[]' AND owner_notes=''")
+if blank_integration_setup:
+    raise SystemExit(f"Expected setup defaults for every integration; {blank_integration_setup} remain blank")
+linked_integration_defaults = scalar("SELECT COUNT(*) FROM aga_division_integration_setup WHERE setup_stage IN ('in_progress','awaiting_credentials')")
+if linked_integration_defaults != integrations:
+    raise SystemExit(f"Expected setup stage for every integration ({integrations}), found {linked_integration_defaults}")
+print(f"Validated {len(migration_files)} migrations; {divisions} divisions; {integrations} integrations; {division_setup_rows} division setup rows; {integration_setup_rows} integration setup rows; {linked_integration_defaults} prefilled integration checklists; schema and foreign keys present.")
