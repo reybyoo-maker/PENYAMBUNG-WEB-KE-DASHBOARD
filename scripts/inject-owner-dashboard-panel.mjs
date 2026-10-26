@@ -184,13 +184,25 @@ async function uploadSource(filename, source, isModule) {
 }
 
 async function verifyLiveHtml() {
-  const response = await fetch("https://aigrowth-owner-dashboard.reybyoo.workers.dev/", {
-    headers: { Accept: "text/html" },
-    cache: "no-store"
-  });
-  if (!response.ok) throw new Error("Live Owner Dashboard verification returned HTTP " + response.status);
-  const html = await response.text();
-  if (!html.includes(PANEL_URL)) throw new Error("Live Owner Dashboard HTML does not yet include dashboard-panel.js after upload.");
+  const urls = [
+    "https://aigrowth-owner-dashboard.reybyoo.workers.dev/",
+    "https://dashboard.aigrowth.my.id/"
+  ];
+  for (const url of urls) {
+    const response = await fetch(url, {
+      headers: { Accept: "text/html" },
+      cache: "no-store"
+    });
+    if (!response.ok) throw new Error("Live Owner Dashboard verification returned HTTP " + response.status + " for " + url);
+    const html = await response.text();
+    const headStart = html.search(/<head\b[^>]*>/i);
+    const headClose = headStart >= 0 ? html.toLowerCase().indexOf("</head>", headStart) : -1;
+    const head = headStart >= 0 && headClose >= 0 ? html.slice(headStart, headClose + 7) : "";
+    const tags = head.match(/<script\b[^>]*>/gi) || [];
+    const present = tags.some((tag) => tag.includes(PANEL_URL) && /\bsrc\s*=/i.test(tag));
+    console.log("Live HTML check " + url + ": script_tag=" + present + ", html_bytes=" + html.length);
+    if (!present) throw new Error("Live HTML does not include the bridge script in <head> for " + url + ".");
+  }
 }
 
 async function main() {
