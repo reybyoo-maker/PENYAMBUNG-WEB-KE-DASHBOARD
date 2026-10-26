@@ -3,7 +3,7 @@ new Function(DIVISIONS_PANEL_JS);
 if (!DIVISIONS_PANEL_JS.includes("AIGROWTH")) throw new Error("Sidebar script missing");
 if (!DIVISIONS_PANEL_JS.includes("Integration Center")) throw new Error("Integration workspace missing");
 if (!DIVISIONS_PANEL_JS.includes("Research & Evidence")) throw new Error("Research workspace missing");
-if (!DIVISIONS_PANEL_JS.includes("function openDivisionDetail")) throw new Error("Division detail drawer missing");
+if (!DIVISIONS_PANEL_JS.includes("function openDivisionDetail")) throw new Error("Division workspace navigation missing");
 if (!DIVISIONS_PANEL_JS.includes("function openIntegrationDetail")) throw new Error("Integration details missing");
 if (!DIVISIONS_PANEL_JS.includes("missingWorkspace")) throw new Error("DOM restoration guard missing");
 if (!DIVISIONS_PANEL_JS.includes("window.addEventListener(\"pageshow\", observeDashboard)")) throw new Error("Pageshow restoration handler missing");
@@ -16,5 +16,5 @@ if (!DIVISIONS_PANEL_JS.includes("function renderIntegrationWorkspace()")) throw
 if (!DIVISIONS_PANEL_JS.includes("Required connector coverage")) throw new Error("Per-division readiness metrics missing");
 if (!DIVISIONS_PANEL_JS.includes('typeof value === "number"')) throw new Error("Metric formatting regression guard missing");
 if (DIVISIONS_PANEL_JS.includes("Number(value || 0).toLocaleString()")) throw new Error("NaN-prone metric formatting still present");
-if (DIVISIONS_PANEL_JS.includes('document.body.appendChild(overlay)')) throw new Error("Modal overlay regression detected");
+if (DIVISIONS_PANEL_JS.includes("function openDrawer(") || DIVISIONS_PANEL_JS.includes("#aga-division-detail-overlay")) throw new Error("Legacy detail overlay was not removed");
 console.log("Division workspace, connector readiness, output evidence, numeric metrics and no-modal layout checks passed.");
