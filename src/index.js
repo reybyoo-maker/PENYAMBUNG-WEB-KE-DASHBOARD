@@ -573,7 +573,7 @@ async function runPublicResearchCycle(env) {
     "FROM aga_division_registry d WHERE d.catalog_enabled=1 AND NOT EXISTS (" +
     " SELECT 1 FROM aga_division_tasks t WHERE t.division_slug=d.slug AND t.task_type='public_research' " +
     " AND t.requested_by='system_scheduler' AND t.status='completed' AND t.created_at >= ?" +
-    ") ORDER BY CASE WHEN d.sort_order > ? THEN 0 ELSE 1 END, d.sort_order ASC LIMIT 5"
+    ") ORDER BY CASE WHEN d.sort_order > ? THEN 0 ELSE 1 END, d.sort_order ASC LIMIT 25"
   ).bind(dayStartIso, cursor).all();
   const divisions = divisionRows.results || [];
   if (!divisions.length) {
