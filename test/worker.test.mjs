@@ -298,7 +298,8 @@ test("GET divisions returns registry and integration readiness from D1", async (
       statement.bind = (...values) => { statement.values = values; return statement; };
       statement.all = async () => ({
         results: sql.includes("FROM aga_division_registry d") ? registryRows :
-          (sql.includes("FROM aga_division_integrations") ? integrationRows : [])
+          (sql.includes("FROM aga_division_runtime_audit") ? [] :
+          (sql.includes("FROM aga_division_integrations") ? integrationRows : []))
       });
       statement.first = async () => ({ open_tasks: 0 });
       return statement;
@@ -320,6 +321,8 @@ test("GET divisions returns registry and integration readiness from D1", async (
   assert.equal(result.divisions[0].worker_count, 4);
   assert.equal(result.divisions[0].workers[0].status, "planned");
   assert.deepEqual(result.divisions[0].operations, { completed: 0, failed: 0, open: 0, total: 0, last_activity: null });
+  assert.equal(result.summary.runtime_supervisor.enabled, false);
+  assert.equal(result.divisions[0].runtime_audit, null);
 });
 
 test("tracker source is served with JavaScript content type", async () => {
@@ -329,4 +332,38 @@ test("tracker source is served with JavaScript content type", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type"), /javascript/);
   assert.match(await response.text(), /page_view/);
+});
+
+
+test("scheduled runtime supervisor audits all divisions without marking blocked workers active", async () => {
+  const written = [];
+  const divisionRows = DIVISION_CATALOG.slice(0, 3).map(d => ({ slug: d.slug, runtime_status: "needs_integrations" }));
+  const integrationRows = DIVISION_CATALOG.slice(0, 3).flatMap(d => d.integrations.map(i => ({
+    division_slug: d.slug, integration_key: i.key, label: i.label, required: i.required ? 1 : 0,
+    status: "not_connected"
+  })));
+  const DB = {
+    prepare(sql) {
+      const statement = { sql, values: [] };
+      statement.bind = (...values) => { statement.values = values; return statement; };
+      statement.all = async () => ({
+        results: sql.includes("FROM aga_division_registry WHERE catalog_enabled=1") ? divisionRows :
+          (sql.includes("FROM aga_division_integrations") ? integrationRows : [])
+      });
+      statement.first = async () => null;
+      statement.run = async () => { written.push({ sql, values: statement.values }); return { success: true }; };
+      return statement;
+    },
+    async batch(statements) {
+      written.push(...statements.map(statement => ({ sql: statement.sql, values: statement.values })));
+      return statements.map(() => ({ success: true }));
+    }
+  };
+  const waits = [];
+  worker.scheduled({}, { DB }, { waitUntil(promise) { waits.push(promise); } });
+  await Promise.all(waits);
+  const upserts = written.filter(item => item.sql.includes("INSERT INTO aga_division_runtime_audit"));
+  assert.equal(upserts.length, 3);
+  assert.ok(upserts.every(item => item.values[1] === "blocked_integrations"));
+  assert.ok(upserts.every(item => item.values[4] === 0));
 });

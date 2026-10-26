@@ -68,6 +68,8 @@ jobs:
         run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0004_add_50_sales_divisions.sql --config=wrangler.deploy.toml
       - name: Apply executor state migration to shared D1
         run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0008_tinyfish_public_research_executor.sql --config=wrangler.deploy.toml
+      - name: Apply runtime supervisor migration to shared D1
+        run: npx wrangler@4 d1 execute aigrowth-core-db --remote --yes --file=migrations/0010_division_runtime_supervisor.sql --config=wrangler.deploy.toml
       - name: Deploy bridge to Cloudflare
         run: npx wrangler@4 deploy --config=wrangler.deploy.toml
       - name: Configure optional Owner task API token

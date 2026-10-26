@@ -17,4 +17,6 @@ if (!DIVISIONS_PANEL_JS.includes("Required connector coverage")) throw new Error
 if (!DIVISIONS_PANEL_JS.includes('typeof value === "number"')) throw new Error("Metric formatting regression guard missing");
 if (DIVISIONS_PANEL_JS.includes("Number(value || 0).toLocaleString()")) throw new Error("NaN-prone metric formatting still present");
 if (DIVISIONS_PANEL_JS.includes("function openDrawer(") || DIVISIONS_PANEL_JS.includes("#aga-division-detail-overlay")) throw new Error("Legacy detail overlay was not removed");
-console.log("Division workspace, connector readiness, output evidence, numeric metrics and no-modal layout checks passed.");
+if (!DIVISIONS_PANEL_JS.includes("Runtime Supervisor")) throw new Error("Runtime Supervisor view missing");
+if (!DIVISIONS_PANEL_JS.includes("supervisor_enabled")) throw new Error("Runtime audit API contract missing");
+console.log("Division workspace, runtime supervisor, connector readiness, output evidence and numeric-metric checks passed.");

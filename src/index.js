@@ -357,7 +357,7 @@ async function getDivisions(request, env, origin) {
     const dayStart = new Date();
     dayStart.setUTCHours(0, 0, 0, 0);
     const dayStartIso = dayStart.toISOString();
-    const [divisionRows, integrationRows, operationRows, taskSummary, latestResearchRows, researchDaily, executorState] = await Promise.all([
+    const [divisionRows, integrationRows, operationRows, taskSummary, latestResearchRows, researchDaily, executorState, runtimeAuditRows] = await Promise.all([
       env.DB.prepare(
         "SELECT d.*, " +
         "COALESCE((SELECT s.setup_stage FROM aga_division_setup s WHERE s.division_slug=d.slug), 'not_started') AS setup_stage, " +
@@ -398,7 +398,12 @@ async function getDivisions(request, env, origin) {
       env.DB.prepare(
         "SELECT enabled, last_division_sort_order, last_cycle_at, last_completed_at, last_error, paused_reason, paused_until, total_completed, total_failed " +
         "FROM aga_division_executor_state WHERE singleton_id=1"
-      ).first()
+      ).first(),
+      env.DB.prepare(
+        "SELECT division_slug, supervisor_enabled, readiness_state, readiness_percent, required_integrations, verified_required_integrations, " +
+        "completed_operations, failed_operations, open_operations, total_operations, latest_research_status, latest_research_at, " +
+        "blockers_json, last_checked_at, last_error FROM aga_division_runtime_audit ORDER BY division_slug"
+      ).all()
     ]);
 
     const latestResearchByDivision = new Map((latestResearchRows.results || []).map((row) => [row.division_slug, publicResearchView(row)]));
@@ -408,6 +413,24 @@ async function getDivisions(request, env, origin) {
       open: Number(row.open || 0),
       total: Number(row.total || 0),
       last_activity: row.last_activity || null
+    }]));
+    const runtimeAuditByDivision = new Map((runtimeAuditRows.results || []).map((row) => [row.division_slug, {
+      supervisor_enabled: Number(row.supervisor_enabled) === 1,
+      readiness_state: row.readiness_state || "not_audited",
+      readiness_percent: Number(row.readiness_percent || 0),
+      required_integrations: Number(row.required_integrations || 0),
+      verified_required_integrations: Number(row.verified_required_integrations || 0),
+      operations: {
+        completed: Number(row.completed_operations || 0),
+        failed: Number(row.failed_operations || 0),
+        open: Number(row.open_operations || 0),
+        total: Number(row.total_operations || 0)
+      },
+      latest_research_status: row.latest_research_status || "no_result",
+      latest_research_at: row.latest_research_at || null,
+      blockers: parseJsonColumn(row.blockers_json, []),
+      last_checked_at: row.last_checked_at || null,
+      last_error: row.last_error || ""
     }]));
     const workerProfiles = new Map((MANIFEST.divisions || []).map((item) => [item.slug, item.workers || []]));
     const divisions = (divisionRows.results || []).map((row) => ({
@@ -429,6 +452,7 @@ async function getDivisions(request, env, origin) {
       setup_stage: row.setup_stage || "not_started",
       open_tasks: Number(row.open_tasks || 0),
       operations: operationsByDivision.get(row.slug) || { completed: 0, failed: 0, open: 0, total: 0, last_activity: null },
+      runtime_audit: runtimeAuditByDivision.get(row.slug) || null,
       latest_public_research: latestResearchByDivision.get(row.slug) || null,
       created_at: row.created_at,
       updated_at: row.updated_at
@@ -454,6 +478,13 @@ async function getDivisions(request, env, origin) {
         total_integrations: integrations.length,
         open_tasks: Number(taskSummary?.open_tasks || 0),
         operational_divisions: divisions.filter((item) => item.runtime_status === "active").length,
+        runtime_supervisor: {
+          enabled: runtimeAuditRows.results?.length === divisions.length && divisions.length > 0,
+          monitored_divisions: runtimeAuditRows.results?.length || 0,
+          blocked_integrations: (runtimeAuditRows.results || []).filter((item) => item.readiness_state === "blocked_integrations").length,
+          connectors_ready_runtime_missing: (runtimeAuditRows.results || []).filter((item) => item.readiness_state === "connectors_ready_runtime_missing").length,
+          last_check_at: (runtimeAuditRows.results || []).reduce((latest, item) => !latest || String(item.last_checked_at || "") > latest ? item.last_checked_at : latest, null)
+        },
         public_research: {
           completed_today: Number(researchDaily?.completed_today || 0),
           failed_today: Number(researchDaily?.failed_today || 0),
@@ -668,6 +699,124 @@ async function runPublicResearchCycle(env) {
   ).bind(new Date().toISOString(), new Date().toISOString()).run();
 }
 
+
+async function runDivisionRuntimeAudit(env) {
+  if (!env.DB) return { monitored: 0, failed: true, error: "d1_not_configured" };
+  const nowIso = new Date().toISOString();
+  try {
+    const [divisionRows, integrationRows, operationsRows, researchRows] = await Promise.all([
+      env.DB.prepare(
+        "SELECT slug, runtime_status FROM aga_division_registry WHERE catalog_enabled=1 ORDER BY sort_order ASC"
+      ).all(),
+      env.DB.prepare(
+        "SELECT division_slug, integration_key, label, required, status FROM aga_division_integrations"
+      ).all(),
+      env.DB.prepare(
+        "SELECT division_slug, " +
+        "SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) AS completed, " +
+        "SUM(CASE WHEN status='failed' THEN 1 ELSE 0 END) AS failed, " +
+        "SUM(CASE WHEN status IN ('awaiting_approval','queued','running') THEN 1 ELSE 0 END) AS open, " +
+        "COUNT(*) AS total " +
+        "FROM aga_division_tasks WHERE COALESCE(task_type,'general') <> 'public_research' GROUP BY division_slug"
+      ).all(),
+      env.DB.prepare(
+        "SELECT division_slug, status, created_at, completed_at FROM (" +
+        " SELECT t.*, ROW_NUMBER() OVER (PARTITION BY t.division_slug ORDER BY t.created_at DESC, t.task_id DESC) AS rn " +
+        " FROM aga_division_tasks t WHERE t.task_type='public_research' AND t.requested_by='system_scheduler'" +
+        ") WHERE rn=1"
+      ).all()
+    ]);
+
+    const divisions = divisionRows.results || [];
+    const integrationsByDivision = new Map();
+    for (const item of integrationRows.results || []) {
+      if (!integrationsByDivision.has(item.division_slug)) integrationsByDivision.set(item.division_slug, []);
+      integrationsByDivision.get(item.division_slug).push(item);
+    }
+    const opsByDivision = new Map((operationsRows.results || []).map((row) => [row.division_slug, row]));
+    const researchByDivision = new Map((researchRows.results || []).map((row) => [row.division_slug, row]));
+    const statements = [];
+    const summary = { monitored: 0, blocked_integrations: 0, connectors_ready_runtime_missing: 0, active: 0 };
+
+    for (const division of divisions) {
+      const integrations = integrationsByDivision.get(division.slug) || [];
+      const required = integrations.filter((item) => Number(item.required) === 1 || item.required === true);
+      const verifiedRequired = required.filter((item) => item.status === "verified" || item.status === "connected");
+      const missing = required
+        .filter((item) => item.status !== "verified" && item.status !== "connected")
+        .map((item) => ({
+          integration_key: clip(item.integration_key, 100),
+          label: clip(item.label, 160),
+          status: clip(item.status || "not_connected", 40)
+        }))
+        .slice(0, 30);
+      const readinessPercent = required.length ? Math.round(verifiedRequired.length * 100 / required.length) : 100;
+      const ops = opsByDivision.get(division.slug) || {};
+      const research = researchByDivision.get(division.slug) || null;
+      let state;
+      const blockers = missing.slice();
+      if (division.runtime_status === "active") {
+        state = "active";
+        summary.active++;
+      } else if (missing.length) {
+        state = "blocked_integrations";
+        summary.blocked_integrations++;
+      } else {
+        state = "connectors_ready_runtime_missing";
+        summary.connectors_ready_runtime_missing++;
+        blockers.push({
+          integration_key: "worker_runtime",
+          label: "Operational AI worker runtime",
+          status: "not_activated"
+        });
+      }
+      const blockersJson = JSON.stringify(blockers);
+      statements.push(
+        env.DB.prepare(
+          "INSERT INTO aga_division_runtime_audit " +
+          "(division_slug, supervisor_enabled, readiness_state, readiness_percent, required_integrations, verified_required_integrations, " +
+          "completed_operations, failed_operations, open_operations, total_operations, latest_research_status, latest_research_at, " +
+          "blockers_json, last_checked_at, last_error, updated_at) " +
+          "VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', ?) " +
+          "ON CONFLICT(division_slug) DO UPDATE SET supervisor_enabled=1, readiness_state=excluded.readiness_state, " +
+          "readiness_percent=excluded.readiness_percent, required_integrations=excluded.required_integrations, " +
+          "verified_required_integrations=excluded.verified_required_integrations, completed_operations=excluded.completed_operations, " +
+          "failed_operations=excluded.failed_operations, open_operations=excluded.open_operations, total_operations=excluded.total_operations, " +
+          "latest_research_status=excluded.latest_research_status, latest_research_at=excluded.latest_research_at, blockers_json=excluded.blockers_json, " +
+          "last_checked_at=excluded.last_checked_at, last_error='', updated_at=excluded.updated_at"
+        ).bind(
+          division.slug,
+          state,
+          readinessPercent,
+          required.length,
+          verifiedRequired.length,
+          Number(ops.completed || 0),
+          Number(ops.failed || 0),
+          Number(ops.open || 0),
+          Number(ops.total || 0),
+          research ? clip(research.status || "unknown", 40) : "no_result",
+          research ? (research.completed_at || research.created_at || null) : null,
+          blockersJson,
+          nowIso,
+          nowIso
+        )
+      );
+      summary.monitored++;
+    }
+
+    if (statements.length) await env.DB.batch(statements);
+    return summary;
+  } catch (error) {
+    const message = clip(error && error.message || "runtime_audit_failed", 180);
+    try {
+      await env.DB.prepare(
+        "UPDATE aga_division_runtime_audit SET last_error=?, updated_at=?"
+      ).bind(message, nowIso).run();
+    } catch (_) {}
+    return { monitored: 0, failed: true, error: message };
+  }
+}
+
 async function createDivisionTask(request, env, origin, slug) {
   if (origin && !allowedOrigins(env).has(origin)) {
     return jsonResponse({ ok: false, error: "origin_not_allowed" }, 403, origin, env);
@@ -776,7 +925,7 @@ async function handleCollect(request, env, origin) {
 
 export default {
   async scheduled(controller, env, ctx) {
-    ctx.waitUntil(runPublicResearchCycle(env));
+    ctx.waitUntil(Promise.all([runPublicResearchCycle(env), runDivisionRuntimeAudit(env)]));
   },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
