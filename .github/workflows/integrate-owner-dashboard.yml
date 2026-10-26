@@ -128,13 +128,13 @@ jobs:
             '  const ownerHtmlResponse = await htmlResponse();',
             '  const ownerHtml = await ownerHtmlResponse.text();',
             '  const setupTag = ' + JSON.stringify(setupScriptTag) + ';',
-            '  const outputHtml = ownerHtml.includes(setupTag) ? ownerHtml : ownerHtml.replace("</head>", ' + JSON.stringify(setupScriptTag + "\\n</head>") + ');',
+            '  const outputHtml = ownerHtml.includes(setupTag) ? ownerHtml : ownerHtml.replace("</head>", ' + JSON.stringify(setupScriptTag + "\n</head>") + ');',
             '  const responseHeaders = new Headers(ownerHtmlResponse.headers);',
             '  responseHeaders.delete("content-length");',
             '  responseHeaders.delete("etag");',
             '  return new Response(outputHtml, { status: ownerHtmlResponse.status, statusText: ownerHtmlResponse.statusText, headers: responseHeaders });',
             '}'
-          ].join("\\n");
+          ].join("\n");
           source = source.replace(rootRoute, rootReplacement);
 
           const cspPattern = /"Content-Security-Policy":\s*"default-src 'self';\s*style-src 'self' 'unsafe-inline' https:\/\/fonts\.googleapis\.com;\s*font-src https:\/\/fonts\.gstatic\.com;\s*script-src 'self' 'unsafe-inline';\s*connect-src 'self';\s*img-src 'self' data:;\s*base-uri 'none';\s*frame-ancestors 'none'"/;
