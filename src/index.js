@@ -317,12 +317,47 @@ function parseJsonColumn(value, fallback = []) {
   }
 }
 
+
+function safeHttpsUrl(value) {
+  try {
+    const url = new URL(String(value || ""));
+    return url.protocol === "https:" ? url.toString().slice(0, 1000) : "";
+  } catch {
+    return "";
+  }
+}
+
+function publicResearchView(row) {
+  const output = parseJsonColumn(row.output_json, {});
+  const sources = (Array.isArray(output.sources) ? output.sources : []).map((source) => ({
+    title: clip(source.title, 200),
+    domain: clip(source.domain, 160),
+    url: safeHttpsUrl(source.url),
+    snippet: clip(source.snippet, 700),
+    published_date: clip(source.published_date, 40)
+  })).filter((source) => source.url).slice(0, 5);
+  return {
+    task_id: row.task_id,
+    status: row.status,
+    title: clip(row.title, 160),
+    summary: clip(output.summary || row.error_text || "", 1200),
+    query: clip(output.query || "", 240),
+    sources,
+    created_at: row.created_at,
+    completed_at: row.completed_at || null,
+    outcome: clip(output.outcome || (row.status === "failed" ? "failed" : row.status), 40)
+  };
+}
+
 async function getDivisions(request, env, origin) {
   if (!env.DB) {
     return jsonResponse({ ok: false, error: "d1_not_configured" }, 503, origin, env);
   }
   try {
-    const [divisionRows, integrationRows, taskSummary] = await Promise.all([
+    const dayStart = new Date();
+    dayStart.setUTCHours(0, 0, 0, 0);
+    const dayStartIso = dayStart.toISOString();
+    const [divisionRows, integrationRows, taskSummary, latestResearchRows, researchDaily, executorState] = await Promise.all([
       env.DB.prepare(
         "SELECT d.*, " +
         "COALESCE((SELECT s.setup_stage FROM aga_division_setup s WHERE s.division_slug=d.slug), 'not_started') AS setup_stage, " +
@@ -337,9 +372,28 @@ async function getDivisions(request, env, origin) {
       env.DB.prepare(
         "SELECT COUNT(*) AS open_tasks FROM aga_division_tasks " +
         "WHERE status IN ('awaiting_approval','queued','running')"
+      ).first(),
+      env.DB.prepare(
+        "SELECT task_id, division_slug, title, status, output_json, error_text, created_at, completed_at " +
+        "FROM (" +
+        " SELECT t.*, ROW_NUMBER() OVER (PARTITION BY t.division_slug ORDER BY t.created_at DESC, t.task_id DESC) AS rn " +
+        " FROM aga_division_tasks t WHERE t.task_type='public_research' AND t.requested_by='system_scheduler'" +
+        ") WHERE rn=1"
+      ).all(),
+      env.DB.prepare(
+        "SELECT " +
+        "SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) AS completed_today, " +
+        "SUM(CASE WHEN status='failed' THEN 1 ELSE 0 END) AS failed_today, " +
+        "SUM(CASE WHEN status IN ('queued','running','awaiting_approval') THEN 1 ELSE 0 END) AS open_today " +
+        "FROM aga_division_tasks WHERE task_type='public_research' AND requested_by='system_scheduler' AND created_at >= ?"
+      ).bind(dayStartIso).first(),
+      env.DB.prepare(
+        "SELECT enabled, last_division_sort_order, last_cycle_at, last_completed_at, last_error, paused_reason, paused_until, total_completed, total_failed " +
+        "FROM aga_division_executor_state WHERE singleton_id=1"
       ).first()
     ]);
 
+    const latestResearchByDivision = new Map((latestResearchRows.results || []).map((row) => [row.division_slug, publicResearchView(row)]));
     const workerProfiles = new Map((MANIFEST.divisions || []).map((item) => [item.slug, item.workers || []]));
     const divisions = (divisionRows.results || []).map((row) => ({
       slug: row.slug,
@@ -359,6 +413,7 @@ async function getDivisions(request, env, origin) {
       runtime_status: row.runtime_status,
       setup_stage: row.setup_stage || "not_started",
       open_tasks: Number(row.open_tasks || 0),
+      latest_public_research: latestResearchByDivision.get(row.slug) || null,
       created_at: row.created_at,
       updated_at: row.updated_at
     }));
@@ -382,7 +437,26 @@ async function getDivisions(request, env, origin) {
         connected_integrations: integrations.filter((item) => item.status === "connected" || item.status === "verified").length,
         total_integrations: integrations.length,
         open_tasks: Number(taskSummary?.open_tasks || 0),
-        operational_divisions: divisions.filter((item) => item.runtime_status === "active").length
+        operational_divisions: divisions.filter((item) => item.runtime_status === "active").length,
+        public_research: {
+          completed_today: Number(researchDaily?.completed_today || 0),
+          failed_today: Number(researchDaily?.failed_today || 0),
+          open_today: Number(researchDaily?.open_today || 0),
+          daily_target: divisions.length,
+          completed_total: Number(executorState?.total_completed || 0),
+          failed_total: Number(executorState?.total_failed || 0)
+        },
+        executor: {
+          provider: "TinyFish Search API",
+          configured: Boolean(String(env.TINYFISH_API_KEY || "").trim()),
+          enabled: Number(executorState?.enabled || 0) === 1,
+          paused_reason: clip(executorState?.paused_reason || "", 80),
+          paused_until: executorState?.paused_until || null,
+          last_cycle_at: executorState?.last_cycle_at || null,
+          last_completed_at: executorState?.last_completed_at || null,
+          last_error: clip(executorState?.last_error || "", 180),
+          last_division_sort_order: Number(executorState?.last_division_sort_order || 0)
+        }
       },
       divisions,
       integrations
@@ -391,9 +465,191 @@ async function getDivisions(request, env, origin) {
     return jsonResponse({
       ok: false,
       error: "division_registry_not_ready",
-      message: "Apply migration 0002_divisions_operations.sql and redeploy."
+      message: "Apply the registered division and executor-state migrations, then redeploy."
     }, 503, origin, env);
   }
+}
+
+async function tinyfishKeyFingerprint(apiKey) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(apiKey));
+  return Array.from(new Uint8Array(digest).slice(0, 8)).map((v) => v.toString(16).padStart(2, "0")).join("");
+}
+
+function nextUtcMidnight() {
+  const date = new Date();
+  date.setUTCHours(24, 0, 0, 0);
+  return date.toISOString();
+}
+
+async function setExecutorPause(env, reason, until, keyFingerprint, message) {
+  await env.DB.prepare(
+    "UPDATE aga_division_executor_state SET paused_reason=?, paused_until=?, last_key_fingerprint=?, last_error=?, updated_at=? WHERE singleton_id=1"
+  ).bind(reason, until || null, keyFingerprint || "", clip(message, 240), new Date().toISOString()).run();
+}
+
+async function runPublicResearchCycle(env) {
+  if (!env.DB) return;
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const apiKey = String(env.TINYFISH_API_KEY || "").trim();
+  if (!apiKey) {
+    await env.DB.prepare(
+      "UPDATE aga_division_executor_state SET last_error='TINYFISH_API_KEY secret is missing', updated_at=? WHERE singleton_id=1"
+    ).bind(nowIso).run();
+    return;
+  }
+
+  const keyFingerprint = await tinyfishKeyFingerprint(apiKey);
+  let state = await env.DB.prepare("SELECT * FROM aga_division_executor_state WHERE singleton_id=1").first();
+  if (!state || Number(state.enabled) !== 1) return;
+
+  if (state.paused_reason) {
+    const pauseExpired = state.paused_until && Date.parse(state.paused_until) <= now.getTime();
+    const keyChanged = state.paused_reason === "tinyfish_api_key_invalid" &&
+      state.last_key_fingerprint && state.last_key_fingerprint !== keyFingerprint;
+    if (pauseExpired || keyChanged) {
+      await env.DB.prepare(
+        "UPDATE aga_division_executor_state SET paused_reason='', paused_until=NULL, last_error='', last_key_fingerprint=?, updated_at=? WHERE singleton_id=1"
+      ).bind(keyFingerprint, nowIso).run();
+      state = await env.DB.prepare("SELECT * FROM aga_division_executor_state WHERE singleton_id=1").first();
+    } else {
+      return;
+    }
+  }
+
+  const dayStart = new Date();
+  dayStart.setUTCHours(0, 0, 0, 0);
+  const dayStartIso = dayStart.toISOString();
+  const cursor = Number(state.last_division_sort_order || 0);
+  const divisionRows = await env.DB.prepare(
+    "SELECT d.slug, d.name, d.sort_order, d.mission, d.responsibilities_json, d.inputs_json, d.outputs_json, d.kpis_json " +
+    "FROM aga_division_registry d WHERE d.catalog_enabled=1 AND NOT EXISTS (" +
+    " SELECT 1 FROM aga_division_tasks t WHERE t.division_slug=d.slug AND t.task_type='public_research' " +
+    " AND t.requested_by='system_scheduler' AND t.status='completed' AND t.created_at >= ?" +
+    ") ORDER BY CASE WHEN d.sort_order > ? THEN 0 ELSE 1 END, d.sort_order ASC LIMIT 5"
+  ).bind(dayStartIso, cursor).all();
+  const divisions = divisionRows.results || [];
+  if (!divisions.length) {
+    await env.DB.prepare(
+      "UPDATE aga_division_executor_state SET last_cycle_at=?, last_error='', updated_at=? WHERE singleton_id=1"
+    ).bind(nowIso, nowIso).run();
+    return;
+  }
+
+  for (const division of divisions) {
+    const query = clip(division.name + " " + division.mission + " current best practices examples and benchmarks", 300);
+    const purpose = clip(
+      "Collect public, source-linked evidence to inform the AIGROWTH division mission: " +
+      division.mission + ". Research only. Do not log in, submit forms, message anyone, publish, purchase, or change data.",
+      900
+    );
+    const taskId = crypto.randomUUID();
+    const input = {
+      provider: "TinyFish Search API",
+      query,
+      purpose,
+      research_scope: "public_web_search",
+      division_name: division.name,
+      division_mission: division.mission,
+      expected_outputs: parseJsonColumn(division.outputs_json, []).slice(0, 5),
+      kpis: parseJsonColumn(division.kpis_json, []).slice(0, 5)
+    };
+    const startedAt = new Date().toISOString();
+    await env.DB.prepare(
+      "INSERT INTO aga_division_tasks " +
+      "(task_id, division_slug, title, description, task_type, priority, status, approval_required, requested_by, input_json, output_json, error_text, started_at) " +
+      "VALUES (?, ?, ?, ?, 'public_research', 3, 'running', 0, 'system_scheduler', ?, '{}', '', ?)"
+    ).bind(
+      taskId,
+      division.slug,
+      "Public research brief — " + division.name,
+      "Scheduled, read-only public-web research for the registered division mission.",
+      JSON.stringify(input),
+      startedAt
+    ).run();
+
+    const searchUrl = new URL("https://api.search.tinyfish.ai/");
+    searchUrl.searchParams.set("query", query);
+    searchUrl.searchParams.set("purpose", purpose);
+    searchUrl.searchParams.set("location", "ID");
+    searchUrl.searchParams.set("language", "en");
+    let response;
+    let payload = {};
+    try {
+      response = await fetch(searchUrl.toString(), {
+        method: "GET",
+        headers: { "X-API-Key": apiKey, "Accept": "application/json" },
+        cache: "no-store",
+        signal: AbortSignal.timeout(12000)
+      });
+      try { payload = await response.json(); } catch { payload = {}; }
+    } catch (error) {
+      const message = "TinyFish Search API request failed: " + clip(error && error.message || "network error", 160);
+      await env.DB.prepare(
+        "UPDATE aga_division_tasks SET status='failed', error_text=?, completed_at=?, updated_at=? WHERE task_id=?"
+      ).bind(message, new Date().toISOString(), new Date().toISOString(), taskId).run();
+      await env.DB.prepare(
+        "UPDATE aga_division_executor_state SET total_failed=total_failed+1, paused_reason='tinyfish_search_temporarily_unavailable', paused_until=?, last_error=?, updated_at=? WHERE singleton_id=1"
+      ).bind(new Date(Date.now() + 10 * 60 * 1000).toISOString(), message, new Date().toISOString()).run();
+      return;
+    }
+
+    if (!response.ok) {
+      const apiMessage = clip(payload.error || payload.message || payload.code || ("HTTP " + response.status), 180);
+      const failedAt = new Date().toISOString();
+      await env.DB.prepare(
+        "UPDATE aga_division_tasks SET status='failed', error_text=?, completed_at=?, updated_at=? WHERE task_id=?"
+      ).bind("TinyFish Search API error: " + apiMessage, failedAt, failedAt, taskId).run();
+      const status = response.status;
+      if (status === 401 || status === 403) {
+        await setExecutorPause(env, "tinyfish_api_key_invalid", null, keyFingerprint, "TinyFish rejected the API key or account access.");
+      } else if (status === 402) {
+        await setExecutorPause(env, "tinyfish_daily_quota_exhausted", nextUtcMidnight(), keyFingerprint, "TinyFish Search quota or available credits were exhausted; retry after UTC midnight.");
+      } else if (status === 429) {
+        await setExecutorPause(env, "tinyfish_rate_limited", new Date(Date.now() + 10 * 60 * 1000).toISOString(), keyFingerprint, "TinyFish rate limit; retrying after a cooldown.");
+      } else {
+        await setExecutorPause(env, "tinyfish_search_temporarily_unavailable", new Date(Date.now() + 10 * 60 * 1000).toISOString(), keyFingerprint, "TinyFish Search API returned HTTP " + status + ".");
+      }
+      await env.DB.prepare(
+        "UPDATE aga_division_executor_state SET total_failed=total_failed+1, updated_at=? WHERE singleton_id=1"
+      ).bind(failedAt).run();
+      return;
+    }
+
+    const rawResults = Array.isArray(payload.results) ? payload.results : [];
+    const sources = rawResults.slice(0, 5).map((item) => ({
+      title: clip(item.title, 200),
+      domain: clip(item.site_name || item.domain || "", 160),
+      url: safeHttpsUrl(item.url),
+      snippet: clip(item.snippet, 700),
+      published_date: clip(item.date || "", 40)
+    })).filter((item) => item.url);
+    const finishedAt = new Date().toISOString();
+    const summary = sources.length
+      ? "TinyFish found " + sources.length + " public source snippets for this division’s mission. Review the linked evidence before using it for a business decision. This is public research only—not a verified connector, delivery task, or proof that the division is operational."
+      : "The search completed but returned no usable HTTPS source results. The division remains registered, not operational.";
+    const output = {
+      provider: "TinyFish Search API",
+      outcome: sources.length ? "sources_found" : "no_results",
+      query,
+      summary,
+      sources,
+      research_scope: "public_web_search",
+      expected_outputs: input.expected_outputs,
+      kpis_for_review: input.kpis,
+      notice: "Public snippets only. No login, messaging, publishing, purchases, or external changes were performed.",
+      completed_at: finishedAt
+    };
+    await env.DB.prepare(
+      "UPDATE aga_division_tasks SET status='completed', output_json=?, error_text='', completed_at=?, updated_at=? WHERE task_id=?"
+    ).bind(JSON.stringify(output), finishedAt, finishedAt, taskId).run();
+    await env.DB.prepare(
+      "UPDATE aga_division_executor_state SET last_division_sort_order=?, last_cycle_at=?, last_completed_at=?, last_error='', total_completed=total_completed+1, updated_at=? WHERE singleton_id=1"
+    ).bind(Number(division.sort_order), finishedAt, finishedAt, finishedAt).run();
+  }
+  await env.DB.prepare(
+    "UPDATE aga_division_executor_state SET last_cycle_at=?, updated_at=? WHERE singleton_id=1"
+  ).bind(new Date().toISOString(), new Date().toISOString()).run();
 }
 
 async function createDivisionTask(request, env, origin, slug) {
@@ -503,6 +759,9 @@ async function handleCollect(request, env, origin) {
 }
 
 export default {
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(runPublicResearchCycle(env));
+  },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const origin = request.headers.get("origin") || "";

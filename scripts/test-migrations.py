@@ -28,7 +28,7 @@ if divisions != 150:
     raise SystemExit(f"Expected 150 divisions, found {divisions}")
 if integrations != 310:
     raise SystemExit(f"Expected 310 integration definitions, found {integrations}")
-for table in ("website_analytics_events", "aga_division_registry", "aga_division_integrations", "aga_division_tasks", "aga_division_setup", "aga_division_integration_setup"):
+for table in ("website_analytics_events", "aga_division_registry", "aga_division_integrations", "aga_division_tasks", "aga_division_setup", "aga_division_integration_setup", "aga_division_executor_state"):
     exists = scalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=" + repr(table))
     if exists != 1:
         raise SystemExit(f"Expected table is missing: {table}")
@@ -59,6 +59,12 @@ if catalog_integrations != database_integrations:
         f"missing={sorted(catalog_integrations - database_integrations)[:10]}, "
         f"unexpected={sorted(database_integrations - catalog_integrations)[:10]}"
     )
+
+executor_state_rows = scalar("SELECT COUNT(*) FROM aga_division_executor_state WHERE singleton_id=1")
+if executor_state_rows != 1:
+    raise SystemExit(f"Expected one executor state row, found {executor_state_rows}")
+if scalar("SELECT enabled FROM aga_division_executor_state WHERE singleton_id=1") != 1:
+    raise SystemExit("Public research executor should be enabled by default; API key controls whether it can run")
 
 foreign_key_errors = connection.execute("PRAGMA foreign_key_check").fetchall()
 if foreign_key_errors:
