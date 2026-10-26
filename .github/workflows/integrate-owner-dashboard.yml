@@ -133,7 +133,7 @@ jobs:
             throw new Error("Existing dashboard CSP was not recognized; no owner Worker update attempted.");
           }
 
-          if (!source.includes(setupScriptTag) ||
+          if (!source.includes("division-setup-panel.js") ||
               !source.includes("function handleAgaDivisionSetup") ||
               !source.includes("/api/owner/division-setup/state") ||
               !source.includes("live_connection_status_changed")) {
