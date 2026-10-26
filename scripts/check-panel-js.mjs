@@ -7,4 +7,8 @@ if (!DIVISIONS_PANEL_JS.includes("function openDivisionDetail")) throw new Error
 if (!DIVISIONS_PANEL_JS.includes("function openIntegrationDetail")) throw new Error("Integration details missing");
 if (!DIVISIONS_PANEL_JS.includes("missingWorkspace")) throw new Error("DOM restoration guard missing");
 if (!DIVISIONS_PANEL_JS.includes("window.addEventListener(\"pageshow\", observeDashboard)")) throw new Error("Pageshow restoration handler missing");
-console.log("Division sidebar/workspace syntax and restoration guards verified.");
+if (!DIVISIONS_PANEL_JS.includes("function findNativeSidebar()")) throw new Error("Native Owner sidebar targeting missing");
+if (!DIVISIONS_PANEL_JS.includes('sidebar.dataset.agaPlacement = "safe-flow-fallback"')) throw new Error("Safe flow fallback missing");
+if (DIVISIONS_PANEL_JS.includes('sidebar.style.position = "fixed"')) throw new Error("Fixed sidebar overlay regression detected");
+if (DIVISIONS_PANEL_JS.includes('shell.classList.add("aga-shell-with-sidebar")')) throw new Error("Forced shell grid regression detected");
+console.log("Division sidebar/workspace syntax, restoration and no-overlap layout checks passed.");
