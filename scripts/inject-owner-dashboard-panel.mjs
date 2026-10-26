@@ -53,7 +53,7 @@ function extractSource(raw, contentType, headers) {
         body
       });
     }
-    const sourcePart = parts.find((p) => p.body.includes("var HTML") && p.body.includes("self.addEventListener"));
+    const sourcePart = parts.find((p) => !/\.map$/i.test(p.filename) && p.body.includes("var HTML"));
     if (sourcePart) {
       const namedPart = mainHeader || bodyHeader || sourcePart.filename || sourcePart.name || "worker.js";
       return { source: sourcePart.body, filename: namedPart, module: Boolean(mainHeader) };
@@ -79,7 +79,7 @@ function extractSource(raw, contentType, headers) {
     let data;
     try { data = JSON.parse(raw); } catch { throw new Error("Cloudflare returned invalid JSON content. No change made."); }
     function walk(value, path) {
-      if (typeof value === "string" && value.includes("var HTML") && value.includes("self.addEventListener")) {
+      if (typeof value === "string" && value.includes("var HTML") && !/worker\.js\.map/i.test(path.join("."))) {
         parts.push({ source: value, path: path });
       } else if (Array.isArray(value)) {
         value.forEach((v, i) => walk(v, path.concat(String(i))));
