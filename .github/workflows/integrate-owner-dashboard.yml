@@ -105,6 +105,8 @@ jobs:
           const setupScriptTag = '<script defer src="https://aga-dashboard-bridge.reybyoo.workers.dev/division-setup-panel.js"></script>';
 
 
+          const routeSnippetsBeforePatch = [...source.matchAll(/.{0,100}htmlResponse\\(\\).{0,120}/g)].slice(0, 10).map(m => m[0].replace(/[\\r\\n]+/g, " "));
+          console.log("Owner HTML response routes:", JSON.stringify(routeSnippetsBeforePatch));
           const rootRoute = 'if (url.pathname === "/" && request.method === "GET") return htmlResponse();';
           if (!source.includes(rootRoute)) {
             throw new Error("Could not identify owner root route; setup script injection was not attempted.");
