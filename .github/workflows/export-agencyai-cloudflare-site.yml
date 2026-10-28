@@ -231,23 +231,24 @@ jobs:
             excluded: ["Cloudflare secret values", "environment variable values", "D1 database records", "KV/R2 private objects", "private/authenticated resources"]
           };
           await fs.writeFile(path.join(ROOT, "ASSET-MANIFEST.json"), JSON.stringify(manifest, null, 2));
-          const readme = `# AgencyAI — Cloudflare snapshot
-
-          Captured at (UTC): ${manifest.inspected_at_utc}
-          Production origin: ${BASE.origin}
-          Worker: agencyai
-
-          ## Contents
-          - `source/cloudflare-worker/`: live Worker entry module plus sanitized deployment/settings metadata.
-          - `public/`: public same-origin HTML, CSS, JavaScript, image, font, manifest, and other discovered files.
-          - `ASSET-MANIFEST.json`: each captured file, HTTP status, content type, byte size, SHA-256, and collection limits.
-
-          ## Safety / completeness
-          This archive used read-only Cloudflare GET requests and public GET requests only. It did not deploy, edit, or delete anything.
-          Secret values and environment values are excluded. It does not contain D1 rows, private KV/R2 data, or authenticated routes.
-          Public crawling only captures linked/discoverable resources; any failed or skipped resources are listed in ASSET-MANIFEST.json.
-          External origins are listed, not copied into this project.
-          `;
+          const readme = [
+            "# AgencyAI — Cloudflare snapshot",
+            "",
+            "Captured at (UTC): " + manifest.inspected_at_utc,
+            "Production origin: " + BASE.origin,
+            "Worker: agencyai",
+            "",
+            "## Contents",
+            "- source/cloudflare-worker/: live Worker entry module plus sanitized deployment/settings metadata.",
+            "- public/: public same-origin HTML, CSS, JavaScript, image, font, manifest, and other discovered files.",
+            "- ASSET-MANIFEST.json: each captured file, HTTP status, content type, byte size, SHA-256, and collection limits.",
+            "",
+            "## Safety / completeness",
+            "This archive used read-only Cloudflare GET requests and public GET requests only. It did not deploy, edit, or delete anything.",
+            "Secret values and environment values are excluded. It does not contain D1 rows, private KV/R2 data, or authenticated routes.",
+            "Public crawling only captures linked/discoverable resources; any failed or skipped resources are listed in ASSET-MANIFEST.json.",
+            "External origins are listed, not copied into this project."
+          ].join("\n") + "\n";
           await fs.writeFile(path.join(ROOT, "README.md"), readme.trimStart());
 
           console.log(JSON.stringify({
