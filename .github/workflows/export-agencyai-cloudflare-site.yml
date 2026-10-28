@@ -1,0 +1,272 @@
+name: Export current AgencyAI Cloudflare site snapshot (read-only)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/export-agencyai-cloudflare-site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Collect deployed Worker entrypoint and public site assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from "node:fs/promises";
+          import path from "node:path";
+          import { createHash } from "node:crypto";
+
+          const ROOT = path.resolve("agencyai-cloudflare-snapshot");
+          const BASE = new URL("https://agencyai.reybyoo.workers.dev/");
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          if (!account || !token) throw new Error("Cloudflare Actions secrets are missing.");
+
+          const cfBase = `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts`;
+          const auth = { Authorization: `Bearer ${token}` };
+
+          async function cfGet(url) {
+            const response = await fetch(url, { headers: auth });
+            const bytes = Buffer.from(await response.arrayBuffer());
+            if (!response.ok) throw new Error(`Cloudflare API returned HTTP ${response.status} for a read-only GET.`);
+            let json = null;
+            try { json = JSON.parse(bytes.toString("utf8")); } catch {}
+            if (json && json.success === false) throw new Error("Cloudflare API rejected a read-only GET.");
+            return { response, bytes, json };
+          }
+
+          async function mkdir(p) { await fs.mkdir(p, { recursive: true }); }
+          await mkdir(path.join(ROOT, "source", "cloudflare-worker"));
+          await mkdir(path.join(ROOT, "public"));
+
+          // Export the active Worker code without printing it to Action logs.
+          const contentResp = await cfGet(`${cfBase}/agencyai/content/v2`);
+          const boundaryMatch = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentResp.response.headers.get("content-type") || "");
+          if (!boundaryMatch) throw new Error("Unexpected Worker bundle format; refusing to create a partial source export.");
+          const boundary = boundaryMatch[1] || boundaryMatch[2];
+          const parts = contentResp.bytes.toString("utf8").split("--" + boundary);
+          const workerFiles = [];
+          for (const part of parts) {
+            const cut = part.indexOf("\r\n\r\n");
+            if (cut < 0) continue;
+            const headers = part.slice(0, cut);
+            let body = part.slice(cut + 4);
+            body = body.replace(/\r\n$/, "").replace(/\r\n--$/, "");
+            const filename = /filename="([^"]+)"/i.exec(headers)?.[1];
+            if (!filename || /metadata/i.test(filename)) continue;
+            const safeName = path.basename(filename);
+            await fs.writeFile(path.join(ROOT, "source", "cloudflare-worker", safeName), body, "utf8");
+            workerFiles.push({ name: safeName, bytes: Buffer.byteLength(body), sha256: createHash("sha256").update(body).digest("hex") });
+          }
+          if (!workerFiles.length) throw new Error("No Worker source modules were parsed; stopping instead of claiming a complete snapshot.");
+
+          // Store only non-secret setting metadata. Never export environment values or secret values.
+          const settingsResp = await cfGet(`${cfBase}/agencyai/settings`);
+          const settingsResult = settingsResp.json?.result || {};
+          const sanitizedSettings = {
+            worker_name: "agencyai",
+            inspected_at_utc: new Date().toISOString(),
+            settings_keys: Object.keys(settingsResult),
+            compatibility_date: settingsResult.compatibility_date || null,
+            compatibility_flags: settingsResult.compatibility_flags || [],
+            usage_model: settingsResult.usage_model || null,
+            bindings: Array.isArray(settingsResult.bindings)
+              ? settingsResult.bindings.map(({ name, type, id, bucket_name, namespace_id }) => ({
+                  name, type, ...(id ? { id } : {}), ...(bucket_name ? { bucket_name } : {}),
+                  ...(namespace_id ? { namespace_id } : {})
+                }))
+              : [],
+            note: "Secret values, variable values, tokens, and credentials are intentionally excluded."
+          };
+          await fs.writeFile(path.join(ROOT, "source", "cloudflare-worker", "settings-sanitized.json"), JSON.stringify(sanitizedSettings, null, 2));
+
+          const [deploymentsResp, versionsResp] = await Promise.all([
+            cfGet(`${cfBase}/agencyai/deployments`),
+            cfGet(`${cfBase}/agencyai/versions`)
+          ]);
+          const deployments = (deploymentsResp.json?.result?.deployments || []).slice(0, 10).map(d => ({
+            id: d.id || null, created_on: d.created_on || null, source: d.source || null, strategy: d.strategy || null,
+            versions: Array.isArray(d.versions) ? d.versions.map(v => ({ version_id: v.version_id || null, percentage: v.percentage ?? null })) : []
+          }));
+          const rawVersions = versionsResp.json?.result?.items || versionsResp.json?.result || [];
+          const versions = (Array.isArray(rawVersions) ? rawVersions : []).slice(0, 10).map(v => ({
+            id: v.id || null, number: v.number || null,
+            source: v.metadata?.source || null, created_on: v.metadata?.created_on || null
+          }));
+          await fs.writeFile(path.join(ROOT, "source", "cloudflare-worker", "deployments-sanitized.json"), JSON.stringify(deployments, null, 2));
+          await fs.writeFile(path.join(ROOT, "source", "cloudflare-worker", "versions-sanitized.json"), JSON.stringify(versions, null, 2));
+
+          // Crawl resources served by the public site. No login, form submission, or write request is performed.
+          const queue = [];
+          const queued = new Set();
+          const visited = new Set();
+          const fileRecords = [];
+          const externalOrigins = new Set();
+          const errors = [];
+          const maxRequests = 400;
+          const maxTotalBytes = 80 * 1024 * 1024;
+          const maxSingleBytes = 18 * 1024 * 1024;
+          let totalBytes = 0;
+
+          function enqueue(raw, referrer) {
+            try {
+              const url = new URL(raw, referrer || BASE);
+              if (!["http:", "https:"].includes(url.protocol)) return;
+              if (url.origin !== BASE.origin) { externalOrigins.add(url.origin); return; }
+              url.hash = "";
+              url.search = "";
+              if (/^\/(?:api|collect|logout|login|auth|oauth)(?:\/|$)/i.test(url.pathname)) return;
+              const key = url.href;
+              if (!queued.has(key) && !visited.has(key) && queue.length < maxRequests) {
+                queued.add(key);
+                queue.push(url);
+              }
+            } catch {}
+          }
+
+          enqueue("/", BASE);
+          enqueue("/robots.txt", BASE);
+          enqueue("/sitemap.xml", BASE);
+
+          function htmlRefs(html, sourceUrl) {
+            const attrs = /\b(?:src|href|poster|data-src|data-href)\s*=\s*["']([^"']+)["']/gi;
+            for (const m of html.matchAll(attrs)) enqueue(m[1], sourceUrl);
+            const srcsets = /\bsrcset\s*=\s*["']([^"']+)["']/gi;
+            for (const m of html.matchAll(srcsets)) {
+              for (const candidate of m[1].split(",")) enqueue(candidate.trim().split(/\s+/)[0], sourceUrl);
+            }
+            const locs = /<loc>\s*([^<]+)\s*<\/loc>/gi;
+            for (const m of html.matchAll(locs)) enqueue(m[1], sourceUrl);
+          }
+
+          function cssRefs(css, sourceUrl) {
+            const urls = /url\(\s*["']?([^"')]+)["']?\s*\)/gi;
+            for (const m of css.matchAll(urls)) enqueue(m[1], sourceUrl);
+            const imports = /@import\s+(?:url\()?\s*["']([^"']+)["']/gi;
+            for (const m of css.matchAll(imports)) enqueue(m[1], sourceUrl);
+          }
+
+          function jsRefs(js, sourceUrl) {
+            const imports = /(?:\bfrom\s*|\bimport\s*\(|\bimport\s*)["']([^"']+)["']/gi;
+            for (const m of js.matchAll(imports)) {
+              if (/^(?:\.|\/|https?:\/\/)/i.test(m[1])) enqueue(m[1], sourceUrl);
+            }
+          }
+
+          function localPath(url, type) {
+            let pathname = decodeURIComponent(url.pathname);
+            if (pathname === "/") pathname = "/index.html";
+            const last = pathname.split("/").pop() || "";
+            const hasExt = /\.[a-z0-9]{1,8}$/i.test(last);
+            if (/(?:text\/html|application\/xhtml\+xml)/i.test(type) && !hasExt) {
+              pathname = pathname.endsWith("/") ? pathname + "index.html" : pathname + "/index.html";
+              if (pathname.startsWith("/index.html/")) pathname = pathname.slice("/index.html/".length);
+            }
+            const normalized = path.posix.normalize("/" + pathname.replace(/^\/+/, ""));
+            if (normalized.includes("/../")) throw new Error("Invalid path in a discovered URL.");
+            return path.join(ROOT, "public", normalized.replace(/^\/+/, ""));
+          }
+
+          while (queue.length && visited.size < maxRequests && totalBytes < maxTotalBytes) {
+            const url = queue.shift();
+            queued.delete(url.href);
+            if (visited.has(url.href)) continue;
+            visited.add(url.href);
+            try {
+              const response = await fetch(url.href, { redirect: "follow", headers: { "User-Agent": "AgencyAI-Asset-Inventory/1.0" } });
+              const finalUrl = new URL(response.url);
+              const type = response.headers.get("content-type") || "";
+              if (!response.ok || finalUrl.origin !== BASE.origin) {
+                errors.push({ url: url.href, status: response.status, content_type: type || null });
+                continue;
+              }
+              const allowed = /text\/html|text\/css|javascript|image\/|font\/|application\/(?:xml|manifest\+json|json|x-font|vnd\.ms-fontobject)|text\/plain/i.test(type);
+              if (!allowed) continue;
+              const body = Buffer.from(await response.arrayBuffer());
+              if (body.length > maxSingleBytes || totalBytes + body.length > maxTotalBytes) {
+                errors.push({ url: url.href, status: response.status, skipped: "size_limit", bytes: body.length });
+                continue;
+              }
+              totalBytes += body.length;
+              const destination = localPath(finalUrl, type);
+              await mkdir(path.dirname(destination));
+              await fs.writeFile(destination, body);
+              fileRecords.push({
+                url: finalUrl.href, path: path.relative(ROOT, destination).split(path.sep).join("/"),
+                status: response.status, content_type: type, bytes: body.length,
+                sha256: createHash("sha256").update(body).digest("hex")
+              });
+              const textBody = /^(?:text\/|application\/(?:javascript|xml|json|manifest\+json))|javascript/i.test(type) ? body.toString("utf8") : "";
+              if (/text\/html|application\/xhtml\+xml/i.test(type)) htmlRefs(textBody, finalUrl);
+              else if (/text\/css/i.test(type)) cssRefs(textBody, finalUrl);
+              else if (/javascript/i.test(type)) jsRefs(textBody, finalUrl);
+            } catch (e) {
+              errors.push({ url: url.href, error: String(e).slice(0, 180) });
+            }
+          }
+
+          const manifest = {
+            title: "AgencyAI Cloudflare production snapshot",
+            inspected_at_utc: new Date().toISOString(),
+            site_origin: BASE.origin,
+            worker: "agencyai",
+            collection_method: "Cloudflare Workers API read-only GET + public same-origin site crawl",
+            worker_source_files: workerFiles,
+            public_file_count: fileRecords.length,
+            total_public_bytes: totalBytes,
+            public_files: fileRecords,
+            external_origins: [...externalOrigins].sort(),
+            uncollected_or_failed: errors,
+            limits: { max_requests: maxRequests, max_single_file_bytes: maxSingleBytes, max_total_bytes: maxTotalBytes },
+            excluded: ["Cloudflare secret values", "environment variable values", "D1 database records", "KV/R2 private objects", "private/authenticated resources"]
+          };
+          await fs.writeFile(path.join(ROOT, "ASSET-MANIFEST.json"), JSON.stringify(manifest, null, 2));
+          const readme = `# AgencyAI — Cloudflare snapshot
+
+          Captured at (UTC): ${manifest.inspected_at_utc}
+          Production origin: ${BASE.origin}
+          Worker: agencyai
+
+          ## Contents
+          - `source/cloudflare-worker/`: live Worker entry module plus sanitized deployment/settings metadata.
+          - `public/`: public same-origin HTML, CSS, JavaScript, image, font, manifest, and other discovered files.
+          - `ASSET-MANIFEST.json`: each captured file, HTTP status, content type, byte size, SHA-256, and collection limits.
+
+          ## Safety / completeness
+          This archive used read-only Cloudflare GET requests and public GET requests only. It did not deploy, edit, or delete anything.
+          Secret values and environment values are excluded. It does not contain D1 rows, private KV/R2 data, or authenticated routes.
+          Public crawling only captures linked/discoverable resources; any failed or skipped resources are listed in ASSET-MANIFEST.json.
+          External origins are listed, not copied into this project.
+          `;
+          await fs.writeFile(path.join(ROOT, "README.md"), readme.trimStart());
+
+          console.log(JSON.stringify({
+            status: "snapshot_ready",
+            worker: "agencyai",
+            worker_source_files: workerFiles.map(f => ({name:f.name,bytes:f.bytes})),
+            public_file_count: fileRecords.length,
+            total_public_bytes: totalBytes,
+            external_origin_count: externalOrigins.size,
+            warnings: errors.length,
+            secrets_included: false,
+            production_modified: false
+          }, null, 2));
+          NODE
+
+      - name: Upload snapshot archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: AGENCYAI-CLOUDFLARE-SNAPSHOT-2026-10-29
+          path: agencyai-cloudflare-snapshot/
+          if-no-files-found: error
+          retention-days: 1
