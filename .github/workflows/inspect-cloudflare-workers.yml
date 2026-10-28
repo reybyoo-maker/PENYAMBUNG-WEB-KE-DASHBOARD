@@ -1,4 +1,5 @@
 name: Inspect Cloudflare Worker configuration (read-only)
+# Read-only inventory run requested to inspect existing production Worker configuration.
 
 on:
   push:
